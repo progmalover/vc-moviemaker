@@ -1,0 +1,208 @@
+///////////////////////////////////////////////////////////////////////
+// FileSystemImageEvent.cpp
+//
+// Wrapper for DFileSystemImageEvents Interface Events
+//
+// Written by Eric Haddan
+//
+
+#include "stdafx.h"
+#include "FileSystemImageEvent.h"
+#include "Converter.h"
+#include <afxctl.h>
+
+#include "Burner.h"
+
+// CFileSystemImageEvent
+
+IMPLEMENT_DYNAMIC(CFileSystemImageEvent, CCmdTarget)
+
+BEGIN_INTERFACE_MAP(CFileSystemImageEvent, CCmdTarget)
+	INTERFACE_PART(CFileSystemImageEvent, IID_IDispatch, FileSystemImageEvents)
+	INTERFACE_PART(CFileSystemImageEvent, IID_DFileSystemImageEvents, FileSystemImageEvents)
+END_INTERFACE_MAP()
+
+CFileSystemImageEvent::CFileSystemImageEvent()
+: m_hWndNotify(NULL)
+, m_ptinfo(NULL)
+, m_dwCookie(0)
+, m_pUnkSink(0)
+, m_pUnkSrc(0)
+, m_nCopiedSectorsPrevFile(0)
+, m_nCopiedSectors(0)
+, m_nTotalSectors(0)
+{
+}
+
+CFileSystemImageEvent::~CFileSystemImageEvent()
+{
+	if (m_dwCookie && (m_pUnkSrc != NULL) && (m_pUnkSink != NULL))
+	{
+		AfxConnectionUnadvise(m_pUnkSrc, IID_DFileSystemImageEvents, m_pUnkSink,
+			TRUE, m_dwCookie);
+	}
+}
+
+
+BEGIN_MESSAGE_MAP(CFileSystemImageEvent, CCmdTarget)
+END_MESSAGE_MAP()
+
+
+
+// CFileSystemImageEvent message handlers
+
+ULONG FAR EXPORT CFileSystemImageEvent::XFileSystemImageEvents::AddRef()
+{
+	METHOD_PROLOGUE(CFileSystemImageEvent, FileSystemImageEvents)
+		return pThis->ExternalAddRef();
+}
+ULONG FAR EXPORT CFileSystemImageEvent::XFileSystemImageEvents::Release()
+{
+	METHOD_PROLOGUE(CFileSystemImageEvent, FileSystemImageEvents)
+		return pThis->ExternalRelease();
+}
+STDMETHODIMP CFileSystemImageEvent::XFileSystemImageEvents::QueryInterface(REFIID riid,
+																	 LPVOID FAR* ppvObj)
+{
+	METHOD_PROLOGUE(CFileSystemImageEvent, FileSystemImageEvents)
+		return (HRESULT)pThis->ExternalQueryInterface(&riid, ppvObj);
+}
+STDMETHODIMP
+CFileSystemImageEvent::XFileSystemImageEvents::GetTypeInfoCount(UINT FAR* pctinfo)
+{
+	METHOD_PROLOGUE(CFileSystemImageEvent, FileSystemImageEvents)
+		*pctinfo = 1;
+	return NOERROR;
+}
+STDMETHODIMP CFileSystemImageEvent::XFileSystemImageEvents::GetTypeInfo(
+	UINT itinfo,
+	LCID lcid,
+	ITypeInfo FAR* FAR* pptinfo)
+{
+	METHOD_PROLOGUE(CFileSystemImageEvent, FileSystemImageEvents)
+		*pptinfo = NULL;
+
+	if(itinfo != 0)
+		return ResultFromScode(DISP_E_BADINDEX);
+	pThis->m_ptinfo->AddRef();
+	*pptinfo = pThis->m_ptinfo;
+	return NOERROR;
+}
+STDMETHODIMP CFileSystemImageEvent::XFileSystemImageEvents::GetIDsOfNames(
+	REFIID riid,
+	OLECHAR FAR* FAR* rgszNames,
+	UINT cNames,
+	LCID lcid,
+	DISPID FAR* rgdispid)
+{
+	METHOD_PROLOGUE(CFileSystemImageEvent, FileSystemImageEvents)
+		return DispGetIDsOfNames(pThis->m_ptinfo, rgszNames, cNames, rgdispid);
+}
+STDMETHODIMP CFileSystemImageEvent::XFileSystemImageEvents::Invoke(
+	DISPID dispidMember,
+	REFIID riid,
+	LCID lcid,
+	WORD wFlags,
+	DISPPARAMS FAR* pdispparams,
+	VARIANT FAR* pvarResult,
+	EXCEPINFO FAR* pexcepinfo,
+	UINT FAR* puArgErr)
+{
+	METHOD_PROLOGUE(CFileSystemImageEvent, FileSystemImageEvents)
+
+		return DispInvoke(&pThis->m_xFileSystemImageEvents, pThis->m_ptinfo,
+		dispidMember, wFlags, pdispparams, pvarResult, pexcepinfo, puArgErr);
+}
+
+
+///////////////////////////////////////////////////////////////////////
+//
+// CFileSystemImageEvent::CreateEventSink
+//
+// Description:
+//			Establishes a link between the CFileSystemImage(IFileSystemImage)
+//			and the CFileSystemImageEvent(DFileSystemImageEvents) so 
+//			CFileSystemImageEvent can receive Update messages
+//
+CFileSystemImageEvent* CFileSystemImageEvent::CreateEventSink()
+{
+	// Create the event sink
+	CFileSystemImageEvent* pFileSystemImageEvent = new CFileSystemImageEvent();
+
+	pFileSystemImageEvent->EnableAutomation();
+	pFileSystemImageEvent->ExternalAddRef();
+
+	return pFileSystemImageEvent;
+}
+
+///////////////////////////////////////////////////////////////////////
+//
+// CFileSystemImageEvent::ConnectFileSystemImage
+//
+// Description:
+//			Establishes a link between the CFileSystemImage(IFileSystemImage)
+//			and the CFileSystemImageEvent(DFileSystemImageEvents) so 
+//			CFileSystemImageEvent can receive Update messages
+//
+BOOL CFileSystemImageEvent::ConnectFileSystemImage(IFileSystemImage* pImage)
+{
+	m_pUnkSink = GetIDispatch(FALSE);
+	m_pUnkSrc = pImage;
+
+	LPTYPELIB ptlib = NULL;
+	HRESULT hr = LoadRegTypeLib(LIBID_IMAPI2FS, 
+		IMAPI2FS_MajorVersion, IMAPI2FS_MinorVersion, 
+		LOCALE_SYSTEM_DEFAULT, &ptlib);
+	if (FAILED(hr))
+	{
+		return FALSE;
+	}
+	hr = ptlib->GetTypeInfoOfGuid(IID_DFileSystemImageEvents, &m_ptinfo);
+	ptlib->Release();
+	if (FAILED(hr))
+	{
+		return FALSE;
+	}
+
+	return AfxConnectionAdvise(m_pUnkSrc, IID_DFileSystemImageEvents, m_pUnkSink, TRUE, &m_dwCookie);
+}
+
+
+///////////////////////////////////////////////////////////////////////
+//
+// CFileSystemImageEvent::Update
+//
+// Description:
+//			Receives update notifications from IFileSystemImage
+//
+//Notification is sent:
+//	* Once before adding the first sector of a file (copiedSectors is 0) 
+//	* For every megabyte that is written 
+//	* Once after the final write if the file did not end on a megabyte boundary 
+
+STDMETHODIMP_(HRESULT) CFileSystemImageEvent::XFileSystemImageEvents::Update(IDispatch* fileSystemImage, BSTR currentFile, LONG copiedSectors, LONG totalSectors)
+{
+	METHOD_PROLOGUE(CFileSystemImageEvent, FileSystemImageEvents)
+
+	IMAGE_PROGRESS progress;
+
+	USES_CONVERSION;
+
+	if (copiedSectors == 0)	// begin a new file
+		pThis->m_nCopiedSectors += pThis->m_nCopiedSectorsPrevFile;
+
+	pThis->m_nCopiedSectorsPrevFile = copiedSectors;
+
+	progress.lpszFile = OLE2A(currentFile);
+	progress.lCopiedSectors = pThis->m_nCopiedSectors + copiedSectors;
+	progress.lTotalSectors = pThis->m_nTotalSectors;
+
+	//CLog::Instance()->AppendLog("CFileSystemImageEvent::Update(): file = %s, m_nCopiedSectorsPrevFile = %d, m_nCopiedSectors = %d, m_nTotalSectors = %d, copiedSectors = %d, totalSectors = %d\r\n", 
+	//	progress.lpszFile, pThis->m_nCopiedSectorsPrevFile, pThis->m_nCopiedSectors, pThis->m_nTotalSectors, copiedSectors, totalSectors);
+
+	if (pThis->m_hWndNotify != NULL)
+		if (::SendMessage(pThis->m_hWndNotify, WM_BURN, BURN_IMAGE_EVENT, (LPARAM)&progress) == 1)
+			AfxThrowUserException();
+
+	return S_OK;
+}

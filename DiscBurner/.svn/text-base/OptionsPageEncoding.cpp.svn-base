@@ -1,0 +1,110 @@
+// OptionsPageEncoding.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "Converter.h"
+#include "OptionsPageEncoding.h"
+#include "Options.h"
+
+
+// COptionsPageEncoding dialog
+
+IMPLEMENT_DYNAMIC(COptionsPageEncoding, CPropertyPage)
+
+COptionsPageEncoding::COptionsPageEncoding()
+	: CPropertyPage(COptionsPageEncoding::IDD)
+{
+	m_nConcurrentTasks = COptions::Instance()->m_nMaxConcurrentTasks - 1;
+	m_nEncodingThreads = COptions::Instance()->m_nEncodingThreads - 1;
+	m_bPromptStopConversion = COptions::Instance()->m_bPromptStopConversion;
+	m_bFixAspectRatio = COptions::Instance()->m_bFixAspectRatio;
+
+	m_bSoundFinished = COptions::Instance()->m_bSoundFinished;
+	m_strSoundFinished = COptions::Instance()->m_strSoundFinished;
+}
+
+COptionsPageEncoding::~COptionsPageEncoding()
+{
+}
+
+void COptionsPageEncoding::DoDataExchange(CDataExchange* pDX)
+{
+	CPropertyPage::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_COMBO_CONCURRENT_TASKS, m_cmbConcurrentTasks);
+	DDX_CBIndex(pDX, IDC_COMBO_CONCURRENT_TASKS, m_nConcurrentTasks);
+	DDX_Control(pDX, IDC_COMBO_ENCODING_THREADS, m_cmbEncodingThreads);
+	DDX_CBIndex(pDX, IDC_COMBO_ENCODING_THREADS, m_nEncodingThreads);
+	DDX_Check(pDX, IDC_CHECK_PROMPT_STOP_CONVERSION, m_bPromptStopConversion);
+	DDX_Check(pDX, IDC_CHECK_FIX_ASPECT_RATIO, m_bFixAspectRatio);
+	DDX_Check(pDX, IDC_CHECK_SOUND_FINISHED, m_bSoundFinished);
+	DDX_Text(pDX, IDC_EDIT_SOUND_FINISHED, m_strSoundFinished);
+}
+
+
+BEGIN_MESSAGE_MAP(COptionsPageEncoding, CPropertyPage)
+	ON_BN_CLICKED(IDC_CHECK_SOUND_FINISHED, &COptionsPageEncoding::OnBnClickedCheckSoundFinished)
+	ON_BN_CLICKED(IDC_BUTTON_SOUND_FINISHED, &COptionsPageEncoding::OnBnClickedButtonSoundFinished)
+END_MESSAGE_MAP()
+
+
+// COptionsPageEncoding message handlers
+
+BOOL COptionsPageEncoding::OnInitDialog()
+{
+	CPropertyPage::OnInitDialog();
+
+	// TODO:  Add extra initialization here
+
+	int nProcessors = COptions::Instance()->GetNumberOfProcesseors();
+	for (int i = 0; i < nProcessors; i++)
+	{
+		CString str;
+		str.Format("%d", i + 1);
+		m_cmbConcurrentTasks.AddString(str);
+		m_cmbEncodingThreads.AddString(str);
+	}
+
+	m_cmbConcurrentTasks.SetCurSel(m_nConcurrentTasks);
+	m_cmbEncodingThreads.SetCurSel(m_nEncodingThreads);
+
+	OnBnClickedCheckSoundFinished();
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+	// EXCEPTION: OCX Property Pages should return FALSE
+}
+
+BOOL COptionsPageEncoding::OnApply()
+{
+	// TODO: Add your specialized code here and/or call the base class
+
+	if (IsDlgButtonChecked(IDC_CHECK_SOUND_FINISHED) == BST_CHECKED)
+	{
+		if (!::PathFileExists(m_strSoundFinished) || ::PathIsDirectory(m_strSoundFinished))
+		{
+			AfxMessageBoxEx(MB_ICONWARNING | MB_OK, IDS_E_FILE_NOT_EXIST1, m_strSoundFinished);
+			((CPropertySheet *)GetParent())->SetActivePage(this);
+			GotoDlgCtrl(GetDlgItem(IDC_EDIT_SOUND_FINISHED));
+			return FALSE;
+		}
+	}
+
+	return CPropertyPage::OnApply();
+}
+
+void COptionsPageEncoding::OnBnClickedCheckSoundFinished()
+{
+	// TODO: Add your control notification handler code here
+
+	BOOL bSound = IsDlgButtonChecked(IDC_CHECK_SOUND_FINISHED) == BST_CHECKED;
+	GetDlgItem(IDC_EDIT_SOUND_FINISHED)->EnableWindow(bSound);
+	GetDlgItem(IDC_BUTTON_SOUND_FINISHED)->EnableWindow(bSound);
+}
+
+void COptionsPageEncoding::OnBnClickedButtonSoundFinished()
+{
+	// TODO: Add your control notification handler code here
+
+	CFileDialog dlg(TRUE, ".wav", NULL, OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_ENABLESIZING | OFN_HIDEREADONLY, "WAVE Audio (*.wav)|*.wav||");
+	if (dlg.DoModal() == IDOK)
+		SetDlgItemText(IDC_EDIT_SOUND_FINISHED, dlg.GetPathName());
+}

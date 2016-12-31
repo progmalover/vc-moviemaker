@@ -1,0 +1,512 @@
+
+// Converter.cpp : Defines the class behaviors for the application.
+//
+
+#include "stdafx.h"
+#include "afxwinappex.h"
+#include "Converter.h"
+#include "MainFrm.h"
+#include "Task.h"
+#include "Options.h"
+#include "ProfileManager.h"
+#include "FileList.h"
+#include "Burner.h"
+#include "DlgAbout.h"
+#include "MenuTemplateManager.h"
+#include "CheckMessageBox.h"
+
+#include "../Activation/Activation.h"
+
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+void CConverterApp::OnLogEnableLogging()
+{
+	// TODO: Add your command handler code here
+
+	CLog::Instance()->m_bEnableLogging = !CLog::Instance()->m_bEnableLogging;
+	if (CLog::Instance()->m_bEnableLogging)
+	{
+		if (!CLog::Instance()->OpenLog())
+			CLog::Instance()->m_bEnableLogging = FALSE;
+	}
+	else
+	{
+		CLog::Instance()->CloseLog();
+	}
+}
+
+void CConverterApp::OnUpdateLogEnableLogging(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+
+	pCmdUI->SetCheck(CLog::Instance()->m_bEnableLogging ? 1 : 0);
+}
+
+void CConverterApp::OnLogViewLogFile()
+{
+	// TODO: Add your command handler code here
+
+	CLog::Instance()->ViewLogFile();
+}
+
+void CConverterApp::OnUpdateLogViewLogFile(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+
+	pCmdUI->Enable(CLog::Instance()->m_bEnableLogging);
+}
+
+
+// CConverterApp
+
+BEGIN_MESSAGE_MAP(CConverterApp, CWinApp)
+	ON_COMMAND(ID_APP_ABOUT, &CConverterApp::OnAppAbout)
+	ON_COMMAND(ID_APP_EXIT, &CConverterApp::OnAppExit)
+	ON_COMMAND(ID_LOG_ENABLE_LOGGING, &CConverterApp::OnLogEnableLogging)
+	ON_UPDATE_COMMAND_UI(ID_LOG_ENABLE_LOGGING, &CConverterApp::OnUpdateLogEnableLogging)
+	ON_COMMAND(ID_LOG_VIEW_LOG_FILE, &CConverterApp::OnLogViewLogFile)
+	ON_UPDATE_COMMAND_UI(ID_LOG_VIEW_LOG_FILE, &CConverterApp::OnUpdateLogViewLogFile)
+END_MESSAGE_MAP()
+
+
+// CConverterApp construction
+
+CConverterApp::CConverterApp()
+{
+	// TODO: add construction code here,
+	// Place all significant initialization in InitInstance
+}
+
+// The one and only CConverterApp object
+
+CConverterApp theApp;
+
+
+// CConverterApp initialization
+
+BOOL CConverterApp::InitInstance()
+{
+	//LOGFONT lf;
+	//afxGlobalData.fontRegular.GetLogFont(&lf);
+	//lf.lfHeight = lf.lfHeight > 0 ? 12 : -12;
+	//afxGlobalData.SetMenuFont(&lf, TRUE);
+
+	// InitCommonControlsEx() is required on Windows XP if an application
+	// manifest specifies use of ComCtl32.dll version 6 or later to enable
+	// visual styles.  Otherwise, any window creation will fail.
+	INITCOMMONCONTROLSEX InitCtrls;
+	InitCtrls.dwSize = sizeof(InitCtrls);
+	// Set this to include all the common control classes you want to use
+	// in your application.
+	InitCtrls.dwICC = ICC_WIN95_CLASSES;
+	InitCommonControlsEx(&InitCtrls);
+
+	CWinApp::InitInstance();
+
+	HANDLE hMutex = CreateMutex(NULL, FALSE, CONVERTER_GUID);
+	if (GetLastError() == ERROR_ALREADY_EXISTS)
+	{
+		HWND hWnd = ::FindWindow(CONVERTER_CLASS, NULL);
+		if (hWnd != NULL)
+		{
+			if (!::IsWindowVisible(hWnd))
+				::ShowWindow(hWnd, SW_SHOW);
+			if (::IsIconic(hWnd))
+				::ShowWindow(hWnd, SW_RESTORE);
+			::SetForegroundWindow(hWnd);
+		}
+
+		return FALSE;
+	}
+
+
+	// Initialize OLE libraries
+	if (FAILED(CoInitializeEx(0, COINIT_APARTMENTTHREADED)))
+	{
+		AfxMessageBox(IDP_OLE_INIT_FAILED);
+		return FALSE;
+	}
+
+	AfxEnableControlContainer();
+
+	// Standard initialization
+	// If you are not using these features and wish to reduce the size
+	// of your final executable, you should remove from the following
+	// the specific initialization routines you do not need
+	// Change the registry key under which our settings are stored
+	// TODO: You should modify this string to be something appropriate
+	// such as the name of your company or organization
+	SetRegistryKey(_T("SourceTec"));
+
+	if (m_pszProfileName != NULL)
+		free((void *)m_pszProfileName);
+
+#ifdef _BD
+	m_pszProfileName = _tcsdup("Sothink HD Movie Maker");
+#elif defined _DVD
+	m_pszProfileName = _tcsdup("Sothink Movie DVD Maker");
+#endif
+	GdiplusStartupInput si;
+	GdiplusStartup(&token, &si, NULL);
+
+	CLog::Instance()->AppendLog("Enter CWinApp::InitInstance().\r\n");
+	COptions::Instance()->LoadState();
+
+	SetRegistryBase("Workspace");
+
+	RegisterSubjects();
+
+	CLog::Instance()->AppendLog("CProfileManager::Instance()->LoadProfiles(): ");
+	if (!CProfileManager::Instance()->LoadProfiles())
+	{
+		AfxMessageBox(IDS_E_LOAD_PROFILES, MB_ICONERROR | MB_OK);
+		return FALSE;
+	}
+	CLog::Instance()->AppendLogNoTime("Done\r\n ");
+
+	CLog::Instance()->AppendLog("CMenuTemplateManager::Instance()->LoadMenuTemplates(): ");
+	if (!CMenuTemplateManager::Instance()->LoadMenuTemplates())
+	{
+		AfxMessageBox(IDS_E_LOAD_MENU_TEMPLATES, MB_ICONERROR | MB_OK);
+		return FALSE;
+	}
+	CLog::Instance()->AppendLogNoTime("Done\r\n ");
+
+	CxBurner::Instance()->Open();
+
+	AddToWhiteList("ffdshow");
+	AddToWhiteList("ffdshow_audio");
+
+	InitContextMenuManager();
+
+	InitKeyboardManager();
+
+	InitTooltipManager();
+	CMFCToolTipInfo ttParams;
+	ttParams.m_bVislManagerTheme = TRUE;
+	theApp.GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
+		RUNTIME_CLASS(CMFCToolTipCtrl), &ttParams);
+
+	// To create the main window, this code creates a new frame window
+	// object and then sets it as the application's main window object
+	CMainFrame* pFrame = new CMainFrame;
+	if (!pFrame)
+		return FALSE;
+	m_pMainWnd = pFrame;
+
+	// to reduce flickers
+	m_bLoadWindowPlacement = FALSE;
+	CLog::Instance()->AppendLog("CMainFrame::LoadFrame(): ");
+	// create and load the frame with its resources
+	if (!pFrame->LoadFrame(IDR_MAINFRAME, WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL, NULL))
+		return FALSE;
+	CLog::Instance()->AppendLogNoTime("Done.\r\n");
+
+	// Must call this after LoadFrame()
+	GetKeyboardManager()->ResetAll();
+
+	// These two panes should show always.
+	pFrame->m_wndSidePane.ShowPane(TRUE, FALSE, FALSE);
+
+	CProfileManager::Instance()->LoadCurrentProfile();
+
+	// Update the menu and toolbar state before showing the window to reduce flickers.
+	pFrame->SendMessageToDescendants(WM_IDLEUPDATECMDUI, (WPARAM)TRUE, 0, TRUE, TRUE);
+
+	ReloadWindowPlacement(pFrame);
+
+	// 在低分辨率系统上，程序安装完毕后初次运行时，窗口大小可能小于OnGetMinMaxInfo()中的期望值，
+	// 因为第一次收到WM_GETMINMAXINFO时，侧栏还未被创建。需要对此种情况进行检查。
+	CRect rc;
+	pFrame->GetWindowRect(&rc);
+
+	MINMAXINFO mmi;
+	ZeroMemory(&mmi, sizeof(mmi));
+	pFrame->SendMessage(WM_GETMINMAXINFO, 0, (LPARAM)&mmi);	
+
+	if (rc.Width() < mmi.ptMinTrackSize.x || rc.Height() < mmi.ptMinTrackSize.y)
+		pFrame->SetWindowPos(0, 0, 0, mmi.ptMinTrackSize.x, mmi.ptMinTrackSize.y, SWP_NOZORDER | SWP_NOMOVE | SWP_FRAMECHANGED);
+
+
+	// The one and only window has been initialized, so show and update it
+	pFrame->ShowWindow(SW_SHOW);
+	pFrame->UpdateWindow();
+
+#if !(defined RETAIL || defined AHS)
+	CActivate::Instance()->CheckForUpdates(TRUE);
+#endif
+
+#if (defined _DVD && !defined AHS)
+	if (IsUserKeyInstalled() && IsTemporaryKeyInstalled())	// Prevent the free version from displaying the trial dialog
+		CActivate::Instance()->CheckKeyState();				// Do background activation if needed. Always allow to continue.
+#endif
+
+#if (defined _BD && !defined AHS)
+	#ifndef _DEBUG
+		if (!CActivate::Instance()->CheckKeyState())
+			return FALSE;
+	#endif
+#endif
+
+#ifdef _DVD
+	if (CActivate::Instance()->IsActivated())
+	{
+		if (::IsWindow(pFrame->m_wndMessageBar.m_hWnd))
+			pFrame->m_wndMessageBar.ShowPane(FALSE, FALSE, FALSE);
+	}
+#endif
+
+	CLog::Instance()->AppendLog("Exit CWinApp::InitInstance().\r\n");
+	return TRUE;
+}
+
+void CConverterApp::RegisterSubjects()
+{
+	CSubjectManager *pManager = CSubjectManager::Instance();
+
+	pManager->Register(SUB_PROFILE_CHANGED, new CSubject());
+	pManager->Register(SUB_FILE_SEL_CHANGED, new CSubject());
+	pManager->Register(SUB_VIDEO_TRIMMED, new CSubject());
+	pManager->Register(SUB_PROPERTY_GRID_CHANGED, new CSubject());
+	pManager->Register(SUB_DISC_TYPE_CHANGED, new CSubject());
+	pManager->Register(SUB_DISC_LABEL_CHANGED, new CSubject());
+	pManager->Register(SUB_VIDEO_DIMENSION_CHANGED, new CSubject());
+	pManager->Register(SUB_VIDEO_FRAME_RATE_CHANGED, new CSubject());
+	pManager->Register(SUB_VIDEO_STANDARD_CHANGED, new CSubject());
+	pManager->Register(SUB_VIDEO_QUALITY_CHANGED, new CSubject());
+	pManager->Register(SUB_AUDIO_QUALITY_CHANGED, new CSubject());
+	pManager->Register(SUB_VIDEO_ZOOM_MODE, new CSubject());
+	pManager->Register(SUB_MENU_TEMPLATE_CHANGED, new CSubject());
+	pManager->Register(SUB_CHANGE_ACTIVE_TAB_SETTINGS, new CSubject());
+	pManager->Register(SUB_FILE_LIST_CHANGED, new CSubject());
+	pManager->Register(SUB_BUTTON_TEXT_CHANDED, new CSubject());
+	pManager->Register(SUB_MENU_TEMPLATE_PARAM_CHANGED, new CSubject());
+	pManager->Register(SUB_VIDEO_ASPECT_CHANGED, new CSubject());
+}
+
+// CConverterApp message handlers
+
+// App command to run the dialog
+void CConverterApp::OnAppAbout()
+{
+	CDlgAbout aboutDlg;
+	aboutDlg.DoModal();
+}
+
+// CConverterApp customization load/save methods
+
+void CConverterApp::PreLoadState()
+{
+	BOOL bNameValid;
+	CString strName;
+	bNameValid = strName.LoadString(IDS_EDIT_MENU);
+	ASSERT(bNameValid);
+	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EDIT);
+}
+
+void CConverterApp::LoadCustomState()
+{
+#ifdef _DVD
+	if (!CActivate::Instance()->IsActivated())
+	{
+		CMainFrame *pFrame = (CMainFrame *)GetMainWnd();
+		pFrame->m_wndMessageBar.ShowPane(TRUE, FALSE, FALSE);
+	}
+#endif
+}
+
+void CConverterApp::SaveCustomState()
+{
+}
+
+// Add module name to ffdshow white list.
+BOOL CConverterApp::AddToWhiteList(LPCTSTR lpszRegKey)
+{
+	// get self name
+	TCHAR szModule[_MAX_PATH];
+	::GetModuleFileName(NULL, szModule, _MAX_PATH);
+	::PathStripPath(szModule);
+
+	TCHAR *pszModules[] = 
+	{
+		szModule,
+		"ffmpeg.exe", 
+#ifdef _DVD
+		"dvdmenu.exe", 
+#else
+		"aften.exe"
+#endif
+	};
+
+	CRegKey reg;
+	CString strKey;
+	strKey.Format("Software\\GNU\\%s", lpszRegKey);
+	if (reg.Create(HKEY_CURRENT_USER, strKey) == ERROR_SUCCESS)
+	{
+		CString strWhiteList;
+		ULONG len = 0;
+		LONG ret = reg.QueryStringValue("whitelist", NULL, &len);
+		if (ret == ERROR_SUCCESS)
+		{
+			ASSERT(len > 0);
+			reg.QueryStringValue("whitelist", strWhiteList.GetBuffer(len - 1), &len);
+			strWhiteList.ReleaseBuffer();
+		}
+		else
+		{
+			ASSERT(ret == ERROR_FILE_NOT_FOUND);
+		}
+
+		BOOL bModify = FALSE;
+
+		for (int i = 0; i < sizeof (pszModules) / sizeof (TCHAR *); i++)
+		{
+			BOOL bFound = FALSE;
+
+			for (int j = 0; ; j++)
+			{
+				CString strModule;
+				if (!AfxExtractSubString(strModule, strWhiteList, j, ';'))
+					break;
+
+				if (strModule.CompareNoCase(pszModules[i]) == 0)
+				{
+					bFound = TRUE;
+					break;
+				}
+			}
+
+			if (!bFound)
+			{
+				bModify = TRUE;
+				strWhiteList.TrimRight(" ;");
+				if (!strWhiteList.IsEmpty())
+					strWhiteList += ";";
+				strWhiteList += pszModules[i];					
+			}
+		}
+
+		return bModify ? reg.SetStringValue("whitelist", strWhiteList) : TRUE;
+	}
+
+	return FALSE;
+}
+
+int CConverterApp::ExitInstance()
+{
+	// TODO: Add your specialized code here and/or call the base class
+
+	COptions::Instance()->SaveState();
+	COptions::ReleaseInstance();
+	CMenuTemplateManager::ReleaseInstance();
+	CProfileManager::ReleaseInstance();
+
+	CActivate::ReleaseInstance();
+
+	CxBurner::ReleaseInstance();
+
+	CSubjectManager::ReleaseInstance();
+	GdiplusShutdown(token);
+	CLog::ReleaseInstance();
+	return CWinAppEx::ExitInstance();
+}
+
+BOOL CConverterApp::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: Add your specialized code here and/or call the base class
+
+	switch (pMsg->message)
+	{
+		case WM_LBUTTONDOWN:
+		case WM_MBUTTONDOWN:
+		case WM_RBUTTONDOWN:
+		case WM_NCLBUTTONDOWN:
+		case WM_NCMBUTTONDOWN:
+		case WM_NCRBUTTONDOWN:
+		{
+			if (::GetCapture() == NULL)	// When CMFCPropertyGridCtrl is in drop down state, it has captured the mouse. 
+			{
+				CMFCPropertyGridCtrl *pPropGrid[] = 
+				{
+					GetPropertyGridAdvanced(), 
+					GetPropertyGridMenu(),
+				};
+
+				for (int i = 0; i < sizeof(pPropGrid) / sizeof(CMFCPropertyGridCtrl *); i++)
+				{
+					CMFCPropertyGridProperty *pProp = pPropGrid[i]->GetCurSel();
+					if (pProp != NULL && pProp->IsInPlaceEditing())
+					{
+						if (pPropGrid[i]->m_hWnd != pMsg->hwnd && !::IsChild(pPropGrid[i]->m_hWnd, pMsg->hwnd))
+						{
+							if (!pPropGrid[i]->EndEditItem(TRUE))
+							{
+								TRACE("CMFCPropertyGridProperty()->EndEditItem(TRUE) failed.\n");
+								return TRUE;
+							}
+						}
+					}
+				}
+			}
+			break;
+		}
+
+		case WM_MOUSEWHEEL:
+		{
+			CWnd *pWnd = CWnd::WindowFromPoint(pMsg->pt);
+			if (pWnd != NULL && pWnd->m_hWnd != pMsg->hwnd && pWnd->IsWindowEnabled())
+			{
+
+				if (pWnd == CFileList::Instance())
+				{
+					pWnd->SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam);
+					return TRUE;
+				}
+
+				if (pWnd == GetThumbnailSizeSlider()->GetParentWnd())
+				{
+					if (GetThumbnailSizeSlider()->GetParentWnd()->SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam))
+						return TRUE;
+				}
+
+				if (pWnd == GetVideoPlayerTrack()->GetParentWnd() || pWnd == GetVideoPlayer() || pWnd->GetParent() == GetVideoPlayer())
+				{
+					if (GetVideoPlayerTrack()->GetParentWnd()->SendMessage(pMsg->message, pMsg->wParam, pMsg->lParam))
+						return TRUE;
+				}
+			}
+
+			break;
+		}
+	}
+
+	return CWinAppEx::PreTranslateMessage(pMsg);
+}
+
+void CConverterApp::OnAppExit()
+{
+	// TODO: Add your command handler code here
+
+	if (((CMainFrame *)m_pMainWnd)->QueryExit())
+		CWinAppEx::OnAppExit();
+}
+
+int CConverterApp::DoMessageBox(LPCTSTR lpszPrompt, UINT nType, UINT nIDPrompt)
+{
+	CWnd *pWnd = AfxGetMainWnd();
+	if (pWnd != NULL)
+	{
+		if (pWnd->IsWindowVisible() && pWnd->IsWindowEnabled())
+		{
+			if (::GetActiveWindow() != pWnd->m_hWnd)
+				pWnd->FlashWindowEx(FLASHW_TRAY, 1, 0);
+		}
+	}
+
+	return CWinAppEx::DoMessageBox(lpszPrompt, nType, nIDPrompt);
+}

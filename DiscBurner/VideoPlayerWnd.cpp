@@ -1,0 +1,528 @@
+// VideoPlayerWnd.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "Converter.h"
+#include "VideoPlayerWnd.h"
+#include "Reftime.h"
+
+#include <D3d9.h>
+#include <Vmr9.h>
+
+DEFINE_REGISTERED_MESSAGE(WM_GRAPHNOTIFY)
+
+#define SAFE_RELEASE(x) { if (x) x.Release(); }
+
+// CVideoPlayerWnd
+
+IMPLEMENT_DYNAMIC(CVideoPlayerWnd, CWnd)
+
+CVideoPlayerWnd::CVideoPlayerWnd()
+{
+	m_bmpDefault.LoadBitmap(IDB_VIDEO_PREVIEW);
+	m_hBitmap = NULL;
+	m_nVolume = 100;
+	m_bMute = FALSE;
+
+	m_clrBackground = RGB(0, 0, 0);
+	m_bStretchBitmap = TRUE;
+
+	Init();
+}
+
+CVideoPlayerWnd::~CVideoPlayerWnd()
+{
+}
+
+
+BEGIN_MESSAGE_MAP(CVideoPlayerWnd, CWnd)
+	ON_WM_SIZE()
+	ON_WM_PAINT()
+	ON_WM_ERASEBKGND()
+	ON_REGISTERED_MESSAGE(WM_GRAPHNOTIFY, OnMediaEvent)
+	ON_WM_SETCURSOR()
+	ON_WM_DESTROY()
+END_MESSAGE_MAP()
+
+
+
+// CVideoPlayerWnd message handlers
+
+void CVideoPlayerWnd::Init()
+{
+	Stop();
+
+	// Relinquish ownership (IMPORTANT!) after hiding video window
+	if(m_pVideoWindow != NULL)
+	{
+		m_pVideoWindow->put_Visible(OAFALSE);
+		// Though the author said it is IMPORTANT to do this, it will cause 
+		// the top-level parent to be inactive and then be active again .
+		//m_pVideoWindow->put_Owner(NULL);
+	}
+
+	// Disable event callbacks
+	if (m_pMediaEvent != NULL)
+	{
+		m_pMediaEvent->SetNotifyWindow((OAHWND)NULL, 0, 0);
+	}
+
+	// Release interfaces
+	SAFE_RELEASE(m_pMediaEvent);
+	SAFE_RELEASE(m_pMediaSeeking);
+	SAFE_RELEASE(m_pMediaControl);
+	SAFE_RELEASE(m_pBasicAudio);
+	SAFE_RELEASE(m_pVideoWindow);
+	SAFE_RELEASE(m_pGraphBuilder);
+
+	m_nState = State_None;
+	m_bFileOpened = FALSE;
+	m_bAudioOnly = FALSE;
+}
+
+void CVideoPlayerWnd::CloseFile()
+{
+	Init();
+}
+
+BOOL CVideoPlayerWnd::OpenFile(LPCTSTR lpszFile)
+{
+	#define CHECKRESULT() {if (FAILED(hr)) return FALSE;}
+
+	Init();
+
+	CT2W pwszFile(lpszFile);
+
+	HRESULT hr;
+
+	// Get the interface for DirectShow's GraphBuilder
+	hr = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER, IID_IGraphBuilder, (void **)&m_pGraphBuilder);
+	CHECKRESULT();
+
+	CComPtr<IBaseFilter> pBaseFilter;
+	hr = CoCreateInstance(CLSID_VideoMixingRenderer9, NULL, CLSCTX_INPROC, IID_IBaseFilter, (void **)&pBaseFilter);
+
+	if(SUCCEEDED(hr))
+	{
+		hr = m_pGraphBuilder->AddFilter(pBaseFilter, L"Video Mixing Renderer 9");
+
+		CComQIPtr<IVMRAspectRatioControl9> pARControl = pBaseFilter;
+		if (pARControl != NULL)
+			hr = pARControl->SetAspectRatioMode(VMR_ARMODE_NONE);
+	}
+	else
+	{
+		CComQIPtr<IVMRAspectRatioControl> pARControl = pBaseFilter;
+		if (pARControl != NULL)
+			hr = pARControl->SetAspectRatioMode(VMR_ARMODE_NONE);
+	}
+	
+	hr = m_pGraphBuilder->RenderFile(pwszFile, NULL);
+	CHECKRESULT();
+
+	hr = m_pGraphBuilder->QueryInterface(__uuidof(IVideoWindow), (void **)&m_pVideoWindow);
+	CHECKRESULT();
+	m_pVideoWindow->put_AutoShow(OAFALSE);
+
+	hr = m_pGraphBuilder->QueryInterface(__uuidof(IMediaControl), (void **)&m_pMediaControl);
+	CHECKRESULT();
+
+	m_pGraphBuilder->QueryInterface(__uuidof(IMediaEventEx), (void **)&m_pMediaEvent);
+	CHECKRESULT();
+	m_pMediaEvent->SetNotifyWindow((OAHWND)m_hWnd, WM_GRAPHNOTIFY, 0L);
+	m_pMediaEvent->CancelDefaultHandling(EC_STATE_CHANGE);
+
+	m_pGraphBuilder->QueryInterface(__uuidof(IMediaSeeking), (void **)&m_pMediaSeeking);
+	CHECKRESULT();
+
+	CheckVisibility();
+
+	if (!m_bAudioOnly)
+	{
+		RepositionControls();
+
+		hr = m_pVideoWindow->put_Owner((OAHWND)m_hWnd);
+		CHECKRESULT();
+
+		hr = m_pVideoWindow->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
+		CHECKRESULT();
+	}
+
+	// Query IBasicAudio interface, but it may not exist (no audio hardware)?
+	hr  = m_pGraphBuilder->QueryInterface(__uuidof(IBasicAudio), (void **)&m_pBasicAudio);
+	if (SUCCEEDED(hr))
+	{
+		long lVolume = m_bMute ? -10000 : (100 - m_nVolume) * -30;
+		m_pBasicAudio->put_Volume(lVolume);
+	}
+
+	m_nState = State_Stopped;
+	m_bFileOpened = TRUE;
+
+	return TRUE;
+}
+
+OAFilterState CVideoPlayerWnd::WaitForStateTransition()
+{
+	HRESULT hr = E_FAIL;
+	OAFilterState fs = State_None;
+
+	while (m_pMediaControl != NULL)
+	{
+		hr = m_pMediaControl->GetState(100, &fs);
+		if (hr != VFW_S_STATE_INTERMEDIATE)
+			break;
+	}
+
+	if (SUCCEEDED(hr))
+		return fs;
+	else
+		return State_None;
+}
+
+void CVideoPlayerWnd::Play()
+{
+	if (m_pMediaControl != NULL)
+	{
+		HRESULT hr;
+		hr = m_pMediaControl->Run();
+		ASSERT(SUCCEEDED(hr));
+
+		VERIFY(WaitForStateTransition() == State_Running);
+	}
+}
+
+void CVideoPlayerWnd::Pause()
+{
+	if (m_pMediaControl != NULL)
+	{
+		HRESULT hr = m_pMediaControl->Pause();
+		ASSERT(SUCCEEDED(hr));
+
+		VERIFY(WaitForStateTransition() == State_Paused);
+	}
+}
+
+void CVideoPlayerWnd::Stop()
+{
+	if (m_pMediaControl != NULL)
+	{
+		HRESULT hr;
+
+		hr = m_pMediaControl->Stop();
+		ASSERT(SUCCEEDED(hr));
+
+		VERIFY(WaitForStateTransition() == State_Stopped);
+
+		if (m_pMediaSeeking != NULL)
+		{
+			// Seek to the beginning
+			LONGLONG pos = 0;
+			hr = m_pMediaSeeking->SetPositions(&pos, AM_SEEKING_AbsolutePositioning ,
+				NULL, AM_SEEKING_NoPositioning);
+		}
+
+		// Display the first frame to indicate the reset condition
+		StopWhenReady();
+	}
+}
+
+void CVideoPlayerWnd::StopWhenReady()
+{
+	if(m_pMediaControl != NULL)
+	{
+		HRESULT hr = m_pMediaControl->StopWhenReady();
+		ASSERT(SUCCEEDED(hr));
+
+		VERIFY(WaitForStateTransition() == State_Stopped);
+	}
+}
+
+LONGLONG CVideoPlayerWnd::GetDuration()
+{
+	HRESULT hr;
+	LONGLONG Duration;
+
+	if(m_pMediaSeeking != NULL)
+	{
+		hr = m_pMediaSeeking->GetDuration(&Duration);
+		if(SUCCEEDED(hr))
+		{
+			return Duration;
+		}
+	}
+
+	return 0;
+}
+
+LONGLONG CVideoPlayerWnd::GetPosition()
+{
+	HRESULT hr;
+	LONGLONG Position;
+
+	if(m_pMediaSeeking != NULL)
+	{
+		hr = m_pMediaSeeking->GetPositions(&Position, NULL);
+		if(SUCCEEDED(hr))
+		{
+			return Position;
+		}
+	}
+
+	return 0;
+}
+
+BOOL CVideoPlayerWnd::SeekTo(LONGLONG lPostion, BOOL bFlushData)
+{
+	HRESULT hr;
+
+	if(m_pMediaControl != NULL && m_pMediaSeeking != NULL)
+	{
+		OAFilterState fs = WaitForStateTransition();
+		ASSERT(fs != State_None);
+
+		hr = m_pMediaSeeking->SetPositions(&lPostion, AM_SEEKING_AbsolutePositioning, NULL, 0);
+
+		// This gets new data through to the render
+		if(fs == State_Stopped && bFlushData)
+			StopWhenReady();
+		else
+			WaitForStateTransition();
+
+		return (SUCCEEDED(hr));
+	}
+
+	return FALSE;
+}
+
+void CVideoPlayerWnd::CheckVisibility(void)
+{
+	m_bAudioOnly = FALSE;
+
+	long lVisible;
+	HRESULT hr;
+
+	if (m_pVideoWindow == NULL)
+	{
+		// Audio-only files have no video interfaces.  This might also
+		// be a file whose video component uses an unknown video codec.
+		m_bAudioOnly = TRUE;
+		return;
+	}
+
+	hr = m_pVideoWindow->get_Visible(&lVisible);
+	if (FAILED(hr))
+		m_bAudioOnly = TRUE;
+}
+
+void CVideoPlayerWnd::OnPaint()
+{
+	CPaintDC dc(this);
+
+	CRect rc;
+	GetClientRect(&rc);
+
+	if (!(rc.Width() > 0 && rc.Height() > 0))
+		return;
+
+	if (m_hBitmap != NULL)
+	{
+		CBitmap *pBitmap = CBitmap::FromHandle(m_hBitmap);
+
+		CDC dcMem;
+		dcMem.CreateCompatibleDC(&dc);
+		CBitmap *pOldBmp = dcMem.SelectObject(pBitmap);
+
+		BITMAP bm;
+		pBitmap->GetBitmap(&bm);
+
+		if (m_bStretchBitmap)
+		{
+			dc.SetStretchBltMode(STRETCH_HALFTONE);
+			dc.StretchBlt(rc.left, rc.top, rc.Width(), rc.Height(), &dcMem, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
+		}
+		else
+		{
+			dc.FillSolidRect(&rc, m_clrBackground);
+			dc.BitBlt((rc.Width() - bm.bmWidth) / 2, (rc.Height() - bm.bmHeight) / 2, bm.bmWidth, bm.bmHeight, &dcMem, 0, 0, SRCCOPY);
+		}
+
+		dcMem.SelectObject(pOldBmp);
+	}
+	else
+	{
+		CDC dcMem1;
+		dcMem1.CreateCompatibleDC(&dc);
+
+		CBitmap bmp;
+		bmp.CreateCompatibleBitmap(&dc, rc.Width(), rc.Height());
+		CBitmap *pOldBmp1 = dcMem1.SelectObject(&bmp);
+
+		dcMem1.FillSolidRect(&rc, RGB(0, 0, 0));
+
+		CDC dcMem2;
+		dcMem2.CreateCompatibleDC(&dc);
+		CBitmap *pOldBmp2 = dcMem2.SelectObject(&m_bmpDefault);
+
+		BITMAP bm;
+		m_bmpDefault.GetBitmap(&bm);
+
+		dcMem1.BitBlt((rc.Width() - bm.bmWidth) / 2, (rc.Height() - bm.bmHeight) / 2, bm.bmWidth, bm.bmHeight, &dcMem2, 0, 0, SRCCOPY);
+		dcMem2.SelectObject(pOldBmp2);
+
+		dc.BitBlt(0, 0, rc.Width(), rc.Height(), &dcMem1, 0, 0, SRCCOPY);
+		dcMem1.SelectObject(pOldBmp1);
+	}
+}
+
+void CVideoPlayerWnd::OnSize(UINT nType, int cx, int cy)
+{
+	CWnd::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+
+	RepositionControls();
+}
+
+void CVideoPlayerWnd::RepositionControls()
+{
+	if (::IsWindow(m_hWnd))
+	{
+		CRect rc;
+		GetClientRect(&rc);
+
+		if (m_pVideoWindow != NULL)
+		{
+			m_pVideoWindow->SetWindowPosition(rc.left, rc.top, rc.Width(), rc.Height());
+		}
+	}
+}
+
+void CVideoPlayerWnd::SetBackgroundColor(COLORREF clrBackground)
+{
+	m_clrBackground = clrBackground;
+	if (::IsWindow(m_hWnd))
+	{
+		Invalidate(FALSE);
+		UpdateWindow();
+	}
+}
+
+void CVideoPlayerWnd::SetBitmap(HBITMAP hBitmap, BOOL bStretch)
+{
+	m_hBitmap = hBitmap;
+	m_bStretchBitmap = bStretch;
+	if (::IsWindow(m_hWnd))
+	{
+		Invalidate(FALSE);
+		UpdateWindow();
+	}
+}
+
+BOOL CVideoPlayerWnd::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	return TRUE;
+}
+
+LRESULT CVideoPlayerWnd::OnMediaEvent(WPARAM wp, LPARAM lp)
+{
+	// Make sure that we don't access the media event interface
+	// after it has already been released.
+	if (m_pMediaEvent == NULL)
+		return S_OK;
+
+	LONG evCode;
+	LONG_PTR evParam1, evParam2;
+	HRESULT hr=S_OK;
+
+	// Process all queued events
+	while(SUCCEEDED(m_pMediaEvent->GetEvent(&evCode, &evParam1, &evParam2, 0)))
+	{
+		// If this is the end of the clip, reset to beginning
+		switch (evCode)
+		{
+			case EC_COMPLETE:
+			{
+				Stop();
+				break;
+			}
+
+			case EC_STATE_CHANGE:
+			{
+				if (evParam1 == State_Running || evParam1 == State_Stopped || evParam1 == State_Paused)
+				{
+					m_nState = (int)evParam1;
+					if (m_pVideoWindow != NULL && !m_bAudioOnly)
+					{
+						long lVisible;
+						if (SUCCEEDED(m_pVideoWindow->get_Visible(&lVisible)) && lVisible == OAFALSE)
+						{
+							if (WaitForStateTransition() != State_None)
+								m_pVideoWindow->put_Visible(OATRUE);
+						}
+					}
+				}
+
+				break;
+			}
+
+			default:
+				break;
+		}
+
+		// Free memory associated with callback, since we're not using it
+		hr = m_pMediaEvent->FreeEventParams(evCode, evParam1, evParam2);
+	}
+
+	return 0;
+}
+
+void CVideoPlayerWnd::SetVolume(int nVolume)
+{
+	m_nVolume = nVolume;
+	if (m_pBasicAudio != NULL)
+	{
+		long lVolume = m_bMute ? -10000 : (100 - m_nVolume) * -30; 
+		m_pBasicAudio->put_Volume(lVolume);
+	}
+}
+
+void CVideoPlayerWnd::Mute(BOOL bMute)
+{
+	m_bMute = bMute;
+	if (m_pBasicAudio != NULL)
+	{
+		long lVolume = m_bMute ? -10000 : (100 - m_nVolume) * -30; 
+		m_pBasicAudio->put_Volume(lVolume);
+	}
+}
+
+LRESULT CVideoPlayerWnd::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	// TODO: Add your specialized code here and/or call the base class
+
+	if (m_pVideoWindow != NULL)
+		m_pVideoWindow->NotifyOwnerMessage((OAHWND)m_hWnd, message, wParam, lParam);
+
+	return CWnd::WindowProc(message, wParam, lParam);
+}
+
+BOOL CVideoPlayerWnd::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	::SetCursor(AfxGetApp()->LoadStandardCursor(IDC_ARROW));
+
+	return TRUE;
+}
+
+void CVideoPlayerWnd::OnDestroy()
+{
+	CWnd::OnDestroy();
+
+	// TODO: Add your message handler code here
+
+	CloseFile();
+}

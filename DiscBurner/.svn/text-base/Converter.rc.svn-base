@@ -1,0 +1,1736 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\Converter.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#if !defined(_AFXDLL)\r\n"
+    "#include ""afxprint.rc""               // printing/print preview resources\r\n"
+    "#include ""afxribbon.rc""              // MFC ribbon and control bar resources\r\n"
+    "#endif\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_MENU_HOTIMAGES      BITMAP                  "res\\menu_img.bmp"
+IDR_MAINFRAME           BITMAP                  "res\\toolbar.bmp"
+IDB_FILE_LIST_MUSIC     BITMAP                  "res\\music.bmp"
+IDR_PLAYER              BITMAP                  "res\\toolbar_player.bmp"
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDR_PROP$(_BD)          BITMAP                  "res\\prop_toolbar_bd.bmp"
+#else
+IDR_PROP                BITMAP                  "res\\prop_toolbar_bd.bmp"
+#endif
+#endif
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDR_PANE_SIMPLE$(_BD)   BITMAP                  "res\\profile_simple_bd.bmp"
+#else
+IDR_PANE_SIMPLE         BITMAP                  "res\\profile_simple_bd.bmp"
+#endif
+#endif
+IDB_STATUS_PAUSED       BITMAP                  "res\\status_paused.bmp"
+IDB_STATUS_CONVERTING   BITMAP                  "res\\status_converting.bmp"
+IDB_STATUS_IDLE         BITMAP                  "res\\status_idle.bmp"
+IDB_VIDEO_PREVIEW       BITMAP                  "res\\video_preview.bmp"
+IDB_DISK                BITMAP                  "res\\disk.bmp"
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDR_PANE_SIMPLE$(_DVD)  BITMAP                  "res\\profile_.bmp"
+#else
+IDR_PANE_SIMPLE         BITMAP                  "res\\profile_.bmp"
+#endif
+#endif
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDR_PROP$(_DVD)         BITMAP                  "res\\prop.bmp"
+#else
+IDR_PROP                BITMAP                  "res\\prop.bmp"
+#endif
+#endif
+IDB_INFO                BITMAP                  "res\\info.bmp"
+IDR_PROFILE             BITMAP                  "res\\bmp00002.bmp"
+IDR_MENU_VIEW           BITMAP                  "res\\menu-toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDR_MAINFRAME$(_BD)     ICON                    "res\\BD.ico"
+#else
+IDR_MAINFRAME           ICON                    "res\\BD.ico"
+#endif
+#endif
+IDI_FOLDER_OPEN         ICON                    "res\\folder.ico"
+IDI_ICON_EMPTY          ICON                    "res\\empty.ico"
+IDI_DISC_WARNING        ICON                    "res\\disc_warning.ico"
+IDI_DISC                ICON                    "res\\disc.ico"
+IDI_FILM                ICON                    "res\\film.ico"
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDR_MAINFRAME$(_DVD)    ICON                    "res\\MovieDVDMaker.ico"
+#else
+IDR_MAINFRAME           ICON                    "res\\MovieDVDMaker.ico"
+#endif
+#endif
+IDI_CLOCK               ICON                    "res\\clock.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_POPUP_EDIT MENU 
+BEGIN
+    POPUP "Edit"
+    BEGIN
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+    END
+END
+
+IDR_DEBUG MENU 
+BEGIN
+    MENUITEM "Disc Information...",         ID_DISC_INFORMATION
+    MENUITEM "Quick Erase...",              ID_DISC_QUICK_ERASE
+    MENUITEM "Full Erase...",               ID_DISC_FULL_ERASE
+    MENUITEM "Burn...",                     ID_DEBUG_BURN
+    MENUITEM SEPARATOR
+    MENUITEM "Temp Folder...",              ID_DEBUG_TEMP_FOLDER
+    MENUITEM SEPARATOR
+    MENUITEM "Mux...",                      ID_DEBUG_MUX
+    MENUITEM SEPARATOR
+    MENUITEM "Make File List",              ID_MAKE_FILE_LIST
+    MENUITEM "Trim Video",                  ID_TRIM_VIDEO
+    MENUITEM "Load Menu Templates",         ID_LOAD_MENU_TEMPLATES
+END
+
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDR_MAINFRAME$(_BD) MENU 
+#else
+IDR_MAINFRAME MENU 
+#endif
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Add Files...",               ID_FILE_ADD
+        MENUITEM "Add &Folder",                 ID_FILE_ADDFOLDER
+        MENUITEM SEPARATOR
+        MENUITEM "&Burn",                       ID_FILE_CONVERT
+        MENUITEM "&Pause",                      ID_FILE_PAUSE
+        MENUITEM "St&op",                       ID_FILE_STOP
+        MENUITEM SEPARATOR
+        MENUITEM "Propert&ies...",              32807
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Remove",                     ID_FILE_REMOVE
+        MENUITEM "Remo&ve All",                 ID_FILE_REMOVE_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "Move &Up",                    ID_FILE_MOVE_UP
+        MENUITEM "Move &Down",                  ID_FILE_MOVE_DOWN
+        MENUITEM SEPARATOR
+        MENUITEM "&Trim...",                    ID_FILE_TRIM
+        MENUITEM SEPARATOR
+        MENUITEM "Select &All",                 ID_EDIT_SELECT_ALL
+    END
+    POPUP "&View"
+    BEGIN
+        POPUP "&Visual Style"
+        BEGIN
+            MENUITEM "&Blue",                       ID_VIEW_STYLE_BLUE
+            MENUITEM "B&lack",                      ID_VIEW_STYLE_BLACK
+            MENUITEM "&Silver",                     ID_VIEW_STYLE_SILVER
+        END
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "T&humbnails",                 ID_VIEW_THUMBNAIL
+        MENUITEM "&Details",                    ID_VIEW_DETAILS
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "Enable &Logging",             ID_LOG_ENABLE_LOGGING
+        MENUITEM "Vie&w Log File...",           ID_LOG_VIEW_LOG_FILE
+        MENUITEM SEPARATOR
+        MENUITEM "&Options...",                 ID_VIEW_OPTIONS
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help",                       ID_HELP_TOPICS
+        MENUITEM SEPARATOR
+        MENUITEM "&Register...",                32891
+        MENUITEM "&Check for Updates",          ID_HELP_CHECK_FOR_UPDATES
+        MENUITEM SEPARATOR
+        MENUITEM "&About...",                   ID_APP_ABOUT
+    END
+END
+#endif
+
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDR_MAINFRAME$(_DVD) MENU 
+#else
+IDR_MAINFRAME MENU 
+#endif
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Add Files...",               ID_FILE_ADD
+        MENUITEM "Add &Folder",                 ID_FILE_ADDFOLDER
+        MENUITEM SEPARATOR
+        MENUITEM "&Burn",                       ID_FILE_CONVERT
+        MENUITEM "&Pause",                      ID_FILE_PAUSE
+        MENUITEM "St&op",                       ID_FILE_STOP
+        MENUITEM SEPARATOR
+        MENUITEM "Propert&ies...",              32807
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Remove",                     ID_FILE_REMOVE
+        MENUITEM "Remo&ve All",                 ID_FILE_REMOVE_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "Move &Up",                    ID_FILE_MOVE_UP
+        MENUITEM "Move &Down",                  ID_FILE_MOVE_DOWN
+        MENUITEM SEPARATOR
+        MENUITEM "&Trim...",                    ID_FILE_TRIM
+        MENUITEM SEPARATOR
+        MENUITEM "Select &All",                 ID_EDIT_SELECT_ALL
+    END
+    POPUP "&View"
+    BEGIN
+        POPUP "&Visual Style"
+        BEGIN
+            MENUITEM "&Blue",                       ID_VIEW_STYLE_BLUE
+            MENUITEM "B&lack",                      ID_VIEW_STYLE_BLACK
+            MENUITEM "&Silver",                     ID_VIEW_STYLE_SILVER
+        END
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "T&humbnails",                 ID_VIEW_THUMBNAIL
+        MENUITEM "&Details",                    ID_VIEW_DETAILS
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "Enable &Logging",             ID_LOG_ENABLE_LOGGING
+        MENUITEM "Vie&w Log File...",           ID_LOG_VIEW_LOG_FILE
+        MENUITEM SEPARATOR
+        MENUITEM "&Options...",                 ID_VIEW_OPTIONS
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help",                       ID_HELP_TOPICS
+        MENUITEM SEPARATOR
+        MENUITEM "Pro Key &Register...",        32891
+        MENUITEM "&Check for Updates",          ID_HELP_CHECK_FOR_UPDATES
+        MENUITEM SEPARATOR
+        MENUITEM "&About...",                   ID_APP_ABOUT
+    END
+END
+#endif
+
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDR_FILE_LIST$(_BD) MENU 
+#else
+IDR_FILE_LIST MENU 
+#endif
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "&Add Files...",               ID_FILE_ADD
+        MENUITEM "Add &Folder...",              ID_FILE_ADDFOLDER
+        MENUITEM SEPARATOR
+        MENUITEM "&Remove",                     ID_FILE_REMOVE
+        MENUITEM "Remo&ve All",                 ID_FILE_REMOVE_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "Move &Up",                    ID_FILE_MOVE_UP
+        MENUITEM "Move &Down",                  ID_FILE_MOVE_DOWN
+        MENUITEM SEPARATOR
+        MENUITEM "&Trim...",                    ID_FILE_TRIM
+        MENUITEM SEPARATOR
+        MENUITEM "Previe&w",                    ID_FILE_PREVIEW
+        MENUITEM "P&lay in Default Player...",  ID_FILE_PLAY
+        MENUITEM SEPARATOR
+        MENUITEM "Open &Source Folder...",      ID_FILE_OPEN_SOURCE_FOLDER
+        MENUITEM SEPARATOR
+        MENUITEM "&Properties...",              32807
+    END
+END
+#endif
+
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDR_FILE_LIST$(_DVD) MENU 
+#else
+IDR_FILE_LIST MENU 
+#endif
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "&Add Files...",               ID_FILE_ADD
+        MENUITEM "Add &Folder...",              ID_FILE_ADDFOLDER
+        MENUITEM SEPARATOR
+        MENUITEM "&Remove",                     ID_FILE_REMOVE
+        MENUITEM "Remo&ve All",                 ID_FILE_REMOVE_ALL
+        MENUITEM SEPARATOR
+        MENUITEM "Move &Up",                    ID_FILE_MOVE_UP
+        MENUITEM "Move &Down",                  ID_FILE_MOVE_DOWN
+        MENUITEM SEPARATOR
+        MENUITEM "&Trim...",                    ID_FILE_TRIM
+        MENUITEM SEPARATOR
+        MENUITEM "Previe&w",                    ID_FILE_PREVIEW
+        MENUITEM "P&lay in Default Player...",  ID_FILE_PLAY
+        MENUITEM SEPARATOR
+        MENUITEM "Open &Source Folder...",      ID_FILE_OPEN_SOURCE_FOLDER
+        MENUITEM SEPARATOR
+        MENUITEM "&Properties...",              32807
+    END
+END
+#endif
+
+IDR_PROFILE_DELETE MENU 
+BEGIN
+    MENUITEM "&Delete Current Profile",     ID_PROFILE_DELETE
+    MENUITEM "Delete &Multiple Profiles...", ID_PROFILE_DELETE_MULTIPLE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    "A",            ID_EDIT_SELECT_ALL,     VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_ADD,            VIRTKEY, CONTROL, NOINVERT
+    VK_DOWN,        ID_FILE_MOVE_DOWN,      VIRTKEY, ALT, NOINVERT
+    VK_UP,          ID_FILE_MOVE_UP,        VIRTKEY, ALT, NOINVERT
+    VK_F1,          ID_HELP_TOPICS,         VIRTKEY, NOINVERT
+END
+
+IDR_FILE_LIST ACCELERATORS 
+BEGIN
+    VK_DELETE,      ID_FILE_REMOVE,         VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PROGRESS DIALOGEX 0, 0, 246, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
+CAPTION "Caption"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER,7,20,232,12
+    CONTROL         "Prompt",IDC_STATIC_PROMPT,"Static",SS_LEFTNOWORDWRAP | SS_NOPREFIX | SS_ENDELLIPSIS | WS_GROUP,7,7,232,8
+    PUSHBUTTON      "Cancel",IDCANCEL,191,41,48,14,NOT WS_TABSTOP
+END
+
+IDD_CHECK_MESSAGE_BOX DIALOGEX 0, 0, 265, 74
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Caption"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    ICON            "",IDC_STATIC_ICON,7,7,20,20
+    LTEXT           "Text",IDC_STATIC_TEXT,52,9,206,8,SS_NOPREFIX
+    CONTROL         "Check",IDC_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,52,38,206,8
+END
+
+IDD_DIALOG_BURN DIALOGEX 0, 0, 316, 110
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Burn Disc"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "&Burn",IDOK,214,86,45,16
+    PUSHBUTTON      "Cancel",IDCANCEL,264,86,45,16
+    LTEXT           "Burner:",IDC_STATIC,7,9,25,8
+    COMBOBOX        IDC_COMBO_BURNERS,59,7,250,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Status",IDC_STATIC_STATUS,7,35,302,18
+    CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER,7,56,302,14
+    PUSHBUTTON      "&Open Folder...",IDC_BUTTON_OPEN_FOLDER,7,86,61,16
+END
+
+IDD_NO_DISK_SPACE DIALOGEX 0, 0, 292, 99
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Insufficient Free Disk Space"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            "",IDC_STATIC_ICON,9,9,20,20,SS_REALSIZEIMAGE
+    LTEXT           "",IDC_STATIC_PROMPT,42,9,243,65,SS_NOPREFIX
+    DEFPUSHBUTTON   "&Select Another Folder...",IDOK,7,78,97,14,WS_GROUP
+    PUSHBUTTON      "&Disk Cost...",IDC_BUTTON_DISK_COST,112,78,57,14,WS_GROUP
+    PUSHBUTTON      "&Retry",IDRETRY,177,78,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,235,78,50,14,WS_GROUP
+END
+
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDD_SELECT_TEMP_FOLDER$(_BD) DIALOGEX 0, 0, 354, 138
+#else
+IDD_SELECT_TEMP_FOLDER DIALOGEX 0, 0, 354, 138
+#endif
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Temporary Folder"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDI_FOLDER_OPEN,IDC_STATIC,7,7,21,20
+    LTEXT           "Please select a folder where temporary files will be saved during the encoding process. Make sure that you select a folder that is on a hard disk with enough free space.",IDC_STATIC,37,7,310,23,SS_NOPREFIX
+    LTEXT           "Generally, the free disk space should be more than twice of the capacity of the target disc. e.g., to create a DVD-5 (4.7 GB) disc, 10 GB or more free space is needed.",IDC_STATIC,37,32,310,23,SS_NOPREFIX
+    LTEXT           "&Temporary folder:",IDC_STATIC,7,63,340,8
+    EDITTEXT        IDC_EDIT_FOLDER,7,74,286,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,297,73,50,14
+    PUSHBUTTON      "&Disk Cost...",IDC_BUTTON_DISK_COST,7,117,57,14,WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,239,117,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,297,117,50,14,WS_GROUP
+    LTEXT           "",IDC_STATIC_FREE_SPACE,7,91,286,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,108,340,1
+END
+#endif
+
+IDD_DISK_COST DIALOGEX 0, 0, 310, 143
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Disk Cost"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Close",IDOK,253,122,50,14,WS_GROUP
+    CONTROL         "",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,296,101
+END
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 289, 142
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,7,7,20,20
+    LTEXT           "Product",IDC_STATIC_PRODUCT,40,9,174,15
+    LTEXT           "Build",IDC_STATIC_BUILD,40,27,189,8
+    LTEXT           "Copyright(c) 2011 SourceTec Software Co., LTD",IDC_STATIC,40,42,189,8
+    CONTROL         "",IDC_STATIC,"Static",SS_GRAYFRAME,7,58,276,44
+    LTEXT           "Website:",IDC_STATIC,20,67,33,8
+    LTEXT           "http://www.sothinkmedia.com",IDC_STATIC_WEBSITE,71,67,114,8
+    LTEXT           "Support:",IDC_STATIC,20,80,33,8
+    LTEXT           "support@sothinkmedia.com",IDC_STATIC_SUPPORT,71,80,198,8
+    DEFPUSHBUTTON   "OK",IDOK,233,7,50,14,WS_GROUP
+    LTEXT           "Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties.",IDC_STATIC_WARNING,7,112,276,30
+END
+
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDD_OPTIONS_GENERAL$(_BD) DIALOGEX 0, 0, 339, 230
+#else
+IDD_OPTIONS_GENERAL DIALOGEX 0, 0, 339, 230
+#endif
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "General"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Temporary folder",IDC_STATIC,7,7,325,86
+    LTEXT           "Please select a folder where temporary files will be saved during the encoding process. Make sure that you select a folder that is on a hard disk with enough free space.",IDC_STATIC,15,22,308,25,SS_NOPREFIX
+    EDITTEXT        IDC_EDIT_FOLDER,16,51,308,13,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "",IDC_STATIC_FREE_SPACE,16,69,143,8
+    PUSHBUTTON      "&Disk Cost...",IDC_BUTTON_DISK_COST,204,69,57,14,WS_GROUP
+    PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,266,69,57,14
+    GROUPBOX        "Automatic updates",IDC_STATIC,7,102,325,45
+    LTEXT           "When your computer is online, Sothink HD Movie Maker can automatically check for software updates.",IDC_STATIC,15,117,184,24
+    PUSHBUTTON      "&Check Now",IDC_BUTTON_CHECK_UPDATES,204,117,57,14,WS_GROUP
+    PUSHBUTTON      "&Settings...",IDC_BUTTON_UPDATE_SETTINGS,266,117,57,14
+END
+#endif
+
+IDD_OPTIONS_ENCODING DIALOGEX 0, 0, 339, 230
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Encoding"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Performance",IDC_STATIC,7,7,325,53
+    LTEXT           "Number of &files to encode simultaneously (for multi-core CPU only):",IDC_STATIC,19,23,250,8
+    COMBOBOX        IDC_COMBO_CONCURRENT_TASKS,274,20,50,127,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Number of &threads to use while encoding an individual file:",IDC_STATIC,19,40,250,8
+    COMBOBOX        IDC_COMBO_ENCODING_THREADS,274,37,50,127,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Automatically correct &video aspect ratio (will not affect files already added)",IDC_CHECK_FIX_ASPECT_RATIO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,70,325,10
+    CONTROL         "Prompt when the &Stop button is clicked",IDC_CHECK_PROMPT_STOP_CONVERSION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,85,325,10
+    CONTROL         "&Play a sound when finished",IDC_CHECK_SOUND_FINISHED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,100,325,10
+    EDITTEXT        IDC_EDIT_SOUND_FINISHED,17,115,250,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "B&rowse...",IDC_BUTTON_SOUND_FINISHED,274,114,50,14
+END
+
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDD_OPTIONS_BURNER$(_BD) DIALOGEX 0, 0, 339, 230
+#else
+IDD_OPTIONS_BURNER DIALOGEX 0, 0, 339, 230
+#endif
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Burner"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    CONTROL         "&Check disc status before starting encoding",IDC_CHECK_CHECK_DISC_STATUS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,325,10
+    CONTROL         "&Prompt if the disc is not empty (for DVD+RW, DVD-RW and BD-RE discs)",IDC_CHECK_PROMPT_NON_BLANK_DISC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,21,301,10
+    CONTROL         "Prompt to &make another disc after finished burning",IDC_CHECK_PROMPT_MAKE_ANOTHER_DISC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,37,325,10
+END
+#endif
+
+IDD_OPTIONS_INTERFACE DIALOGEX 0, 0, 339, 230
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "User Interface"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "File list",IDC_STATIC,7,7,325,61
+    CONTROL         "Show &horizontal grid lines",IDC_CHECK_HORZ_GRID_LINES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,21,255,10
+    CONTROL         "Show &vertical grid lines",IDC_CHECK_VERT_GRID_LINES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,35,255,10
+    CONTROL         "Enable &smooth scrolling",IDC_CHECK_SMOOTH_SCROLLING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,49,255,10
+    GROUPBOX        "When double-clicking a file",IDC_STATIC,7,80,325,72
+    CONTROL         "Do &nothing",IDC_RADIO_DO_NOTHING,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,17,96,255,10
+    CONTROL         "&Preview the file",IDC_RADIO_PREVIEW,"Button",BS_AUTORADIOBUTTON,17,108,255,10
+    CONTROL         "Play the &file in the associated default player",IDC_RADIO_PLAY,
+                    "Button",BS_AUTORADIOBUTTON,17,120,255,10
+    CONTROL         "Vie&w file properties",IDC_RADIO_VIEW_PROPERTIES,"Button",BS_AUTORADIOBUTTON,17,132,255,10
+END
+
+IDD_TRIM DIALOGEX 0, 0, 432, 292
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MAXIMIZEBOX | WS_POPUP | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
+CAPTION "Trim - %s"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_STATIC_PREVIEW,"Static",SS_BLACKRECT,7,7,349,216,WS_EX_CLIENTEDGE
+    LTEXT           "Total duration:",IDC_STATIC_DURATION_LABEL,365,7,60,8
+    LTEXT           "Static",IDC_STATIC_DURATION,365,18,60,12,SS_CENTERIMAGE,WS_EX_STATICEDGE
+    LTEXT           "Current time:",IDC_STATIC_CURRENT_LABEL,365,38,60,8
+    LTEXT           "Static",IDC_STATIC_CURRENT,365,49,60,12,SS_CENTERIMAGE,WS_EX_STATICEDGE
+    LTEXT           "Trim start:",IDC_STATIC_START_LABEL,365,69,60,8
+    LTEXT           "Static",IDC_STATIC_START,365,80,60,12,SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Trim end:",IDC_STATIC_END_LABEL,365,100,60,8
+    LTEXT           "Static",IDC_STATIC_END,365,111,60,12,SS_CENTERIMAGE | SS_SUNKEN
+    CONTROL         "",IDC_STATIC_SLIDER,"Static",SS_BLACKFRAME | WS_TABSTOP,7,233,418,22
+    DEFPUSHBUTTON   "OK",IDOK,326,271,47,14
+    PUSHBUTTON      "Cancel",IDCANCEL,378,271,47,14
+END
+
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDD_OPTIONS_BURNER$(_DVD) DIALOGEX 0, 0, 339, 230
+#else
+IDD_OPTIONS_BURNER DIALOGEX 0, 0, 339, 230
+#endif
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "Burner"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    CONTROL         "&Check disc status before starting encoding",IDC_CHECK_CHECK_DISC_STATUS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,325,10
+    CONTROL         "&Prompt if the disc is not empty (for DVD+RW and DVD-RW discs)",IDC_CHECK_PROMPT_NON_BLANK_DISC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,21,301,10
+    CONTROL         "Prompt to make another disc after finished burning",IDC_CHECK_PROMPT_MAKE_ANOTHER_DISC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,37,325,10
+END
+#endif
+
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDD_OPTIONS_GENERAL$(_DVD) DIALOGEX 0, 0, 339, 230
+#else
+IDD_OPTIONS_GENERAL DIALOGEX 0, 0, 339, 230
+#endif
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
+CAPTION "General"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Temporary folder",IDC_STATIC,7,7,325,86
+    LTEXT           "Please select a folder where temporary files will be saved during the encoding process. Make sure that you select a folder that is on a hard disk with enough free space.",IDC_STATIC,15,22,307,25,SS_NOPREFIX
+    EDITTEXT        IDC_EDIT_FOLDER,16,51,307,13,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "",IDC_STATIC_FREE_SPACE,16,69,143,8
+    PUSHBUTTON      "&Disk Cost...",IDC_BUTTON_DISK_COST,204,69,57,14,WS_GROUP
+    PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,266,69,57,14
+    GROUPBOX        "Automatic updates",IDC_STATIC,7,102,325,45
+    LTEXT           "When your computer is online, Sothink Movie DVD Maker can automatically check for software updates.",IDC_STATIC,15,117,184,24
+    PUSHBUTTON      "&Check Now",IDC_BUTTON_CHECK_UPDATES,204,117,57,14,WS_GROUP
+    PUSHBUTTON      "&Settings...",IDC_BUTTON_UPDATE_SETTINGS,266,117,57,14
+END
+#endif
+
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDD_SELECT_TEMP_FOLDER$(_DVD) DIALOGEX 0, 0, 354, 138
+#else
+IDD_SELECT_TEMP_FOLDER DIALOGEX 0, 0, 354, 138
+#endif
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Temporary Folder"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDI_FOLDER_OPEN,IDC_STATIC,7,7,21,20
+    LTEXT           "Please select a folder where temporary files will be saved during the encoding process. Make sure that you select a folder that is on a hard disk with enough free space.",IDC_STATIC,37,7,310,23,SS_NOPREFIX
+    LTEXT           "Generally, the free disk space should be more than twice of the capacity of the target disc. e.g., to create a DVD-5 (4.7 GB) disc, 10 GB or more free space is needed.",IDC_STATIC,37,32,310,23,SS_NOPREFIX
+    LTEXT           "&Temporary folder:",IDC_STATIC,7,63,340,8
+    EDITTEXT        IDC_EDIT_FOLDER,7,74,286,14,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,297,73,50,14
+    PUSHBUTTON      "&Disk Cost...",IDC_BUTTON_DISK_COST,7,117,57,14,WS_GROUP
+    DEFPUSHBUTTON   "OK",IDOK,239,117,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,297,117,50,14,WS_GROUP
+    LTEXT           "",IDC_STATIC_FREE_SPACE,7,91,286,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,108,340,1
+END
+#endif
+
+IDD_SHUT_DOWN DIALOGEX 0, 0, 289, 90
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,7,7,20,20
+    LTEXT           "%s has finished all of the tasks. Your system will be turned off after 30 seconds. If you do not want to turn off the computer now, please click the Cancel button.",IDC_STATIC_PROMPT,45,7,237,30
+    DEFPUSHBUTTON   "&Proceed",IDOK,153,69,61,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,221,69,61,14,WS_GROUP
+END
+
+IDD_SAVE_PROFILE DIALOGEX 0, 0, 299, 76
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Save Profile"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Profile name:",IDC_STATIC,7,10,54,8
+    EDITTEXT        IDC_EDIT_NAME,63,7,229,14,ES_AUTOHSCROLL
+    LTEXT           "Description:",IDC_STATIC,7,31,54,8
+    EDITTEXT        IDC_EDIT_DESC,63,28,229,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Save",IDOK,188,55,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,242,55,50,14
+END
+
+IDD_DELETE_PROFILES DIALOGEX 0, 0, 299, 204
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Delete Profiles"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Existing customized profiles (built-in profiles can not be deleted):",-1,7,10,285,8
+    LISTBOX         IDC_LIST,7,24,285,151,LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "&Delete",IDOK,188,183,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,242,183,50,14
+END
+
+#if defined(APSTUDIO_INVOKED) || defined(AHS)
+#if defined(APSTUDIO_INVOKED)
+IDD_ABOUTBOX_AHS$(AHS) DIALOGEX 0, 0, 269, 97
+#else
+IDD_ABOUTBOX_AHS DIALOGEX 0, 0, 269, 97
+#endif
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,7,7,20,20
+    LTEXT           "Product",IDC_STATIC_PRODUCT,40,9,168,15
+    LTEXT           "Build",IDC_STATIC_BUILD,40,27,170,8
+    LTEXT           "Copyright(c) 2010 SourceTec Software Co., LTD",IDC_STATIC,40,42,168,8
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,58,256,44
+    LTEXT           "Website:",IDC_STATIC,20,67,33,8,NOT WS_VISIBLE
+    LTEXT           "http://www.sothinkmedia.com",IDC_STATIC_WEBSITE,71,67,114,8,NOT WS_VISIBLE
+    LTEXT           "Support:",IDC_STATIC,20,80,33,8,NOT WS_VISIBLE
+    LTEXT           "support@sothink.com",IDC_STATIC_SUPPORT,71,80,114,8,NOT WS_VISIBLE
+    DEFPUSHBUTTON   "OK",IDOK,212,7,50,14,WS_GROUP
+    LTEXT           "Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties.",IDC_STATIC_WARNING,7,67,255,30
+END
+#endif
+
+IDD_ADD_FOLDER DIALOGEX 0, 0, 304, 87
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add Folder"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "&Folder:",IDC_STATIC,7,9,54,8
+    COMBOBOX        IDC_COMBO_FOLDER,65,7,232,252,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Files of &type:",IDC_STATIC,7,27,54,8
+    COMBOBOX        IDC_COMBO_FILE_TYPE,65,25,232,242,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "&Include sub-folders",IDC_CHECK_INCLUDE_SUB_FOLDERS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,65,46,232,10
+    PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,111,66,60,14
+    DEFPUSHBUTTON   "OK",IDOK,174,66,60,14
+    PUSHBUTTON      "Cancel",IDCANCEL,237,66,60,14
+    CONTROL         "",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH | NOT WS_VISIBLE | WS_BORDER,65,7,232,12
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+VS_VERSION_INFO$(_BD) VERSIONINFO
+#else
+VS_VERSION_INFO VERSIONINFO
+#endif
+ FILEVERSION 2,2,0,0
+ PRODUCTVERSION 2,2,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x29L
+#else
+ FILEFLAGS 0x28L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "SourceTec Software Co., LTD"
+            VALUE "FileDescription", "HD Movie Maker"
+            VALUE "FileVersion", "2, 2, 0, 0"
+            VALUE "InternalName", "Converter.exe"
+            VALUE "LegalCopyright", "Copyright (c) SourceTec Software Co., LTD.  All rights reserved."
+            VALUE "LegalTrademarks", "Sothink"
+            VALUE "OriginalFilename", "Converter.exe"
+            VALUE "PrivateBuild", "205"
+            VALUE "ProductName", "HD Movie Maker"
+            VALUE "ProductVersion", "2, 2, 0, 0"
+            VALUE "SpecialBuild", "205"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+#endif
+
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+VS_VERSION_INFO$(_DVD) VERSIONINFO
+#else
+VS_VERSION_INFO VERSIONINFO
+#endif
+ FILEVERSION 3,7,0,1
+ PRODUCTVERSION 3,7,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x29L
+#else
+ FILEFLAGS 0x28L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "SourceTec Software Co., LTD"
+            VALUE "FileDescription", "Movie DVD Maker"
+            VALUE "FileVersion", "3, 7, 0, 1"
+            VALUE "InternalName", "Converter.exe"
+            VALUE "LegalCopyright", "Copyright (c) SourceTec Software Co., LTD.  All rights reserved."
+            VALUE "LegalTrademarks", "Sothink"
+            VALUE "OriginalFilename", "Converter.exe"
+            VALUE "PrivateBuild", "340"
+            VALUE "ProductName", "Movie DVD Maker"
+            VALUE "ProductVersion", "3, 7, 0, 1"
+            VALUE "SpecialBuild", "340"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+#endif
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 239
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_DIALOG_BURN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 103
+    END
+
+    IDD_NO_DISK_SPACE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 285
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 92
+    END
+
+    "IDD_SELECT_TEMP_FOLDER$(_BD)", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 347
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 131
+    END
+
+    IDD_DISK_COST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 136
+    END
+
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 283
+        TOPMARGIN, 7
+    END
+
+    "IDD_OPTIONS_GENERAL$(_BD)", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 332
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 223
+    END
+
+    IDD_OPTIONS_ENCODING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 332
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 223
+    END
+
+    "IDD_OPTIONS_BURNER$(_BD)", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 332
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 223
+    END
+
+    IDD_OPTIONS_INTERFACE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 332
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 223
+    END
+
+    IDD_TRIM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 425
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 285
+    END
+
+    "IDD_OPTIONS_BURNER$(_DVD)", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 332
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 223
+    END
+
+    "IDD_OPTIONS_GENERAL$(_DVD)", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 332
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 223
+    END
+
+    "IDD_SELECT_TEMP_FOLDER$(_DVD)", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 347
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 131
+    END
+
+    IDD_SHUT_DOWN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 282
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_SAVE_PROFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 292
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 69
+    END
+
+    IDD_DELETE_PROFILES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 292
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 197
+    END
+
+    "IDD_ABOUTBOX_AHS$(AHS)", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 263
+        TOPMARGIN, 7
+    END
+
+    IDD_ADD_FOLDER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 297
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 80
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  40, 40
+BEGIN
+    BUTTON      ID_FILE_ADD
+    BUTTON      ID_FILE_REMOVE
+    BUTTON      ID_FILE_MOVE_UP
+    BUTTON      ID_FILE_MOVE_DOWN
+    SEPARATOR
+    BUTTON      ID_FILE_CONVERT
+    BUTTON      ID_FILE_PAUSE
+    BUTTON      ID_FILE_STOP
+    BUTTON      ID_VIEW_DETAILS
+    BUTTON      ID_VIEW_THUMBNAIL
+    SEPARATOR
+    BUTTON      ID_THUMBNAIL_MIN
+    BUTTON      ID_THUMBNAIL_SIZE
+    BUTTON      ID_THUMBNAIL_MAX
+END
+
+IDR_PLAYER TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_PLAYER_TRACK
+    BUTTON      ID_PLAYER_PLAY
+    BUTTON      ID_PLAYER_PAUSE
+    BUTTON      ID_PLAYER_STOP
+    BUTTON      ID_PLAYER_TIME
+    BUTTON      ID_PLAYER_MUTE
+    BUTTON      ID_PLAYER_VOLUME
+END
+
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDR_PROP$(_BD) TOOLBAR  16, 16
+#else
+IDR_PROP TOOLBAR  16, 16
+#endif
+BEGIN
+    BUTTON      ID_PROFILE_LABEL
+    BUTTON      ID_PROFILE
+    BUTTON      ID_PROFILE_SAVE_AS
+    BUTTON      ID_OUTPUT_FOLDER_LABEL
+    BUTTON      ID_OUTPUT_FOLDER
+    BUTTON      ID_OUTPUT_FOLDER_BROWSE
+END
+#endif
+
+#if defined(APSTUDIO_INVOKED) || defined(_BD)
+#if defined(APSTUDIO_INVOKED)
+IDR_PANE_SIMPLE$(_BD) TOOLBAR  16, 16
+#else
+IDR_PANE_SIMPLE TOOLBAR  16, 16
+#endif
+BEGIN
+    BUTTON      ID_BURNER_LIST_LABEL
+    BUTTON      ID_BURNER_LIST
+    BUTTON      ID_ZOOM_MODE
+    BUTTON      ID_ZOOM_MODE_LABEL
+    BUTTON      ID_DISC_TYPE_LIST_LABEL
+    BUTTON      ID_DISC_TYPE_LIST
+    BUTTON      ID_VIDEO_DIMENSION_LABEL
+    BUTTON      ID_VIDEO_DIMENSION
+    BUTTON      ID_VIDEO_FRAME_RATE_LABEL
+    BUTTON      ID_VIDEO_FRAME_RATE
+END
+#endif
+
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDR_PANE_SIMPLE$(_DVD) TOOLBAR  16, 16
+#else
+IDR_PANE_SIMPLE TOOLBAR  16, 16
+#endif
+BEGIN
+    BUTTON      ID_BURNER_LIST_LABEL
+    BUTTON      ID_BURNER_LIST
+    BUTTON      ID_ZOOM_MODE
+    BUTTON      ID_ZOOM_MODE_LABEL
+    BUTTON      ID_DISC_TYPE_LIST_LABEL
+    BUTTON      ID_DISC_TYPE_LIST
+    BUTTON      ID_VIDEO_STANDARD_LABEL
+    BUTTON      ID_VIDEO_STANDARD
+END
+#endif
+
+#if defined(APSTUDIO_INVOKED) || defined(_DVD)
+#if defined(APSTUDIO_INVOKED)
+IDR_PROP$(_DVD) TOOLBAR  16, 16
+#else
+IDR_PROP TOOLBAR  16, 16
+#endif
+BEGIN
+    BUTTON      ID_PROFILE_LABEL
+    BUTTON      ID_PROFILE
+    BUTTON      ID_PROFILE_SAVE_AS
+    BUTTON      ID_OUTPUT_FOLDER_LABEL
+    BUTTON      ID_OUTPUT_FOLDER
+    BUTTON      ID_OUTPUT_FOLDER_BROWSE
+END
+#endif
+
+IDR_PROFILE TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_PROFILE_LABEL
+    BUTTON      ID_PROFILE
+    BUTTON      ID_PROFILE_SAVE_AS
+    BUTTON      ID_PROFILE_RENAME
+    BUTTON      ID_PROFILE_DELETE
+END
+
+IDR_MENU_VIEW TOOLBAR  16, 15
+BEGIN
+    BUTTON      ID_MENU_PAGE_INDEX
+    BUTTON      ID_MENU_PRE_PAGE
+    BUTTON      ID_MENU_NEXT_PAGE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_HEADER_SIZE         CURSOR                  "res\\VE_SIZEB.CUR"
+IDC_HEADER_OPEN         CURSOR                  "res\\VE_SPLIT.CUR"
+IDC_MY_HAND             CURSOR                  "res\\my_hand.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDB_TOOLBAR_HOT         PNG                     "res\\hottoolb.png"
+IDB_TOOLBAR_COLD        PNG                     "res\\coldtoolb.png"
+IDB_PLAYER_HOT          PNG                     "res\\player_hot.png"
+IDB_TOOLBAR_DISABLED    PNG                     "res\\distoolb.png"
+IDB_PLAYER_DISABLED     PNG                     "res\\player_dis.png"
+IDB_PLAYER_COLD         PNG                     "res\\player_cold.png"
+IDB_PROFILE             PNG                     "res\\profile.png"
+IDB_MENU_TOOLBAR_HOT    PNG                     "res\\menu-toolbar-hot.png"
+IDB_MENU_TOOLBAR_COLD   PNG                     "res\\menu-toolbar-cold.png"
+IDB_MENU_TOOLBAR_DIS    PNG                     "res\\menu-toolbar-dis.png"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDP_OLE_INIT_FAILED     "OLE initialization failed.  Make sure that the OLE libraries are the correct version."
+    IDS_E_NONEXISTENT_FOLDER1 "Folder %s does not exist."
+    IDS_E_OPEN_FILE2        "Failed to open %s. %s"
+    IDS_COL_CHECKBOX        "Check"
+    IDS_E_CREATE_DIRECTORY1 "Failed to create directory: %s"
+    IDS_PROMPT_CREATE_DIRECTORY1 
+                            "Directory ""%s"" does not exist. Would you like to create it now?"
+    IDS_SUPPORT_URL         "mailto:support@sothinkmedia.com"
+    IDS_URL                 "http://www.sothinkmedia.com"
+    IDS_OPTIONS             "Options"
+    IDS_ADDING_FILES        "Adding Files"
+    IDS_CREATING_DISC_STRUCTURE "Creating Disc Structure"
+    IDS_BURNER_NOT_WRITABLE_DISC 
+                            "The disc in the drive is not writable. Please insert a blank disc in the drive and try again."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_E_DVD_MENU_DURATION "Invalid menu duration. Please enter a positive number between 15 and 180."
+    IDS_E_OPEN_ENCODER      "Failed to open the encoder. The encoding profile may be incorrect."
+    IDS_BURNER_NO_DISC      "There's no disc in the drive. Please insert a blank disc in the drive and try again."
+    IDS_BURNER_NOT_BLANK_DISC 
+                            "The disc in the drive is not empty. Please insert a blank disc in the drive and try again."
+    IDS_E_EXISTING_PROFILE_NAME 
+                            "There is already a profile with the name ""%s"". Please specify another name."
+    IDS_CANCELING           "Canceling..."
+    IDS_ERASING_DISC        "Erasing disc..."
+    IDS_OVERALL_TIME_LEFT_ESTIMATING "Time left: estimating..."
+    IDS_INITIALIZING        "Initializing..."
+    IDS_BURNER_INSERT_BLANK_DISC 
+                            "Please insert a blank disc in the drive and click ""Burn""."
+    IDS_RENAME_PROFILE      "Rename Profile"
+    IDS_FREE_VERSION_NOTICE "You are using the free version. \010Click here to Go Pro now."
+    IDS_NO_VIDEO            "No video"
+    IDS_ENABLED             "Enabled"
+    IDS_DISABLED            "Disabled"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select all files\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle Status Bar"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+    IDS_BURNER_INITIALIZING "Initializing hardware..."
+    IDS_BURNER_CALIBRATING_POWER "Calibrating power..."
+    IDS_BURNER_VALIDATING_MEDIA "Validating media..."
+    IDS_BURNER_FORMATING_MEDIA "Formating media..."
+    IDS_BURNER_WRITING_DATA "Writing data..."
+    IDS_BURNER_FINALIZING   "Finalizing..."
+    IDS_BURNER_COMPLETED    "Completed."
+    IDS_ESTIMATING          "Estimating..."
+    IDS_WAITING             "Waiting..."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_E_LOAD_PROFILES     "Failed to load the encoding profiles. Please reinstall the software to solve this problem."
+    IDS_E_LOAD_MENU_TEMPLATES 
+                            "Failed to load the menu templates. Please reinstall the software to solve this problem."
+    IDS_DISABLE_INCOMPATIBLE_CODECS 
+                            "Some codecs installed on your system are not compatible with this software and may cause encoding problems. Would you like to temporarily disable them now?\r\n\r\nIf you want to enable or disable these codecs later, please select View > Options from the menu and click Encoding > Manage Incompatible Codecs."
+    IDS_CONFIRM_CANCEL      "Are you sure to cancel?"
+    IDS_BURNER_MAKE_ANOTHER_COPY 
+                            "The disc has been burned successfully. Would you like to make another copy?"
+    IDS_RESET_COLUMNS       "&Reset to Default"
+    IDS_BURNER_CONFIRM_OVERWRITE 
+                            "The disc in the drive is not empty. All data on the disc will be overwritten. Do you want to continue?"
+    IDS_CONFIRM_DELETE_PROFILES 
+                            "Are you sure to delete the selected profiles permanently?"
+    IDS_NO_INCOMPATIBLE_CODECS "No incompatible codecs found."
+    IDS_ENTER_PROFILE_NAME  "Please enter a name for the profile."
+    IDS_STATUS_PANE1        "Pane 1"
+    IDS_STATUS_PANE2        "Pane 2"
+    IDS_TOOLBAR_STANDARD    "Standard"
+    IDS_TOOLBAR_CUSTOMIZE   "Customize..."
+    IDS_DO_NOT_ASK_AGAIN    "Do not ask me again"
+    IDS_CONFIR_OVERWRITE_PROFILE1 
+                            "There is already a profile with the name ""%s"". Would like to overwrite it?"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_EDIT_MENU           "Edit"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_PROP_PANE       "Display/hide the properties pane\nProperties Pane"
+    ID_FILE_ADD             "Add files\nAdd Files"
+    ID_VIDEO_QUALITY        "Video quality\nVideo Quality"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_TASK_COL_CHECKBOX   " "
+    IDS_TASK_COL_THUMBNAIL  "Thumbnail"
+    IDS_TASK_COL_NAME       "Name"
+    IDS_TASK_COL_DIMENSION  "Dimension"
+    IDS_TASK_COL_DURATION   "Duration"
+    IDS_TASK_COL_PROFILE    "Target Format"
+    IDS_TASK_COL_STATUS     "Status"
+    IDS_TASK_COL_TIME_ELAPSED "Elapsed"
+    IDS_TASK_COL_TIME_LEFT  "Left"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_AUDIO_QUALITY        "Audio quality\nAudio Quality"
+    ID_VIDEO_DIMENSION      "Video dimension\nVideo Dimension"
+    ID_OUTPUT_FILE_NAME_LABEL "Name of the output file\nOutput File Name"
+    ID_OUTPUT_FORMAT        "Select the output format\nOutput Format"
+    ID_OUTPUT_FOLDER_LABEL  "\nOutput Folder"
+    ID_OUTPUT_FOLDER        "\nSelect the Output Folder"
+    ID_OUTPUT_FOLDER_BROWSE "\nSelect the Output Folder"
+    ID_TARGET_PROFILE       "Select the format of the output file\nTarget Profile"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_TARGET_PROFILE_LABEL "Select the format of the output file\nTarget Profile"
+    ID_VIEW_THUMBNAIL       "Display file as thumbnails\nThumbnails"
+    ID_FILE_REMOVE          "Remove selected files\nRemove"
+    ID_FILE_PROPERTIES      "View file properties\nProperties"
+    ID_THUMBNAIL_SIZE       "Adjust the size of the thumbnails\nAdjust Thumbnail Size"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_DETAILS         "View details information about each file\nDetails"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_THUMBNAIL_MIN        "Show minimal thumbnail size\nMinimal"
+    ID_THUMBNAIL_MAX        "Show maximal thumbnail size\nMaximal"
+    ID_FILE_STOP            "Stop encoding\nStop"
+    ID_VIEW_SIDE_PANE       "Display/hide the settings pane\nSettings Pane"
+    ID_PROFILE              "\nSelect Encoding Profile"
+    ID_PROFILE_LABEL        "\nEncoding Profile"
+    ID_PROFILE_SAVE_AS      "\nSave as New Profile"
+    ID_PROFILE_DELETE       "\nDelete Profile"
+    IDR_OUTPUT_FOLDER_OPEN  "Open the output folder\nOpen Output Folder"
+    ID_OUTPUT_FOLDER_OPEN   "\nOpen Output Folder"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_TASK_COL_TIME_ESTIMATED "Estimated"
+    IDS_E_TEMP_FOLDER_MUST_BE_NTFS 
+                            "The file system of temporary folder must be NTFS."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CONFIRM_SOME_FILES_FAILED 
+                            "Not all files were converted successfully. Would like to burn the disc any way?"
+    IDS_E_CREATE_DVD_MENU_TEMPLATE1 
+                            "Failed to create DVD menu template ""%s""."
+    IDS_CONFIRM_DVD_MENU_ERROR 
+                            "Failed to create the DVD menu. Would you like to create the DVD without the menu?"
+    IDS_E_CREATE_DVD_AUTHOR_XML2 "Failed to create DVD author xml. %s."
+    IDS_ALL_SUCCEEDED       "All files have been converted successfully."
+    IDS_CONVERT_FAILURE_LIST "Failed to encode the following files: \r\n"
+    IDS_ADD_FILES           "Add Files"
+    IDS_DONE                "Done."
+    IDS_E_NO_FILES_CONVERTED 
+                            "Nothing to do. No files have been converted yet."
+    IDS_MB_OK               "OK"
+    IDS_MB_CANCEL           "Cancel"
+    IDS_MB_ABORT            "&Abort"
+    IDS_MB_RETRY            "&Retry"
+    IDS_MB_IGNORE           "&Ignore"
+    IDS_MB_YES              "&Yes"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MENU_TITLE_FONT_DES "Select the title font."
+    IDS_MENU_TITLE_TEXT     "Title text"
+    IDS_MENU_TITLE_TEXT_DES "Enter the title text for the  menu."
+    IDS_MENU_BUTTON         "Button"
+    IDS_MENU_BUTTON_FONT    "Font"
+    IDS_MENU_BUTTON_FONT_DES 
+                            "Select the font of the button text. This setting will affect all buttons."
+    IDS_MENU_BUTTON_TEXT    "Button text"
+    IDS_MENU_BUTTON_TEXT_DES 
+                            "Select a file in the file list and enter the text for the menu button."
+    IDS_E_DISC_CAP_NOT_MATCH2 
+                            "The capacity of the disc inserted (%.1fG) does not match the target disc size selected (%.1fG). Please select a correct target disc size or insert another disc."
+    IDS_E_FILE_NAME_UNUASUAL_CHARS 
+                            "Some files you are trying to add contain unusual characters (foreign characters which have no representation in the character set you're using) in the names. These files could not be encoded correctly.\r\n\r\nClick OK to bypass these files, click Cancel to rename these files and try again."
+    IDS_E_TEMP_FOLDER_NOT_NTFS 
+                            "The file system of temporary folder ""%s"" is not NTFS, which is required for temp folder. Click ""OK"" to change temporary folder or cancel the burning task by clicking ""Cancel""."
+    IDS_E_BIT_RATE_TOO_LOW  "According to the disc capacity, the calculated video bit rate is lower than the min bit rate(%d Kbps), and the size of the output files may be over the disc capacity.Please remove or trim some video files, or select another disc type with larger capacity."
+    IDS_E_FILE_NAME_UNUASUAL_CHARS2 
+                            "The file you are trying to select contains unusual characters (foreign characters which have no representation in the character set you're using) in the names. It could not be found correctly.\r\n\r\nRename it and try again."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_MB_NO               "&No"
+    IDS_CONVERT_FAILURE_LIST1 "Failed to encode the following files: \r\n%s"
+    IDS_CONFIRM_QUIT_WHILE_CONVERTOING "Are you sure to stop and quit now?"
+    IDS_DISC_INFO3          "Disc type: %s\r\nisBlank: %s\r\n"
+    IDS_YES                 "Yes"
+    IDS_NO                  "No"
+    IDS_E_GET_DISC_INFO     "Failed to get the disc information."
+    IDS_QUICK_ERASE_SUCCEEDED "Quickly erased successfully."
+    IDS_E_ERASE_DISC        "Failed to erase the disc."
+    IDS_FULLY_ERASE_SUCCEEDED "Fully erased successfully."
+    IDS_PRO_REGISTERED1     "This Pro version is registered to: %s"
+    IDS_SOFTWARE_REGISTERED1 "This software is registered to: %s"
+    IDS_E_CREATE_DVD_MENU_XML1 
+                            "Failed to create the XML file for DVD menu. %s."
+    IDS_E_CREATE_FILE_IN_TEMP_FOLDER1 
+                            "Cannot create files in the specified temporary folder ""%s"". Please check if you have write permission to the folder."
+    IDS_E_INVALID_TEMP_FOLDER1 
+                            "The specified temporary folder ""%s"" contains invalid characters. Please select another folder."
+    IDS_SELECT_OUTPUT_FOLDER "Please select an output folder."
+END
+
+STRINGTABLE 
+BEGIN
+    ID_PLAYER_PAUSE         "\nPause"
+    ID_PLAYER_STOP          "\nStop"
+    ID_PLAYER_MUTE          "\nMute"
+    ID_PLAYER_PLAY          "\nPlay"
+    ID_PLAYER_VOLUME        "\nVolume"
+    ID_VIEW_STYLE_BLUE      "Blue\nBlue"
+    ID_VIEW_STYLE_BLACK     "Black\nBlack"
+    ID_VIEW_STYLE_AQUA      "Aqua\nAqua"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_STYLE_SILVER    "Silver\nSilver"
+    ID_BURNER_LIST          "Select burner\nSelect Burner"
+    ID_BURNER_INFO          "View burner information\nBurner Information"
+    ID_FILE_MOVE_UP         "Move the selected files up\nMove Up"
+    ID_FILE_MOVE_DOWN       "Move the selected files down\nMove Down"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_PAUSE           "Pause encoding\nPause"
+    ID_DISC_LABEL           "Disc label\nDisc Label"
+    ID_DISC_TYPE_LIST       "Specify disc type\nSelect Disc Type"
+    ID_DISC_SIZE            "Specify disc size\nSpecify disc Size"
+    ID_VIDEO_FRAME_RATE     "Video frame rate\nVideo Framerate"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_HELP_TOPICS          "View help\nHelp"
+    ID_HELP_CHECK_FOR_UPDATES "Check for updates\nCheck for Updates"
+    ID_VIEW_OPTIONS         "Change settings\nOptions"
+    ID_FILE_REMOVE_ALL      "Remove all files\nRemove All"
+    ID_FILE_PREVIEW         "Preview the file\nPreview"
+    ID_FILE_PLAY            "Play in default player\nPlay"
+    ID_HELP_REGISTER        "Register the software\nRegister"
+    ID_FILE_TRIM            "Trim the video\nTrim"
+    ID_VIDEO_STANDARD       "Select the TV system\nTV System"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_OPEN_SOURCE_FOLDER "Open source folder\nOpen Source Folder"
+    ID_FILE_OPEN_OUTPUT_FOLDER "Open output folder\nOpen Output Folder"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_ZOOM_MODE            "Zoom mode\nSpecify how to scale or clip the video"
+    ID_FILE_ADD_TO_ITUNES   "Add output files to iTunes\nAdd Output Files to iTunes"
+    ID_PROFILE_RENAME       "\nRename Current Profile"
+    ID_PROFILE_DELETE_MULTIPLE "\nDelete Multiple Profiles"
+    ID_MENU_PRE_PAGE        "\nPrevious Page"
+    ID_MENU_PRE_PAGE_T      "Previous Page"
+    ID_MENU_NEXT_PAGE_T     "Next page"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_E_TRIM              "Failed to trim this file."
+    IDS_E_CREATE_TEMP_FOLDER "Failed to create temporary folder."
+    IDS_OVERALL_TIME_LEFT1  "Time left: %s"
+    IDS_E_CREATE_TEMP_FILE  "Failed to create temporary file."
+    IDS_E_ADD_FILES_WHILE_CONVERTING 
+                            "Cannot add files while encoding is in progress."
+    IDS_E_ADD_FILES1        "Failed to add the following files.\r\n\r\n%s"
+    IDS_CONFIRM_REMOVE_CONVERTING_FILES 
+                            "Are you sure to remove the files which are being converted?"
+    IDS_CONFIRM_REMOVE_ALL_FILES "Are you sure to remove all of the files?"
+    IDS_NO_FILES_TO_CONVERT "No files to encode. Please click ""Add Files"" to add your video content and try again."
+    IDS_NO_CHECKED_FILES_TO_CONVERT 
+                            "No files to encode. Please click the check-box in front of the thumbnails to select the files you want to encode."
+    IDS_CONFIRM_CREATE_BD_FOLDER_ONLY 
+                            "\r\n\r\nIf you want to create a blu-ray video folder but do not burn it to disc at this time, please click ""Ignore""."
+    IDS_CONFIRM_CREATE_DVD_FOLDER_ONLY 
+                            "\r\n\r\nIf you want to create a DVD-Video folder but do not burn it to disc at this time, please click ""Ignore""."
+    IDS_TRIAL_PROMPT        "In this trial version, only the first five minutes of each video file will be encoded. To get the fully functional version, please register."
+    IDS_CONFIRM_CANCEL_CONVERSION "Are you sure to cancel?"
+    IDS_E_CONVERT_FILES     "Failed to encode the files."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_E_CREATE_FILE_IN_OUTPUT_FOLDER1 
+                            "Cannot create files in the specified output folder ""%s"". Please check if you have write permission to the folder."
+    IDS_E_INVALID_OUTPUT_FOLDER1 
+                            "The specified output folder ""%s"" contains invalid characters. Please select another folder."
+    IDS_E_FILE_NOT_EXIST1   "The specified file %s does not exist."
+    IDS_E_CANNOT_CHANGE_TEMP_FOLDER_WHILE_CONVERING 
+                            "Cannot change the temporary folder while encoding is in progress."
+    IDS_E_SAVE_CUSTOMIZED_PROFILE_GROUP1 
+                            "Failed to save the customized profile group. %s."
+    IDS_E_LOAD_PROFILE1     "Failed to load profile. %s."
+    IDS_E_SAVE_PROFILE1     "Failed to save the profile. %s."
+    IDS_E_BIT_RATE_TOO_HIGH2 
+                            "The specified video bitrate (%d Kbps) is too high and your video content will not be able to fit onto a single disc. Would you like to let the program calculate a proper video bitrate (about %d Kbps) for you?"
+    IDS_E_RENAME_BUILT_IN_PROFILE1 
+                            """%s"" is a built-in profile and cannot be renamed. You can only rename the profiles in the ""Customized Profiles"" group."
+    IDS_E_DELETE_BUILT_IN_PROFILE1 
+                            """%s"" is a built-in profile and cannot be deleted. You can only delete the profiles in the ""Customized Profiles"" group."
+    IDS_CONFIRM_DELETE_PROFILE1 "Are you sure to delete the profile ""%s""?"
+    IDS_NO_CUSTOMIZED_PROFILES 
+                            "No customized profiles found. You can only delete the profiles in the ""Customized Profiles"" group."
+    IDS_E_INVALID_FILE_NAME_CHARS 
+                            "Invalid file name. A file name cannot contain the following characters:\n\t\\ / : * ? "" < > |."
+    IDS_E_VIDEO_DIMENSION   "Invalid video dimension."
+    IDS_E_FRAME_RATE        "Invalid video frame rate. Please enter a positive number less than or equal to 30."
+    IDS_E_VIDEO_BIT_RATE    "Invalid video bit rate. Please enter a positive number."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_TOTAL_DURATION      "Total Duration"
+    IDS_TOTAL_SIZE          "Total Size"
+    IDS_OVERALL_TIME_LEFT   "Overall Time Left"
+    IDS_STATUS              "Status"
+    IDS_OVERALL_PROGRESS    "Overall Progress"
+    IDS_ESTIMATED_SIZE1     "Estimated size: %s"
+    IDS_ESTIMATED_SIZE      "Estimated Size"
+    IDS_DISC_CAPACITY_EXCEEDED 
+                            "Disc capacity exceeded! Please specify a lower video bitrate."
+    IDS_GETTING_DEVICE_INFORMATION "Getting device information..."
+    IDS_PREPARING_MEDIA1    "Preparing media (%s)..."
+    IDS_TOTAL_DURATION1     "Total duration: %s"
+    IDS_FREE_SPACE1         "Free space in current drive: %s"
+    IDS_NO_ENOUGH_DISK_SPACE5 
+                            "Cannot create the disc structure in folder %s. There is no enough free space on disk %s (%s required, %s left).\r\n\r\nPlease select a folder on another disk or delete some unnecessary files on disk %s and try again."
+    IDS_DISK_SPACE1         "Free space in current drive: %s"
+    IDS_E_QUALITY_LEVEL1    "Incorrect quality level found in <%s>."
+    IDS_E_DISC_LABEL1       "Invalid disc label. The maximum number of characters allowed is %d."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_BURNER_E_BURN_DISC  "Failed to burn the disc."
+    IDS_BURNER_UNSUPPORTED_DISC 
+                            "The disc in the drive is not supported. Please insert a blank disc in the drive and try again."
+    IDS_CREATING_DVD_MENU   "Creating DVD Menu"
+    IDS_CREATING_DVD_MENU_PROMPT "Creating DVD menu, please wait..."
+    IDS_CREATING_DISC_STRUCTURE_PROMPT 
+                            "Creating disc structure, please wait..."
+    IDS_TAB_SETTINGS        " Settings "
+    IDS_TAB_ADVANCED        " Advanced "
+    IDS_TAB_DVD_MENU        " DVD Menu "
+    IDS_TAB_PREVIEW         " Preview "
+    IDS_BURNER_LIST_LABEL   "Current burner:"
+    IDS_DISC_TYPE_LIST_LABEL "Target disc size:"
+    IDS_DISC_LABEL_LABEL    "Disc label:"
+    IDS_VIDEO_DIMENSION_LABEL "Video dimension:"
+    IDS_VIDEO_FRAME_RATE_LABEL "Video frame rate:"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_COMPLETED           "Completed."
+    IDS_CANCELED            "Canceled."
+    IDS_FAILED              "Failed."
+    IDS_NO_MENU             "No menu"
+    IDS_CUSTOMIZED_GROUP_NAME "Customized Profiles"
+    IDS_CUSTOMIZED_GROUP_DESC "User defined profiles"
+    IDS_TAB_MENU_VIEW       "Menu View"
+    IDS_WRITTING            "Writing..."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_VIDEO_STANDARD_LABEL "TV system:"
+    IDS_VIDEO_QUALITY_LABEL "Video quality:"
+    IDS_ZOOM_MODE_LABEL     "Zoom mode:"
+    IDS_AUDIO_QUALITY_LABEL "Audio quality:"
+    IDS_PROFILE_LABEL       "Target profile:"
+    IDS_OUTPUT_FOLDER_LABEL "Output folder:"
+    IDS_OUTPUT_FOLDER_BROWSE "  Browse..."
+    IDS_OUTPUT_FOLDER_OPEN  "  Open..."
+    IDS_CAT_GENERAL         "General"
+    IDS_CAT_VIDEO           "Video"
+    IDS_CAT_AUDIO           "Audio"
+    IDS_MI_GENERAL          "General:\r\n  Name: %s\r\n  Format: %s\r\n  File size: %s\r\n  Duration: %s\r\n\r\n"
+    IDS_MI_AUDIO            "Audio:\r\n  Codec: %s\r\n  Sample rate: %d Hz\r\n  Bit rate: %d Kbps\r\n  Channels: %d\r\n\r\n"
+    IDS_MI_VIDEO            "Video:\r\n  Codec: %s\r\n  Dimension: %dx%d (%s)\r\n  Frame rate: %.03f \r\n  Bit rate: %d Kbps"
+    IDS_COL_VOLUME          "Volume"
+    IDS_COL_TOTAL_SIZE      "Total Size"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_COL_FREE_SPACE      "Free Space"
+    IDS_COL_NAME            "Name"
+    IDS_COL_STATUS          "Status"
+    IDS_SELECT_A_FOLDER     "Please select a new folder:"
+    IDS_MENU_NEXT_PAGE      "Next"
+    IDS_MENU_PRE_PAGE       "Previous"
+    IDS_CONFIRM_BD_MENU_ERROR 
+                            "Failed to create the Movie menu. Would you like to create the movie without the menu?"
+    IDS_PADDING             "Padding..."
+    IDS_AFTER_LAST_VIDEO    "After playing last video"
+    IDS_AFTER_LAST_VIDEO_DES "Select an action after playing over last video."
+    IDS_AFTER_LAST_VIDEO_OPTIONS 
+                            "Replay last video;Back to first video;Back to menu;Back to first menu;"
+    IDS_MENU_NAVIGATION     "Playback"
+    IDS_CLOSESESSION        "Closing Session..."
+    IDS_AFTER_CURRENT_VIDEO "After playing current video"
+    IDS_AFTER_CURRENT_VIDEO_DES 
+                            "Select an action after playing over current video."
+    IDS_AFTER_CURRENT_VIDEO_OPTIONS 
+                            "Replay current video;Play next video;Back to menu;"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_BURNER_DEVICE_NOT_READY "Device not ready."
+END
+
+STRINGTABLE 
+BEGIN
+    ID_MENU_NEXT_PAGE       "\nNext Page"
+    ID_VIDEO_ASPECT         "Select video aspect\nSelect Video Aspect"
+    ID_LOG_ENABLE_LOGGING   "Enable Logging (troubleshooting): Record the tracing to a log file\nEnable Logging"
+    ID_LOG_VIEW_LOG_FILE    "Locate the log file\nView Log File"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_PAGE_INDEX2         "Page %d of %d"
+    IDS_ERASING             "Erasing..."
+    IDS_MENU_TEMPLATES      "Templates"
+    IDS_MENU_TEMPLATES_DES  "Select a menu template"
+    IDS_MENU_BG_IMAGE       "BG image"
+    IDS_MENU_BG_IMAGE_DES   "Select a background image for the menu."
+    IDS_MENU_BG_AUDIO       "BG audio"
+    IDS_MENU_BG_AUDIO_DES   "Select a background audio for the menu."
+    IDS_MENU_GENERAL        "General"
+    IDS_MENU_DURATION       "Duration"
+    IDS_MENU_DURATION_DES   "Specify the duration (seconds) of the menu."
+    IDS_MENU_TITLE          "Title"
+    IDS_MENU_TITLE_FONT     "Font"
+    IDS_MENU_BG_IMAGE_EXT   "Image files (*.jpg;*.png)|*.jpg;*.png||"
+    IDS_MENU_BG_AUDIO_EXT   "Audio files (*.mp3;*.wma;*.wav)|*.mp3;*.wma;*.wav||"
+    IDS_NOTICE_MPG_M_1      "www.SothinkMedia.com"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_LOWDISKSPACE        "The target disc size is %.1fG while the capacity of the disc inserted is only %.1fG. Please insert another disc with enough space and try again."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_NOTICE_MPG_M_2      "Video Tools & Tips. All You Need For Juicy Digital Life."
+    IDS_NOTICE_MPG_DOWN_1   "Sothink Movie DVD Maker"
+    IDS_NOTICE_MPG_DOWN_2   "http://www.sothinkmedia.com"
+    IDS_NOTICE_MPG_UP_1     "This DVD was created with Sothink Movie DVD Maker free\\nversion. To exclude this message in your next DVD,\\nplease upgrade to the professional version."
+    IDS_CREATING_BD_MENU    "Creating Movie Menu"
+    IDS_CREATING_BD_MENU_PROMPT "Creating movie menu, please wait..."
+    IDS_AFTER_LAST_TITLE_OPTIONS 
+                            "Back to top menu;Back to first video;Back to first menu;"
+    IDS_TAB_BD_MENU         "Movie Menu "
+    IDS_CREATE_MENU_DES     "Whether to create menu."
+    IDS_CREATE_MENU         "Create menu"
+    IDS_BD_MENU_OPTIONS     "Yes;No;"
+    IDS_LABEL_SELECT_FOLTER "Please select a folder:"
+    IDS_E_FOLDER_NOT_EXIST1 "Folder %s does not exist."
+    IDS_PROMPT_NO_MATCHED_FILES_IN_FOLDER1 
+                            "No matched files found in folder '%s'."
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_ADDFOLDER       "Add folder\nAdd Folder"
+    ID_FILE_ADDFOLDER32946  "Add folder\nAdd Folder"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\Converter.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#if !defined(_AFXDLL)
+#include "afxprint.rc"               // printing/print preview resources
+#include "afxribbon.rc"              // MFC ribbon and control bar resources
+#endif
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

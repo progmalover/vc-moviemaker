@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="DiscBurner">
+</Property><Property Name="Solution File" Value="E:\workspacekkkk\个人\Movie Maker\DiscBurner\DiscBurner.sln">
+</Property><Property Name="User Options File" Value="E:\workspacekkkk\个人\Movie Maker\DiscBurner\DiscBurner.suo">
+</Property><Property Name="Date" Value="2012年2月18日">
+</Property><Property Name="Time" Value="18:01">
+</Property><Property Name="Log Number" Value="2">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="DiscBurner.sln" Description="File successfully backed up as E:\workspacekkkk\个人\Movie Maker\DiscBurner\DiscBurner.sln.old">
+</Event><Event ErrorLevel="2" Project="" Source="DiscBurner.suo" Description="Error creating backup file: E:\workspacekkkk\个人\Movie Maker\DiscBurner\DiscBurner.suo.old">
+</Event><Event ErrorLevel="0" Project="Converter" Source="Converter.vcproj" Description="Converting project file 'E:\workspacekkkk\个人\Movie Maker\DiscBurner\Converter.vcproj'.">
+</Event><Event ErrorLevel="1" Project="Converter" Source="Converter.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="Converter" Source="Converter.vcproj" Description="Done converting to new project file 'E:\workspacekkkk\个人\Movie Maker\DiscBurner\Converter.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="Converter" Source="Converter.vcproj" Description="Converted">
+</Event><Event ErrorLevel="3" Project="DVDMenu" Source="..\DVDMenu\DVDMenu.vcproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="3" Project="Regexx" Source="..\Regexx\Regexx.vcproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="3" Project="Activation" Source="..\Activation\Activation.vcproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="" Source="DiscBurner.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="DiscBurner.sln" Description="Converted">
+</Event></UpgradeLog>

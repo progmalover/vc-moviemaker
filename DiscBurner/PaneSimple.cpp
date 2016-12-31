@@ -1,0 +1,288 @@
+// ProfilePane.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "Converter.h"
+#include "PaneSimple.h"
+#include "MainFrm.h"
+#include "Burner.h"
+#include "Options.h"
+#include "FileList.h"
+#include "ProfileManager.h"
+
+// CPaneSimple
+
+IMPLEMENT_DYNAMIC(CPaneSimple, CBasePane)
+IMPLEMENT_SINGLETON(CPaneSimple)
+CPaneSimple::CPaneSimple()
+{
+
+}
+
+CPaneSimple::~CPaneSimple()
+{
+}
+
+
+BEGIN_MESSAGE_MAP(CPaneSimple, CBasePane)
+	ON_WM_CREATE()
+	ON_WM_SIZE()
+
+	ON_UPDATE_COMMAND_UI(ID_VIDEO_FRAME_RATE, OnUpdateVideoFrameRate)
+	ON_UPDATE_COMMAND_UI(ID_VIDEO_DIMENSION, OnUpdateVideoDimension)
+	ON_UPDATE_COMMAND_UI(ID_BURNER_LIST, OnUpdateProfile)
+	ON_UPDATE_COMMAND_UI(ID_DISC_TYPE_LIST, OnUpdateProfile)
+	//ON_UPDATE_COMMAND_UI(ID_DISC_LABEL, OnUpdateProfile)
+	ON_UPDATE_COMMAND_UI(ID_VIDEO_DIMENSION, OnUpdateVideoDimension)
+	ON_UPDATE_COMMAND_UI(ID_ZOOM_MODE, OnUpdateZoommode)
+	ON_UPDATE_COMMAND_UI(ID_VIDEO_STANDARD, OnUpdateVideoStandard)
+
+	ON_CBN_SELENDOK(ID_VIDEO_DIMENSION, OnCbnSelchangeVideoDimension)
+	ON_CBN_SELENDOK(ID_BURNER_LIST, OnCbnSelchangeBurnerList)
+	ON_CBN_SELENDOK(ID_DISC_TYPE_LIST, OnCbnSelchangeDiscTypeList)
+	//ON_EN_CHANGE(ID_DISC_LABEL, OnEnchangeDiscLabel)
+	ON_CBN_SELENDOK(ID_ZOOM_MODE, OnCbnSelchangeZoommode)
+	ON_CBN_SELENDOK(ID_VIDEO_FRAME_RATE, OnCbnSelchangeVideoFrameRate)
+	ON_CBN_SELENDOK(ID_VIDEO_STANDARD, OnCbnSelchangeVideoStandard)
+END_MESSAGE_MAP()
+
+
+
+// CPaneSimple message handlers
+
+int CPaneSimple::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CBasePane::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+
+	CRect rc(0, 0, 0, 0);
+
+	if (!m_wndToolBar.Create(this, WS_VISIBLE | WS_CHILD | CBRS_ALIGN_TOP, 1001))
+	{
+		TRACE0("Failed to create simple toolbar\n");
+		return -1;      // fail to create
+	}
+
+	if (!m_wndToolBar.LoadToolBar (IDR_PANE_SIMPLE, 0, 0, TRUE /* Locked */))
+	{
+		TRACE0("Failed to create simple toolbar\n");
+		return -1;      // fail to create
+	}
+
+	m_wndToolBar.SetRouteCommandsViaFrame(FALSE);
+	m_wndToolBar.SetOwner(this);
+	m_wndToolBar.SetCustomizeMode(FALSE);
+
+	m_wndToolBar.m_bInit = TRUE;
+
+	return 0;
+}
+
+void CPaneSimple::OnSize(UINT nType, int cx, int cy)
+{
+	CBasePane::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+
+	RepositionControls();
+}
+
+void CPaneSimple::RepositionControls()
+{
+	if (::IsWindow(m_hWnd))
+	{
+		CRect rcClient;
+		GetClientRect(&rcClient);
+
+		//rcClient.InflateRect(-2, -2, -2, -2);
+
+		m_wndToolBar.SetRedraw(FALSE);
+
+		m_wndToolBar.SetWindowPos(NULL, rcClient.left, rcClient.top, rcClient.right, rcClient.bottom, 
+			SWP_NOACTIVATE | SWP_NOZORDER);
+
+		m_wndToolBar.SetRedraw(TRUE);
+		
+		RedrawWindow(NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE);
+	}
+}
+
+void CPaneSimple::OnUpdateProfile(CCmdUI *pCmd)
+{
+	// TODO: Add your command handler code here
+
+	pCmd->Enable(!CFileList::Instance()->IsConverting());
+}
+
+void CPaneSimple::OnUpdateVideoFrameRate(CCmdUI *pCmd)
+{
+	// TODO: Add your command handler code here
+
+	CMFCPropertyGridProperty *pPropFramerate = GetPropertyGridAdvanced()->FindProperty(CAT_VIDEO, "vframerate");
+	pCmd->Enable(!CFileList::Instance()->IsConverting() && pPropFramerate != NULL);
+}
+
+void CPaneSimple::OnUpdateVideoDimension(CCmdUI *pCmd)
+{
+	// TODO: Add your command handler code here
+
+	CMFCPropertyGridProperty *pPropDimension = GetPropertyGridAdvanced()->FindProperty(CAT_VIDEO, "vdimension");
+	pCmd->Enable(!CFileList::Instance()->IsConverting() && pPropDimension != NULL);
+}
+
+void CPaneSimple::OnUpdateZoommode(CCmdUI *pCmd)
+{
+	CMFCPropertyGridProperty *pPropDimension = GetPropertyGridAdvanced()->FindProperty(CAT_VIDEO, "vzoom");
+	pCmd->Enable(!CFileList::Instance()->IsConverting()&& pPropDimension != NULL);
+}
+
+void CPaneSimple::OnUpdateVideoStandard(CCmdUI *pCmd)
+{
+	CMFCPropertyGridProperty *pPropDimension = GetPropertyGridAdvanced()->FindProperty(CAT_VIDEO, "vstandard");
+	pCmd->Enable(!CFileList::Instance()->IsConverting()&& pPropDimension != NULL);
+}
+
+void CPaneSimple::OnCbnSelchangeBurnerList()
+{
+	CBurner *pBurner = CxBurner::Instance();
+	if (pBurner->IsOpen())
+	{
+		CMFCToolBarComboBoxButton *pCombo = GetBurnerComboBox();
+		if (pCombo->GetCurSel() >= 0)
+		{
+			GetTopLevelFrame()->SetMessageText(IDS_GETTING_DEVICE_INFORMATION);
+			BeginWaitCursor();
+
+			TCHAR *lpszUniqueID = (TCHAR *)pCombo->GetItemData(pCombo->GetCurSel());
+
+			MediaInfo info;
+			if(pBurner->GetMediaInfo(lpszUniqueID,info))
+			{
+				UINT nCap = pBurner->GetDiscCapaticy(info.MediaType);
+				if (nCap != DISC_CAP_UNKNOWN)
+				{
+					CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_DISC_TYPE_LIST));
+					pButton->SelectItem(nCap, TRUE);
+					OnCbnSelchangeDiscTypeList();
+				}
+			}
+
+			EndWaitCursor();
+			GetTopLevelFrame()->SetMessageText(AFX_IDS_IDLEMESSAGE);
+		}
+	}
+}
+
+void CPaneSimple::OnCbnSelchangeDiscTypeList()
+{
+	CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_DISC_TYPE_LIST));
+	LPCTSTR lpszText = pButton->GetText();
+	CSubjectManager::Instance()->GetSubject(SUB_DISC_TYPE_CHANGED)->Notify((void *)lpszText);
+}
+
+//void CPaneSimple::OnEnchangeDiscLabel()
+//{
+//	CMFCToolBarEditBoxButton *pButton = (CMFCToolBarEditBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_DISC_LABEL));
+//	CString strText;
+//	pButton->GetEditBox()->GetWindowText(strText);
+//	CSubjectManager::Instance()->GetSubject(SUB_DISC_LABEL_CHANGED)->Notify((void *)(LPCTSTR)strText);
+//}
+
+void CPaneSimple::OnCbnSelchangeZoommode()
+{
+	CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_ZOOM_MODE));
+	LPCTSTR lpszText = pButton->GetText();
+	CSubjectManager::Instance()->GetSubject(SUB_VIDEO_ZOOM_MODE)->Notify((void *)lpszText);
+}
+
+void CPaneSimple::OnCbnSelchangeVideoFrameRate()
+{
+	CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_VIDEO_FRAME_RATE));
+	LPCTSTR lpszText = pButton->GetText();
+	CSubjectManager::Instance()->GetSubject(SUB_VIDEO_FRAME_RATE_CHANGED)->Notify((void *)lpszText);
+}
+
+
+void CPaneSimple::OnCbnSelchangeVideoStandard()
+{
+	CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_VIDEO_STANDARD));
+	LPCTSTR lpszText = pButton->GetText();
+	CSubjectManager::Instance()->GetSubject(SUB_VIDEO_STANDARD_CHANGED)->Notify((void *)lpszText);
+}
+
+void CPaneSimple::OnCbnSelchangeVideoDimension()
+{
+	CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_VIDEO_DIMENSION));
+	LPCTSTR lpszText = pButton->GetText();
+	CSubjectManager::Instance()->GetSubject(SUB_VIDEO_DIMENSION_CHANGED)->Notify((void *)lpszText);
+}
+
+IMPLEMENT_OBSERVER(CPaneSimple, SUB_PROFILE_CHANGED)
+{
+	//zxy
+	if (::IsWindow(m_hWnd))
+		m_wndToolBar.OnProfileChanged();
+}
+
+IMPLEMENT_OBSERVER(CPaneSimple, SUB_PROPERTY_GRID_CHANGED)
+{
+	CMFCPropertyGridColorProperty *pProp = (CMFCPropertyGridColorProperty *)pData;
+	CProfileParam *pParam = (CProfileParam *)pProp->GetData();
+	if (pParam == NULL)
+		return;
+
+	if (pParam->m_strName.CompareNoCase("vdimension") == 0)
+	{
+		CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_VIDEO_DIMENSION));
+		if (pButton != NULL)
+		{
+			CString strValue = pParam->GetValue();
+			if (!pButton->SelectItem(strValue))
+				pButton->SetText(strValue);
+		}
+		return;
+	}
+
+	if (pParam->m_strName.CompareNoCase("disctype") == 0)
+	{
+		CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_DISC_TYPE_LIST));
+		CString strValue = pParam->GetValue();
+		VERIFY(pButton->SelectItem(strValue));
+		return;
+	}
+
+	if (pParam->m_strName.CompareNoCase("disclabel") == 0)
+	{
+		/*CMFCToolBarEditBoxButton *pButton = (CMFCToolBarEditBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_DISC_LABEL));
+		CString strValue = pParam->GetValue();
+		pButton->SetContents(strValue);*/
+		return;
+	}
+
+	if (pParam->m_strName.CompareNoCase("vzoom") == 0)
+	{
+		CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_ZOOM_MODE));
+		CString strValue = pParam->GetValue();
+		pButton->SetText(strValue);
+		COptions::Instance()->m_strZoommode = strValue;
+		return;
+	}
+
+	if (pParam->m_strName.CompareNoCase("vframerate") == 0)
+	{
+		CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_VIDEO_FRAME_RATE));
+		CString strValue = pParam->GetValue();
+		VERIFY(pButton->SelectItem(strValue));
+		return;
+	}
+
+	if (pParam->m_strName.CompareNoCase("vstandard") == 0)
+	{
+		CMFCToolBarComboBoxButton *pButton = (CMFCToolBarComboBoxButton *)m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_VIDEO_STANDARD));
+		CString strValue = pParam->GetValue();
+		VERIFY(pButton->SelectItem(strValue));
+		return;
+	}
+}

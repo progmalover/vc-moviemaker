@@ -1,0 +1,73 @@
+//
+// Converter.RC2 - resources Microsoft Visual C++ does not edit directly
+//
+
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Add manually edited resources here...
+
+/////////////////////////////////////////////////////////////////////////////
+
+STRINGTABLE 
+BEGIN
+    IDS_FILTER_VIDEO "\
+Video for Windows (*.avi)|*.avi|\
+Windows Media Video (*.wmv;*.asf)|*.wmv;*.asf|\
+Matroska Video (*.mkv)|*.mkv|\
+Sony H.264/AVC Video (*.m2ts;*.m2t;*.mts;*.ts)|*.m2ts;*.m2t;*.mts;*.ts|\
+Real Media Files (*.rm;*.rmvb)|*.rm;*.rmvb|\
+QuickTime Movie (*.mov;*.qt;*.mp4;*.m4v;*.dv;*.3gp;*.3g2)|*.mov;*.qt;*.mp4;*.m4v;*.dv;*.3gp;*.3g2|\
+3GP Video (*.3gp;*.3gp2;*.3g2;*.3gpp)|*.3gp;*.3gp2;*.3g2;*.3gpp|\
+MPEG-1 Video (*.mpg;*.mpe;*.mpeg;*.m1v;*.dat)|*.mpg;*.mpe;*.mpeg;*.m1v;*.dat|\
+MPEG-2 Video (*.mpg;*.mpe;*.mpeg;*.m2v;*.vob)|*.mpg;*.mpe;*.mpeg;*.m2v;*.vob|\
+MPEG-4 Files (*.mp4;*.m4v)|*.mp4;*.m4v|\
+Flash Video (*.flv)|*.flv|\
+Ogg Media Files (*.ogm)|*.ogm|\
+Digital Video (*.dv)|*.dv"
+
+    IDS_FILTER_AUDIO "\
+MP3 Audio (*.mp3)|*.mp3|\
+Windows Media Audio (*.wma)|*.wma|\
+Real Audio (*.ra;*.ram)|*.ra;*.ram|\
+MPEG Audio (*.mpa)|*.mpa|\
+MPEG-2 Audio (*.mp2)|*.mp2|\
+MPEG-4 Audio (*.m4a;*.mp4)|*.m4a;*.mp4|\
+AAC Audio (*.aac;*.m4a;*.m4b)|*.aac;*.m4a;*.m4b|\
+AC3 Audio (*.ac3)|*.ac3|\
+WAVE Files (*.wav)|*.wav|\
+CD Audio (*.cda)|*.cda|\
+Ogg Audio (*.ogg)|*.ogg"
+
+	IDS_FILTER_ALL_SUPPORTED	"All Supported Formats (*.*)"
+	IDS_FILTER_ALL_FILES        "All Files (*.*)"
+END
+
+#ifdef _BD
+
+STRINGTABLE 
+BEGIN
+	AFX_IDS_APP_TITLE       	"Sothink HD Movie Maker"
+	IDR_MAINFRAME           	"Sothink HD Movie Maker"
+    ID_FILE_CONVERT         	"Start burning\nBurn"
+	IDS_MANUALLY_BURN_PROMPT    "A folder for the blu-ray disc structure has been created successfully. Please click ""OK"" to open the folder and burn all the files in that folder to disc using your favorite burning software now.\r\n\r\nPlease make sure UDF 2.5 or UDF 2.6 file system is selected while burning the disc."
+	IDS_CREATE_DISC_STRUCTURE_ERROR "Failed to create the blu-ray disc structure."
+	IDS_HELP_URL                "http://www.sothinkmedia.com/hd-movie-maker/help/"
+END
+
+#elif defined _DVD
+
+STRINGTABLE 
+BEGIN
+	AFX_IDS_APP_TITLE       	"Sothink Movie DVD Maker"
+	IDR_MAINFRAME           	"Sothink Movie DVD Maker"
+    ID_FILE_CONVERT         	"Start burning\nBurn"
+	IDS_MANUALLY_BURN_PROMPT    "A folder for the DVD structure has been created successfully. Please click ""OK"" to open the folder and burn all the files in that folder to disc using your favorite burning software now.\r\n\r\nPlease make sure ISO9660 + UDF 1.02 file system is selected while burning the disc."
+	IDS_CREATE_DISC_STRUCTURE_ERROR "Failed to create the DVD structure."
+	IDS_HELP_URL                "http://www.sothinkmedia.com/movie-dvd-maker/help/"
+END
+
+#endif

@@ -1,0 +1,23 @@
+#pragma once
+
+
+// CMFCCaptionBarEx
+
+class CMFCCaptionBarEx : public CMFCCaptionBar
+{
+	DECLARE_DYNAMIC(CMFCCaptionBarEx)
+
+public:
+	CMFCCaptionBarEx();
+	virtual ~CMFCCaptionBarEx();
+
+protected:
+	DECLARE_MESSAGE_MAP()
+
+	virtual void OnDrawText(CDC* pDC, CRect rect, const CString& strText);
+public:
+	afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+};
+
+

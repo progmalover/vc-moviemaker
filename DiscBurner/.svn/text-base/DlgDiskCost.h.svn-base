@@ -1,0 +1,27 @@
+#pragma once
+#include "afxcmn.h"
+
+
+// CDlgDiskCost dialog
+
+class CDlgDiskCost : public CDialog
+{
+	DECLARE_DYNAMIC(CDlgDiskCost)
+
+public:
+	CDlgDiskCost(CWnd* pParent = NULL);   // standard constructor
+	virtual ~CDlgDiskCost();
+
+// Dialog Data
+	enum { IDD = IDD_DISK_COST };
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+	CListCtrl m_list;
+	CImageList m_imgDisk;
+
+	DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL OnInitDialog();
+};

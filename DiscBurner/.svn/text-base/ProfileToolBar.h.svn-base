@@ -1,0 +1,25 @@
+#pragma once
+
+#include "MFCToolBarEx.h"
+#include "Subjects.h"
+
+// CProfileToolBar
+
+class CProfileToolBar : public CMFCToolBarEx
+{
+	DECLARE_DYNAMIC(CProfileToolBar)
+
+public:
+	CProfileToolBar();
+	virtual ~CProfileToolBar();
+	BOOL m_bInit;
+
+protected:
+	DECLARE_MESSAGE_MAP()
+
+	virtual CSize CalcSize(BOOL bVertDock);
+	virtual void OnReset();
+	virtual BOOL LoadState(LPCTSTR lpszProfileName=NULL, int nIndex=-1, UINT uiID=(UINT)-1);
+	virtual void AdjustLocations();
+	virtual BOOL AllowShowOnList() const {return FALSE;}
+};

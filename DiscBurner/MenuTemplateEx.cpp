@@ -1,0 +1,774 @@
+#include "StdAfx.h"
+#include "MenuTemplateEx.h"
+#include "MenuPage.h"
+#include "resource.h"
+#include "Profile.h"
+#include "ProfileManager.h"
+#include "MenuList.h"
+#include "Graphics.h"
+
+#ifdef _MENU_TEMPLATE_VIEW
+int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
+{
+	UINT  num = 0;          // number of image encoders
+	UINT  size = 0;         // size of the image encoder array in bytes
+
+	ImageCodecInfo* pImageCodecInfo = NULL;
+
+	GetImageEncodersSize(&num, &size);
+	if(size == 0)
+		return -1;  // Failure
+
+	pImageCodecInfo = (ImageCodecInfo*)(malloc(size));
+	if(pImageCodecInfo == NULL)
+		return -1;  // Failure
+
+	GetImageEncoders(num, size, pImageCodecInfo);
+
+	for(UINT j = 0; j < num; ++j)
+	{
+		if( wcscmp(pImageCodecInfo[j].MimeType, format) == 0 )
+		{
+			*pClsid = pImageCodecInfo[j].Clsid;
+			free(pImageCodecInfo);
+			return j;  // Success
+		}    
+	}
+
+	free(pImageCodecInfo);
+	return -1;  // Failure
+}
+
+BOOL SaveImage(Bitmap *pMask,CString strName)
+{
+	USES_CONVERSION;
+	CLSID pngClsid;
+	GetEncoderClsid(L"image/png", &pngClsid);
+	if(pMask->Save(A2W(strName), &pngClsid, NULL) != Ok)
+	{
+		printf("Error: failed to save  image\r\n",strName);
+		return FALSE;
+	}
+	return TRUE;
+}
+
+void    DrawBitmapEx(HDC hDC, int xDC, int yDC, int cx, int cy, HBITMAP hBitmap, int xBmp, int yBmp,int cxBmp, int cyBmp)
+{
+	HDC hMemDC = ::CreateCompatibleDC(hDC);
+	HBITMAP hOldBitmap = (HBITMAP)::SelectObject(hMemDC, hBitmap);
+	if(cx == cxBmp && cy==cyBmp)
+		::BitBlt(hDC, xDC, yDC, cx, cy, hMemDC, xBmp, yBmp, SRCCOPY);
+	else
+	{
+		int nMode = ::SetStretchBltMode(hDC,STRETCH_HALFTONE);
+		::StretchBlt(hDC, xDC, yDC, cx, cy, hMemDC, xBmp, yBmp, cxBmp,cyBmp,SRCCOPY);
+		::SetStretchBltMode(hDC,nMode);
+	}
+	::SelectObject(hMemDC, hOldBitmap);
+	::DeleteDC(hMemDC);
+}
+
+HBITMAP CreateSection(HDC MemDC,UINT bits,int bmWidth,int bmHeight,DWORD &bufLen,LPBYTE **lpBits)
+{
+	BITMAPINFO	bmpInf ;
+	UINT		wLineLen ;
+	wLineLen = ALIGN(bmWidth*(bits/8),4);
+	bufLen =  wLineLen*bmHeight;
+	bmpInf.bmiHeader.biSize = sizeof(BITMAPINFOHEADER) ;
+	bmpInf.bmiHeader.biWidth = bmWidth ;
+	bmpInf.bmiHeader.biHeight =  -bmHeight ; //需要注意的地方
+	bmpInf.bmiHeader.biPlanes = 1 ;
+	bmpInf.bmiHeader.biBitCount = bits ;
+	bmpInf.bmiHeader.biCompression = BI_RGB ;
+	bmpInf.bmiHeader.biSizeImage = bufLen ;
+	bmpInf.bmiHeader.biXPelsPerMeter = 0 ;
+	bmpInf.bmiHeader.biYPelsPerMeter = 0 ;
+	bmpInf.bmiHeader.biClrUsed =0; //(bits <= 8) ? 1<<bits : 0;
+	bmpInf.bmiHeader.biClrImportant = 0 ;
+
+	// If the value of iUsage is DIB_PAL_COLORS, the function uses this device context's logical palette to initialize the DIB colors. 
+	HBITMAP DibBitmap = CreateDIBSection(MemDC,&bmpInf,DIB_RGB_COLORS,(void **)lpBits,NULL,0);	
+	ASSERT(DibBitmap!=NULL);
+	return DibBitmap;
+}
+
+void GrayImageBuffer(BYTE *pBits,DWORD dwLen,int nW,int nH,int nBits,int nGray)
+{
+	if(nBits<24)
+	{
+		TRACE("GrayImageBuffer() not support image nBits<24!!!!\n");
+		return ;
+	}
+	int nLine = ALIGN(nW*(nBits/8),4);
+	ASSERT(dwLen == nLine*nH);
+	BYTE *lpLine = pBits,*bC=NULL;
+	if(nBits == 24)
+	{
+		int nL = nW*nBits/8;
+		for(int i=0;i<nH;i++)
+		{
+			for(int j=0;j<nL;j++)
+			{
+				bC = lpLine+j;  
+				*bC = (*bC)*nGray/100;
+			}
+			lpLine += nLine;
+		}
+	}
+	else
+	{
+		int nL = nW;
+		for(int i=0;i<nH;i++)
+		{
+			for(int j=0;j<nL;j++)
+			{
+				BYTE *pRGB = lpLine+4*j;
+				for(int j=0;j<3;j++)
+				{
+					bC = pRGB+j;  
+					*bC = (*bC)*nGray/100;
+				}
+			}
+			lpLine += nLine;
+		}
+	}
+}
+
+HBITMAP GrayBimap(HBITMAP hBitmap,int nGray/*[0,100]*/,int xDC, int yDC, int cx, int cy)
+{
+	BITMAP bmp;
+	::GetObject(hBitmap,sizeof(BITMAP),&bmp);
+	if(cx==-1 || cy == -1)
+	{
+		cx = bmp.bmWidth;
+		cy = bmp.bmHeight;
+	}
+	HDC hDC = GetDC(NULL);
+	HDC hMemDC = ::CreateCompatibleDC(hDC);
+	HBITMAP hOldBitmap = (HBITMAP)::SelectObject(hMemDC, hBitmap);
+
+	DWORD  len;
+	LPBYTE *lpBits=NULL;
+	HDC hMemDCGray = ::CreateCompatibleDC(hDC);
+	HBITMAP hBitmapGray = CreateSection(hDC,bmp.bmBitsPixel,cx,cy,len,&lpBits);
+	HBITMAP hOldBitmap2 = (HBITMAP)::SelectObject(hMemDCGray, hBitmapGray);
+	BOOL bRe = ::BitBlt(hMemDCGray, 0, 0, cx, cy, hMemDC, xDC, yDC,SRCCOPY);
+	::SelectObject(hMemDCGray, hOldBitmap2);
+	::DeleteDC(hMemDCGray);
+
+	::SelectObject(hMemDC, hOldBitmap);
+	::DeleteDC(hMemDC);
+
+	::ReleaseDC(NULL,hDC);
+	GrayImageBuffer((byte *)lpBits,len,cx, cy,bmp.bmBitsPixel,nGray);
+	return hBitmapGray;
+}
+
+HBITMAP CopyFromMemDC(HDC memDC,const CRect &rcSou,const CSize &szDst)
+{
+	HDC hDC = ::GetDC(NULL);
+	HDC temHDC=::CreateCompatibleDC(hDC);
+	HBITMAP outBmp =(HBITMAP)::CreateCompatibleBitmap(hDC, szDst.cx,szDst.cy);
+	HBITMAP pOldMemBmp =(HBITMAP)SelectObject(temHDC,outBmp);
+	if(rcSou.Width() == szDst.cx && rcSou.Height() == szDst.cy)
+		::BitBlt(temHDC,0,0,szDst.cx,szDst.cy,memDC,rcSou.left,rcSou.top,SRCCOPY);
+	else
+	{
+		::SetStretchBltMode(temHDC,COLORONCOLOR);
+		::StretchBlt(temHDC,0,0,szDst.cx,szDst.cy,memDC,rcSou.left,rcSou.top,rcSou.Width(),rcSou.Height(),SRCCOPY);
+
+	}
+	::SelectObject(temHDC,pOldMemBmp);
+	::DeleteDC(temHDC);
+	::ReleaseDC(NULL, hDC);
+	return  outBmp;
+}
+
+HBITMAP LoadBitmap(CString strPath)
+{
+	CImage img;
+	HRESULT hr = img.Load(strPath);
+	if (SUCCEEDED(hr))
+		return img.Detach();
+	return NULL;
+}
+
+#define LoadImageEx(b,s)\
+	hb = LoadBitmap(s);\
+	if(hb==NULL)return FALSE;\
+	if(b.GetSafeHandle()!=NULL)b.DeleteObject();\
+	b.Attach(hb)
+
+#define DeleteObjectEx(b) \
+	if(b.GetSafeHandle()!=NULL)\
+	     b.DeleteObject()
+
+#define SafeDelete(b) \
+	if(b!=NULL){delete b;b=NULL;}
+
+IMPLEMENT_SINGLETON(CMenuTemplateEx)
+CMenuTemplateEx::CMenuTemplateEx(void):
+m_pTemplate(NULL),
+m_nAspectX(0),
+m_nAspectY(0),
+m_bmpVideo(NULL),m_bmpVideo2(NULL),
+m_bmpPre(NULL),m_bmpPre2(NULL),
+m_bmpNext(NULL),m_bmpNext2(NULL)
+{
+	m_bmpBG2.LoadBitmap(IDB_VIDEO_PREVIEW);
+}
+
+CMenuTemplateEx::~CMenuTemplateEx(void)
+{
+	SafeDelete(m_bmpVideo);
+	SafeDelete(m_bmpVideo2);
+	SafeDelete(m_bmpPre);
+	SafeDelete(m_bmpPre2);
+	SafeDelete(m_bmpNext);
+	SafeDelete(m_bmpNext2);
+}
+
+BOOL CMenuTemplateEx::OnPropChange(MENU_PROP_DATA mID)
+{
+	switch (mID)
+	{
+	case MENU_PROP_TEMPLATES:
+		{
+			CMenuTemplate *pTemplate = CMenuTemplateManager::Instance()->GetCurrentTemplate();
+			Attach(pTemplate);
+		}
+		break;
+	case MENU_PROP_BACKGROUND_IMAGE:
+		{
+			if(m_pTemplate!=NULL)
+			{
+				HBITMAP hb = NULL;
+				LoadImageEx(m_bmpBG,m_pTemplate->m_strBackgroundImageNew);
+			}
+		}
+		break;
+	case MENU_PROP_TITLE_TEXT:
+		{
+			if(m_pTemplate!=NULL)
+			{
+				BOOL bRe = LoadTitleFont();
+				ASSERT(bRe);
+			}
+		}
+		break;
+	case MENU_PROP_BUTTON_FONT:
+		{
+			if(m_pTemplate!=NULL)
+			{
+				BOOL bRe = LoadButtonFont();
+				ASSERT(bRe);
+			}
+		}
+		break;
+	default:
+		{
+			if(m_pTemplate!=NULL)
+			{
+				TRACE("Menu tempalte change!\n");
+			}
+		}
+	}
+	return TRUE;
+
+}
+
+BOOL  CMenuTemplateEx::LoadTitleFont()
+{	
+	m_clrTitleTxt = AVSToRGB(m_pTemplate->m_strTitleTextColorNew);
+	DeleteObjectEx(m_ftTitleTxt);
+	LOGFONT lf;
+	memset(&lf, 0, sizeof(LOGFONT));
+	lf.lfHeight = atoi(m_pTemplate->m_strTitleFontSizeNew);
+	strcpy(lf.lfFaceName, m_pTemplate->m_strTitleFontNew); 
+	return m_ftTitleTxt.CreateFontIndirect(&lf);
+}
+
+BOOL  CMenuTemplateEx::LoadButtonFont()
+{	
+	m_clrBtnTxt = AVSToRGB(m_pTemplate->m_strButtonTextColorNew);
+	DeleteObjectEx(m_ftBtnTxt);
+	LOGFONT lf;
+	memset(&lf, 0, sizeof(LOGFONT));
+	lf.lfHeight = atoi(m_pTemplate->m_strButtonFontSizeNew);
+	strcpy(lf.lfFaceName, m_pTemplate->m_strButtonFontNew); 
+	return m_ftBtnTxt.CreateFontIndirect(&lf);
+}
+
+
+void CMenuTemplateEx::Attach(CMenuTemplate *pTemplate)
+{
+	m_pTemplate = pTemplate;
+	if(m_pTemplate->m_bTemplate)
+	{
+		BOOL bRe = LoadImage();
+		ASSERT(bRe);
+		bRe = LoadTitleFont();
+		ASSERT(bRe);
+		bRe = LoadButtonFont();
+		ASSERT(bRe);
+	}
+};
+
+int  CMenuTemplateEx::GetButtons()
+{
+	ASSERT(m_pTemplate!=NULL);
+	return m_pTemplate->m_listButtons.size()-2;
+}
+
+#ifdef _BD
+Bitmap  *CMenuTemplateEx::LoadFirstBlock(CString strFormat,BUTTON &btn)
+{
+	Bitmap *bmpPNG = NULL;
+	Bitmap *firstBlock = NULL;
+	CString strImage;
+	strImage.Format(strFormat,btn.nSID);
+
+	USES_CONVERSION;
+	bmpPNG = Bitmap::FromFile(A2W(strImage));
+	if (bmpPNG->GetLastStatus() != Ok)
+	{
+		delete bmpPNG;
+		return NULL;
+	}
+	int nBlockWidth = btn.rc[2].Width();
+	int nBlockHeight = btn.rc[2].Height();
+	ASSERT(bmpPNG->GetWidth()%nBlockWidth == 0 && bmpPNG->GetHeight()%nBlockHeight == 0);
+    firstBlock = bmpPNG->Clone(0,0,nBlockWidth,nBlockHeight,bmpPNG->GetPixelFormat());
+	delete bmpPNG;
+	return firstBlock;
+}
+#endif
+
+#define LoadImage2(b,s)\
+	if(b!=NULL)delete b;\
+	b = Bitmap::FromFile(s);\
+	if(b==NULL)return FALSE
+
+#define VIDEO_BTN_INDEX   0
+#define NEXT_BTN_INDEX    1
+#define PREV_BTN_INDEX    2
+
+static CString  g_strHeightBTNs[]=
+{
+#ifdef _DVD
+	"\\video.wmf",   "\\next.wmf",   "\\prev.wmf"
+#else
+	"\\video-%d.png","\\next-%d.png","\\prev-%d.png"
+#endif
+};
+
+BOOL CMenuTemplateEx::LoadImage()
+{
+	ASSERT(m_pTemplate!=NULL);
+	if(m_pTemplate->m_bTemplate)
+	{
+		CString strTemplates;
+		strTemplates.Format("%s\\Templates\\", ::GetModuleFilePath());
+		strTemplates += m_pTemplate->m_strName;
+        strTemplates.Trim();
+
+		USES_CONVERSION;
+		HBITMAP hb;
+		LoadImageEx(m_bmpBG,m_pTemplate->m_strBackgroundImageNew);
+		LoadImage2(m_bmpVideo,A2W(strTemplates+"\\video.png"));
+		LoadImage2(m_bmpPre,  A2W(strTemplates+"\\prev.png"));
+		LoadImage2(m_bmpNext, A2W(strTemplates+"\\next.png"));
+
+#ifdef _DVD
+		LoadImage2(m_bmpVideo2,A2W(strTemplates+g_strHeightBTNs[VIDEO_BTN_INDEX]));
+		LoadImage2(m_bmpPre2,  A2W(strTemplates+g_strHeightBTNs[PREV_BTN_INDEX]));
+		LoadImage2(m_bmpNext2, A2W(strTemplates+g_strHeightBTNs[NEXT_BTN_INDEX]));
+#else
+		int nBTNs = m_pTemplate->m_listButtons.size();
+		
+		if(m_bmpVideo2!=NULL)delete m_bmpVideo2;
+		m_bmpVideo2=LoadFirstBlock(strTemplates+g_strHeightBTNs[VIDEO_BTN_INDEX],m_pTemplate->m_listButtons[0]);
+		if(m_bmpVideo2==NULL)return FALSE;
+
+		if(m_bmpPre2!=NULL)delete m_bmpPre2;
+		m_bmpPre2=LoadFirstBlock(strTemplates+g_strHeightBTNs[PREV_BTN_INDEX], m_pTemplate->m_listButtons[nBTNs-PREV_BTN_INDEX]);
+		if(m_bmpPre2==NULL)return FALSE;
+
+		if(m_bmpNext2!=NULL)delete m_bmpNext2;
+		m_bmpNext2=LoadFirstBlock(strTemplates+g_strHeightBTNs[NEXT_BTN_INDEX], m_pTemplate->m_listButtons[nBTNs-NEXT_BTN_INDEX]);
+        if(m_bmpNext2==NULL)return FALSE;
+#endif
+		return TRUE;
+	}
+	return FALSE;
+};
+
+void CMenuTemplateEx::OnVStandardChange(LPCTSTR lpszText)
+{
+	CString VStandard = lpszText;
+	m_nAspectX = 720;
+	m_nAspectY = VStandard.CompareNoCase("NTSC")==0?480:576;
+}
+
+void CMenuTemplateEx::OnAspectChange(LPCTSTR lpszText)
+{
+	CString strAspect = lpszText;
+#ifdef _DVD
+	m_nAspectX = 720;
+#else
+	m_nAspectX = 1920;
+#endif
+	int x = 0,y = 0;
+	sscanf(lpszText,"%d:%d",&x,&y);
+	ASSERT(y!=0);
+	m_nAspectY = m_nAspectX*y/x;
+}
+
+
+float CMenuTemplateEx::ZoomRatio(CRect rcClient,int nAspectX,int nAspectY)
+{
+	int nWidth =0,nHeight =0;
+	//zxy zoom
+	if(nAspectX <= 0)
+		nAspectX = 720;
+	if(nAspectY <= 0)
+		nAspectY = 480;
+
+	nHeight = rcClient.Width()*nAspectY/nAspectX;
+	if(nHeight<rcClient.Height())
+		nWidth = rcClient.Width();
+	else
+	{
+		nHeight = rcClient.Height();
+		nWidth = nHeight*nAspectX/nAspectY;
+	}
+
+	m_rcMenu.SetRect(rcClient.left+(rcClient.Width()-nWidth)/2,rcClient.top+(rcClient.Height()-nHeight)/2,
+		             rcClient.right-(rcClient.Width()-nWidth)/2,rcClient.bottom-(rcClient.Height()-nHeight)/2);
+	m_ScaleX = (float)nWidth/nAspectX;
+#ifdef _DVD
+    m_ScaleY = (float)nHeight*m_nAspectY/(nAspectY*480);
+#else
+    m_ScaleY = (float)nHeight*m_nAspectY/(nAspectY*1080);
+#endif
+	return (m_ScaleX+m_ScaleY)/2;
+}
+
+BOOL  CMenuTemplateEx::DrawTitle(CDC *pDC,CRect rcClient)
+{
+    /*
+	CFont font;
+	LOGFONT lf;
+	memset(&lf, 0, sizeof(LOGFONT));
+	lf.lfHeight = atoi(m_pTemplate->m_strTitleFontSizeNew)*m_ScaleY;
+	strcpy(lf.lfFaceName, m_pTemplate->m_strTitleFontNew); 
+	if(!font.CreateFontIndirect(&lf))
+		return FALSE;
+	*/
+
+	CHARSETINFO cs;
+	memset(&cs, 0, sizeof(cs));
+	VERIFY(TranslateCharsetInfo((DWORD *)GetACP(), &cs, TCI_SRCCODEPAGE));
+
+	CFont font;
+	int nSize = atoi(m_pTemplate->m_strTitleFontSizeNew) * m_ScaleY;
+	if (!font.CreateFont(nSize, 0, 0, 0, 
+		FW_NORMAL, 0, 0, 
+		0, cs.ciCharset, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, 
+		DEFAULT_QUALITY, FF_DONTCARE | DEFAULT_PITCH, m_pTemplate->m_strTitleFontNew))
+		return FALSE;
+
+	CFont *fOld = pDC->SelectObject(&font);
+	COLORREF clrOld = pDC->SetTextColor(AVSToRGB(m_pTemplate->m_strTitleTextColorNew));
+	int x = atoi(m_pTemplate->m_strTitleX)*m_ScaleX+m_rcMenu.left,
+		y = atoi(m_pTemplate->m_strTitleY)*m_ScaleY+m_rcMenu.top;
+	CString strTitle = m_pTemplate->m_strTitleTextNew;
+
+	int nOldBkMode  = pDC->SetBkMode(TRANSPARENT);
+	pDC->TextOut(x,y,strTitle);
+	pDC->SetBkMode(nOldBkMode);
+
+	pDC->SelectObject(fOld);
+	pDC->SetTextColor(clrOld);
+	return TRUE;
+}
+
+BOOL CMenuTemplateEx::DrawBG(CDC *pDC,CRect rcClient)
+{
+    ZoomRatio(rcClient,m_nAspectX,m_nAspectY);
+	if(m_pTemplate!=NULL && m_pTemplate->m_bTemplate)
+	{
+		//draw Template BG---m_bmpBG,title
+		if(m_bmpBG.GetSafeHandle()!=NULL)
+		{
+			BITMAP bmp;
+			m_bmpBG.GetObject(sizeof(bmp),&bmp);
+            DrawBitmapEx(pDC->m_hDC,m_rcMenu.left,m_rcMenu.top,m_rcMenu.Width(),m_rcMenu.Height(),
+				(HBITMAP)m_bmpBG.GetSafeHandle(),0,0,bmp.bmWidth,bmp.bmHeight);
+            DrawTitle(pDC,rcClient);
+           
+		}
+	}
+	else
+	{
+		//draw no menu---m_bmpBG2
+		if(m_bmpBG2.GetSafeHandle()!=NULL)
+		{
+			//不要放大或压缩图片
+			BITMAP bmp;
+			m_bmpBG2.GetObject(sizeof(bmp),&bmp);
+			int l = (rcClient.Width()-bmp.bmWidth)/2,
+				t = (rcClient.Height()-bmp.bmHeight)/2;
+			DrawBitmapEx(pDC->m_hDC,l,t,bmp.bmWidth,bmp.bmHeight,
+				(HBITMAP)m_bmpBG2.GetSafeHandle(),0,0,bmp.bmWidth,bmp.bmHeight);
+		}
+	}
+	return FALSE;
+}
+
+BOOL CMenuTemplateEx::DrawPageIndex(CDC *pDC)
+{
+	CRect rcClient = m_rcMenu,
+		  rcPre = GetItemRect(GetButtons() + abs(PAGE_BTN_PRE)-1),
+		  rcNext = GetItemRect(GetButtons() + abs(PAGE_BTN_NEXT)-1);
+	int nPages = CMenuList::Instance()->GetPages(),
+		nCurPage = CMenuList::Instance()->GetCurentPageIndex();
+	ASSERT(nPages>0 && nCurPage>0);
+
+	CString strIndex;
+	strIndex.Format(IDS_PAGE_INDEX2,nCurPage,nPages);
+	CRect rcText(rcPre.right,rcPre.top,rcNext.left,rcNext.bottom);
+
+    /*CFont font;
+	LOGFONT lf;
+	memset(&lf, 0, sizeof(LOGFONT));
+	lf.lfHeight = atoi(m_pTemplate->m_strTitleFontSizeNew)*m_ScaleY;
+	strcpy(lf.lfFaceName, m_pTemplate->m_strTitleFontNew); 
+	if(!font.CreateFontIndirect(&lf))
+		return FALSE;*/
+	CHARSETINFO cs;
+	memset(&cs, 0, sizeof(cs));
+	VERIFY(TranslateCharsetInfo((DWORD *)GetACP(), &cs, TCI_SRCCODEPAGE));
+
+	CFont font;
+	int nSize = atoi(m_pTemplate->m_strTitleFontSizeNew)*m_ScaleY;
+	if (!font.CreateFont(nSize, 0, 0, 0, FW_NORMAL, 0, 0, 
+		0, cs.ciCharset, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, 
+		DEFAULT_QUALITY, FF_DONTCARE | DEFAULT_PITCH, m_pTemplate->m_strTitleFontNew))
+		return FALSE;
+
+	CFont *fOld = pDC->SelectObject(&font);
+	COLORREF clrOld = pDC->SetTextColor(AVSToRGB(m_pTemplate->m_strTitleTextColorNew));
+	int x = atoi(m_pTemplate->m_strTitleX)*m_ScaleX+m_rcMenu.left,
+		y = atoi(m_pTemplate->m_strTitleY)*m_ScaleY+m_rcMenu.top;
+	CString strTitle = m_pTemplate->m_strTitleTextNew;
+
+	int nOldBkMode  = pDC->SetBkMode(TRANSPARENT);
+	pDC->DrawText(strIndex,&rcText,DT_CENTER|DT_SINGLELINE|DT_VCENTER);
+	pDC->SetBkMode(nOldBkMode);
+
+	pDC->SelectObject(fOld);
+	pDC->SetTextColor(clrOld);
+
+	return TRUE;
+}
+
+CRect  CMenuTemplateEx::GetItemRect(int nIndex,BTN_RECT btnIndex)
+{
+	ASSERT(nIndex>=0);
+	CRect rcButton2 = m_pTemplate->m_listButtons[nIndex].rc[btnIndex];
+	rcButton2.left = rcButton2.left*m_ScaleX;
+	rcButton2.top = rcButton2.top*m_ScaleY;
+	rcButton2.right = rcButton2.right*m_ScaleX;
+	rcButton2.bottom = rcButton2.bottom*m_ScaleY;
+	rcButton2.OffsetRect(m_rcMenu.left,m_rcMenu.top);
+	return rcButton2;
+}
+
+//图像先缩小，然后再做透明处理
+Bitmap *CMenuTemplateEx::DrawMask(int nIndex,HBITMAP hbBG,CRect rcBG)
+{
+	CRect rcVideo = GetItemRect(nIndex,VIDEO),rcMenu = GetItemRect(nIndex,MENU);
+	Bitmap *pMask  = Bitmap::FromHBITMAP(hbBG,FALSE);
+	Graphics g(pMask);
+	g.SetSmoothingMode(SmoothingModeNone);
+	g.DrawImage(m_bmpVideo, rcMenu.left-rcBG.left,rcMenu.top-rcBG.top,rcMenu.Width(),rcMenu.Height());
+    return pMask;
+}
+
+//按照原始图像大小透明处理，然后再缩小
+Bitmap *CMenuTemplateEx::DrawMask2(int nIndex,HBITMAP hbBG,CRect rcBG)
+{
+	CRect rcMenu = GetItemRect(nIndex,MENU);
+	int nWidth = (float)rcBG.Width()/m_ScaleX+0.5;
+	int nHeight = (float)rcBG.Height()/m_ScaleY+0.5;
+
+	Bitmap *pMask  = new Bitmap(nWidth,nHeight,m_bmpVideo->GetPixelFormat());
+	Bitmap *BG  = Bitmap::FromHBITMAP(hbBG,FALSE);
+	Graphics g(pMask);
+	g.SetSmoothingMode(SmoothingModeNone);
+	g.DrawImage(BG,0,0,nWidth,nHeight);
+	g.DrawImage(m_bmpVideo, (float)(rcMenu.left-rcBG.left)/m_ScaleX,(float)(rcMenu.top-rcBG.top)/m_ScaleY,m_bmpVideo->GetWidth(),m_bmpVideo->GetHeight());
+	//SaveImage(pMask,"c:\\test.png");
+	delete BG;
+	return pMask;
+}
+
+BOOL  CMenuTemplateEx::DrawButton(CDC *pDC,int nIndex,BOOL bHover,BOOL bFocus,HBITMAP hbBG,CRect rcBG)
+{
+	CRect rcVideo = GetItemRect(nIndex,VIDEO),rcMenu = GetItemRect(nIndex,MENU);
+	Status  s = GenericError;
+	Bitmap *pMask = DrawMask2(nIndex, hbBG, rcBG);
+#ifdef _DEBUG
+	SaveImage(pMask,"d:\\btn_n.png");
+#endif
+	Graphics gra(pDC->m_hDC);
+	ImageAttributes imAtt;
+	gra.SetSmoothingMode(SmoothingModeHighQuality);
+ 	imAtt.SetColorKey(Color(0, 0, 0),Color(5, 5, 5),ColorAdjustTypeBitmap);
+ 	s = gra.DrawImage(pMask, Rect(rcBG.left,rcBG.top,rcBG.Width(),rcBG.Height()),
+ 		0,0,pMask->GetWidth(),pMask->GetHeight(),UnitPixel,&imAtt);
+	//s = gra.DrawImage(pMask, Rect(rcBG.left,rcBG.top,rcBG.Width(),rcBG.Height()));
+	ASSERT(s == Ok);
+	if(s!=Ok)goto _clean;
+
+	if(bFocus|| bHover)
+	{
+		rcMenu = GetItemRect(nIndex,MENU_H);
+		s = gra.DrawImage(m_bmpVideo2, rcMenu.left,rcMenu.top,rcMenu.Width(),rcMenu.Height());
+		ASSERT(s == Ok);
+	}
+_clean:
+	delete pMask;
+	return s == Ok;
+}
+
+//这个地方的代码以后需要修改，应该按照Template原始大小720 x 480绘制完成后，再绘制到界面上去
+BOOL CMenuTemplateEx::DrawTaskBtn(CDC *pDC,int nIndex,CTask *pTask,BOOL bHover,BOOL bFocus)
+{
+	ASSERT(EnableMenu());
+    ASSERT(nIndex>=0 && nIndex<GetButtons());
+
+	CRect rcVideo = GetItemRect(nIndex,VIDEO),
+		   rcMenu = GetItemRect(nIndex,MENU),
+		  rcBG;
+	rcBG.UnionRect(&rcVideo,&rcMenu);
+	rcBG.right  += 2;
+	rcBG.bottom += 2;
+    HBITMAP hbBG = CopyFromMemDC(pDC->m_hDC,rcBG,CSize(rcBG.Width(),rcBG.Height()));
+    //画视频缩略图
+	CBitmap *pBitmap = NULL;
+	BITMAP bmp;
+	if (pTask->m_bmpNonBlankFrame.GetSafeHandle() != NULL)
+		pBitmap = &pTask->m_bmpNonBlankFrame;
+	else
+		pBitmap = &CTask::m_bmpAudio;
+	pBitmap->GetObject(sizeof(bmp),&bmp);
+	DrawBitmapEx(pDC->m_hDC,rcVideo.left,rcVideo.top,rcVideo.Width(),rcVideo.Height(),
+		(HBITMAP)pBitmap->GetSafeHandle(),0,0,bmp.bmWidth,bmp.bmHeight);
+
+	//画按钮边框图片----GDI+
+	DrawButton(pDC, nIndex,bHover,bFocus,hbBG,rcBG);
+	DeleteObject(hbBG);
+
+	//画视频文字
+	if(pTask->m_strButtonText.GetLength()>0)
+	{
+		CRect rcTitle = GetItemRect(nIndex,VIDEO_T);
+		/*CFont font;
+		LOGFONT lf;
+		memset(&lf, 0, sizeof(LOGFONT));
+		lf.lfHeight = atoi(m_pTemplate->m_strButtonFontSizeNew)*m_ScaleY;
+		strcpy(lf.lfFaceName, m_pTemplate->m_strButtonFontNew); 
+		if(!font.CreateFontIndirect(&lf))
+			return FALSE;*/
+
+		CHARSETINFO cs;
+		memset(&cs, 0, sizeof(cs));
+		VERIFY(TranslateCharsetInfo((DWORD *)GetACP(), &cs, TCI_SRCCODEPAGE));
+
+		CFont font;
+		int nSize = atoi(m_pTemplate->m_strButtonFontSizeNew)*m_ScaleY;
+		if (!font.CreateFont(nSize, 0, 0, 0, FW_NORMAL, 0, 0, 
+			0, cs.ciCharset, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, 
+			DEFAULT_QUALITY, FF_DONTCARE | DEFAULT_PITCH, m_pTemplate->m_strButtonFontNew))
+			return FALSE;
+
+		CFont *fOld = pDC->SelectObject(&font);
+		COLORREF clrOld = pDC->SetTextColor(AVSToRGB(m_pTemplate->m_strButtonTextColorNew));
+		CString strTitle = pTask->m_strButtonText;
+
+		UINT nAlign = DT_CENTER;
+		if (_tcsicmp(m_pTemplate->m_strButtonTextAlign, "left") == 0)
+			nAlign = DT_LEFT;
+		else if ((m_pTemplate->m_strButtonTextAlign, "right") == 0)
+			nAlign = DT_RIGHT;
+
+		int nOldBkMode  = pDC->SetBkMode(TRANSPARENT);
+		pDC->DrawText(strTitle,&rcTitle,nAlign|DT_SINGLELINE|DT_VCENTER|DT_NOCLIP);
+		pDC->SetBkMode(nOldBkMode);
+	
+		pDC->SelectObject(fOld);
+		pDC->SetTextColor(clrOld);
+	}
+	return TRUE;
+}
+
+BOOL CMenuTemplateEx::DrawPageBtn(CDC *pDC,int nIndex,BOOL bHover,BOOL bFocus)
+{
+	int index = GetButtons() + abs(nIndex)-1;
+    CRect rcButton = GetItemRect(index);
+	Image *pImage = NULL;
+	pImage = nIndex==PAGE_BTN_PRE?m_bmpPre:m_bmpNext;
+
+	Graphics g(pDC->m_hDC);
+	if(g.GetLastStatus() != Ok)return FALSE;
+	ImageAttributes imAtt;
+	imAtt.SetColorKey(Color(0, 0, 0),Color(1, 1, 1),ColorAdjustTypeBitmap);
+	Status  s = g.DrawImage(pImage, Rect(rcButton.left,rcButton.top,rcButton.Width(),rcButton.Height()),
+		                 0,0,pImage->GetWidth(), pImage->GetHeight(),UnitPixel,&imAtt);
+	ASSERT(s == Ok);
+	if(s != Ok)return FALSE;
+	if(bHover|bFocus)
+	{
+		rcButton = GetItemRect(index,MENU_H);
+		pImage = nIndex==PAGE_BTN_PRE?m_bmpPre2:m_bmpNext2;
+		s = g.DrawImage(pImage, rcButton.left,rcButton.top,rcButton.Width(),rcButton.Height());
+		ASSERT(s == Ok);
+	}
+	return  s == Ok;
+}
+
+int  CMenuTemplateEx::PtInButton(CPoint point,int nButtons,BOOL bPre,BOOL bNext)
+{
+	CRect rcItem ;
+	for(int i=0;i<nButtons;i++)
+	{
+		rcItem = GetItemRect(i);
+		if(rcItem.PtInRect(point))
+			return i;
+	}
+	
+	if(bPre)
+	{
+		rcItem = GetItemRect(GetButtons()+abs(PAGE_BTN_PRE)-1);
+		if(rcItem.PtInRect(point))return PAGE_BTN_PRE;
+	}
+
+	if(bNext)
+	{
+		rcItem = GetItemRect(GetButtons()+abs(PAGE_BTN_NEXT)-1);
+		if(rcItem.PtInRect(point))return PAGE_BTN_NEXT;
+	}
+	
+	return NULL_BTN;
+}
+
+BOOL CMenuTemplateEx::EnableMenu()
+{
+	if(m_pTemplate!=NULL && m_pTemplate->m_bTemplate)
+		return TRUE;
+	return FALSE;
+}
+
+#endif

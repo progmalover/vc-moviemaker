@@ -1,0 +1,19 @@
+libfaac无法生成bitrate超过160Kbps的音频。似乎Any Video Converter可以 （iPhone x264 Video)。
+禁用FFdshow, Matroska, VSFilter的托盘区图标。
+Trim。
+Progress栏不可见时，在缩略图上显示进度？
+编码时动态显示缩略图效果。
+HD Movie Maker去掉Check-box？
+完成后关机？
+去除Profile中的调试参数。
+
+File > Convert应为File > Burn
+
+安装后必须重启？在李力的机器上发现安装完毕未找到刻录设备，重启后正常。
+隐藏halii过滤器图标？
+隐藏VSFilter图标？
+
+Rename时重名的问题
+Simple Pane中SetText()刷新都不正常。
+
+最大化，然后反复最小化、还原，剩余时间的图标刷新不正常

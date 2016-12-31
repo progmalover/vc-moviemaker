@@ -1,0 +1,1321 @@
+#include "StdAfx.h"
+#include "Burner.h"
+#include "Converter.h"
+#include <atlsafe.h>
+#include "Options.h"
+
+DEFINE_REGISTERED_MESSAGE(WM_BURN)
+const TCHAR *g_szMediaTypes[] = 
+{ 
+	"Unknown",		//IMAPI_MEDIA_TYPE_UNKNOWN	= 0,
+	"CD-ROM",		//IMAPI_MEDIA_TYPE_CDROM	= 0x1,
+	"CD-R",			//IMAPI_MEDIA_TYPE_CDR	= 0x2,
+	"CD-RW",		//IMAPI_MEDIA_TYPE_CDRW	= 0x3,
+	"DVD-ROM",		//IMAPI_MEDIA_TYPE_DVDROM	= 0x4,
+	"DVD-RAM",		//IMAPI_MEDIA_TYPE_DVDRAM	= 0x5,
+	"DVD+R",		//IMAPI_MEDIA_TYPE_DVDPLUSR	= 0x6,
+	"DVD+RW",		//IMAPI_MEDIA_TYPE_DVDPLUSRW	= 0x7,
+	"DVD+R DL",		//IMAPI_MEDIA_TYPE_DVDPLUSR_DUALLAYER	= 0x8,
+	"DVD-R",		//IMAPI_MEDIA_TYPE_DVDDASHR	= 0x9,
+	"DVD-RW",		//IMAPI_MEDIA_TYPE_DVDDASHRW	= 0xa,
+	"DVD-R DL",		//IMAPI_MEDIA_TYPE_DVDDASHR_DUALLAYER	= 0xb,
+	"Disk",			//IMAPI_MEDIA_TYPE_DISK	= 0xc,
+	"DVD+RW DL",	//IMAPI_MEDIA_TYPE_DVDPLUSRW_DUALLAYER	= 0xd,
+	"HD DVD-ROM",	//IMAPI_MEDIA_TYPE_HDDVDROM	= 0xe,
+	"HD DVD-R",		//IMAPI_MEDIA_TYPE_HDDVDR	= 0xf,
+	"HD DVD-RAM",	//IMAPI_MEDIA_TYPE_HDDVDRAM	= 0x10,
+	"BD-ROM",		//IMAPI_MEDIA_TYPE_BDROM	= 0x11,
+	"BD-R",			//IMAPI_MEDIA_TYPE_BDR	= 0x12,
+	"BD-RE",		//IMAPI_MEDIA_TYPE_BDRE	= 0x13,
+};
+
+const UINT g_nDiscCapacity[] = 
+{
+	DISC_CAP_UNKNOWN, 	//IMAPI_MEDIA_TYPE_UNKNOWN	= 0,
+	DISC_CAP_UNKNOWN, 	//IMAPI_MEDIA_TYPE_CDROM	= 0x1,
+	DISC_CAP_UNKNOWN, 	//IMAPI_MEDIA_TYPE_CDR	= 0x2,
+	DISC_CAP_UNKNOWN, 	//IMAPI_MEDIA_TYPE_CDRW	= 0x3,
+	DISC_CAP_UNKNOWN, 	//IMAPI_MEDIA_TYPE_DVDROM	= 0x4,
+	DISC_CAP_DVD5, 		//IMAPI_MEDIA_TYPE_DVDRAM	= 0x5,
+	DISC_CAP_DVD5, 		//IMAPI_MEDIA_TYPE_DVDPLUSR	= 0x6,
+	DISC_CAP_DVD5, 		//IMAPI_MEDIA_TYPE_DVDPLUSRW	= 0x7,
+	DISC_CAP_DVD9, 		//IMAPI_MEDIA_TYPE_DVDPLUSR_DUALLAYER	= 0x8,
+	DISC_CAP_DVD5, 		//IMAPI_MEDIA_TYPE_DVDDASHR	= 0x9,
+	DISC_CAP_DVD5, 		//IMAPI_MEDIA_TYPE_DVDDASHRW	= 0xa,
+	DISC_CAP_DVD9, 		//IMAPI_MEDIA_TYPE_DVDDASHR_DUALLAYER	= 0xb,
+	DISC_CAP_UNKNOWN,	//IMAPI_MEDIA_TYPE_DISK	= 0xc,
+	DISC_CAP_DVD9,		//IMAPI_MEDIA_TYPE_DVDPLUSRW_DUALLAYER	= 0xd,
+	DISC_CAP_UNKNOWN,	//IMAPI_MEDIA_TYPE_HDDVDROM	= 0xe,
+	DISC_CAP_UNKNOWN,	//IMAPI_MEDIA_TYPE_HDDVDR	= 0xf,
+	DISC_CAP_UNKNOWN,	//IMAPI_MEDIA_TYPE_HDDVDRAM	= 0x10,
+	DISC_CAP_UNKNOWN,	//IMAPI_MEDIA_TYPE_BDROM	= 0x11,
+#ifdef _BD
+	DISC_CAP_BD25,		//IMAPI_MEDIA_TYPE_BDR	= 0x12,
+	DISC_CAP_BD25,		//IMAPI_MEDIA_TYPE_BDRE	= 0x13,
+#else
+	DISC_CAP_UNKNOWN,		//IMAPI_MEDIA_TYPE_BDR	= 0x12,
+	DISC_CAP_UNKNOWN,		//IMAPI_MEDIA_TYPE_BDRE	= 0x13,
+#endif
+};
+
+LPCTSTR CBurner::GetMediaTypeString(IMAPI_MEDIA_PHYSICAL_TYPE type)
+{
+	if (type >= 0 && type < sizeof(g_szMediaTypes) / sizeof (TCHAR *))
+		return g_szMediaTypes[type];
+	else
+		return g_szMediaTypes[0];
+}
+
+UINT CBurner::GetDiscCapaticy(IMAPI_MEDIA_PHYSICAL_TYPE type)
+{
+	if (type >= 0 && type < sizeof(g_nDiscCapacity) / sizeof (UINT))
+		return g_nDiscCapacity[type];
+	else
+		return g_nDiscCapacity[0];
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+IMPLEMENT_SINGLETON(CMsBurner)
+
+#define CHECKRESULT()									\
+{														\
+	if (FAILED(hr))										\
+	{													\
+		CLog::Instance()->AppendLogNoTime("Failed: hr = 0x%08x\r\n", hr);	\
+		return FALSE;									\
+	}													\
+}
+
+CMsBurner::CMsBurner(void)
+{
+	Init();
+}
+
+CMsBurner::~CMsBurner(void)
+{
+	Close();
+}
+
+void CMsBurner::Init()
+{
+	m_bOpen = FALSE;
+	m_hWndNotify = NULL;
+	m_bCancel = FALSE;
+	m_strError.Empty();
+}
+
+BOOL CMsBurner::Open()
+{
+	ASSERT(!m_bOpen);
+
+	HRESULT hr;
+
+	CComPtr <IDiscMaster2> pDiscMaster;
+	hr = pDiscMaster.CoCreateInstance(__uuidof(MsftDiscMaster2));
+	CHECKRESULT();
+
+	VARIANT_BOOL isSupported = VARIANT_FALSE;
+	hr = pDiscMaster->get_IsSupportedEnvironment(&isSupported);
+	CHECKRESULT();
+
+	if (isSupported == VARIANT_FALSE)
+	{
+		CLog::Instance()->AppendLog("There were no writable devices detected.\r\n");
+		return FALSE;
+	}
+
+	m_pMaster = pDiscMaster;
+
+	m_bOpen = TRUE;
+
+	return TRUE;
+}
+
+void CMsBurner::Close()
+{
+	if (m_bOpen)
+		m_pMaster.Release();
+
+	Init();
+}
+
+long CMsBurner::GetTotalDevices()
+{
+	if (m_pMaster == NULL)
+		return 0;
+
+	long total = 0;
+	HRESULT hr = m_pMaster->get_Count(&total);
+	if (FAILED(hr))
+	{
+		CLog::Instance()->AppendLog("IDiscMaster2->get_Count failed! - Error:0x%08x\r\n", hr);
+		return 0;
+	}
+
+	CLog::Instance()->AppendLog("Found %d DVD burners in total.\r\n", total);
+	return total;
+}
+
+void CMsBurner::GetBurnerList(DEVICE_LIST &devices)
+{
+	long total = GetTotalDevices();
+	for (long i = 0; i < total; i++)
+	{
+		DEVICE device;
+
+		if (!GetDeviceUniqueID(i, device.strUniqueID))
+			continue;
+
+		SAFEARRAY *pProfiles = NULL;
+		if (!GetSupportedProfiles(device.strUniqueID, &pProfiles))
+			continue;
+
+		const ULONG lProfiles[] = 
+		{
+			IMAPI_PROFILE_TYPE_DVD_DASH_RECORDABLE, 
+			IMAPI_PROFILE_TYPE_DVD_RAM, 
+			IMAPI_PROFILE_TYPE_DVD_DASH_REWRITABLE, 
+			IMAPI_PROFILE_TYPE_DVD_DASH_RW_SEQUENTIAL, 
+			IMAPI_PROFILE_TYPE_DVD_DASH_R_DUAL_SEQUENTIAL, 
+			IMAPI_PROFILE_TYPE_DVD_DASH_R_DUAL_LAYER_JUMP, 
+			IMAPI_PROFILE_TYPE_DVD_PLUS_RW, 
+			IMAPI_PROFILE_TYPE_DVD_PLUS_R, 
+			IMAPI_PROFILE_TYPE_DVD_PLUS_RW_DUAL, 
+			IMAPI_PROFILE_TYPE_DVD_PLUS_R_DUAL, 
+			IMAPI_PROFILE_TYPE_BD_ROM, 
+			IMAPI_PROFILE_TYPE_BD_R_SEQUENTIAL, 
+			IMAPI_PROFILE_TYPE_BD_R_RANDOM_RECORDING, 
+			IMAPI_PROFILE_TYPE_BD_REWRITABLE, 
+			IMAPI_PROFILE_TYPE_HD_DVD_ROM, 
+			IMAPI_PROFILE_TYPE_HD_DVD_RECORDABLE, 
+			IMAPI_PROFILE_TYPE_HD_DVD_RAM, 
+		};
+
+		BOOL bDVDBurnner = FALSE;
+		for (ULONG i = 0; i < pProfiles->rgsabound[0].cElements; i++)
+		{
+			ULONG lProfile = ((VARIANT*)(pProfiles->pvData))[i].lVal;
+			for (int j = 0; j < sizeof(lProfile) / sizeof(ULONG); j++)
+			{
+				if (lProfile == lProfiles[j])
+				{
+					bDVDBurnner = TRUE;
+					break;
+				}
+			}
+		}
+
+#ifndef _DEBUG
+		if (!bDVDBurnner)
+			continue;
+#endif
+
+		if (!GetDeviceDisplayName(device.strUniqueID, device.strName, device.strDrive))
+			continue;
+
+		devices.push_back(device);
+	}
+
+	if (devices.size() > 0)
+		devices.sort();
+}
+
+BOOL CMsBurner::GetDeviceUniqueID(long index, CString &strUniqueID)
+{
+	ASSERT(m_pMaster != NULL);
+	ASSERT(index < GetTotalDevices());
+
+	CComBSTR uniqueID = NULL;
+	HRESULT hr = m_pMaster->get_Item(index, &uniqueID);
+	if (FAILED(hr))
+	{
+		CLog::Instance()->AppendLog("IDiscMaster2->get_Item(%d) failed! - Error:0x%08x\r\n", index, hr);
+		return FALSE;
+	}
+	strUniqueID = uniqueID;
+	return !strUniqueID.IsEmpty();
+}
+
+BOOL CMsBurner::GetSupportedProfiles(LPCTSTR lpszUniqueID, SAFEARRAY **ppProfiles)
+{
+	CComPtr <IDiscRecorder2> pRecorder;
+	HRESULT hr = pRecorder.CoCreateInstance(__uuidof(MsftDiscRecorder2));
+	CHECKRESULT();
+
+	hr = pRecorder->InitializeDiscRecorder(CComBSTR(lpszUniqueID));
+	CHECKRESULT();
+
+	hr = pRecorder->get_SupportedProfiles(ppProfiles);
+	CHECKRESULT();
+
+	ASSERT((*ppProfiles)->rgsabound[0].cElements > 0);
+
+#ifdef _DEBUG
+	for (ULONG i = 0; i < (*ppProfiles)->rgsabound[0].cElements; i++)
+	{
+		ULONG lProfile = ((VARIANT*)((*ppProfiles)->pvData))[i].lVal;
+		TRACE("0x%x ", lProfile);
+	}
+	TRACE("\n");
+#endif
+
+	return TRUE;
+}
+
+BOOL CMsBurner::GetDeviceDisplayName(LPCTSTR lpszUniqueID, CString &strName, CString &strDrive)
+{
+	CComPtr <IDiscRecorder2> pRecorder;
+	HRESULT hr = pRecorder.CoCreateInstance(__uuidof(MsftDiscRecorder2));
+	CHECKRESULT();
+
+	hr = pRecorder->InitializeDiscRecorder(CComBSTR(lpszUniqueID));
+	CHECKRESULT();
+
+	CString strVendorID;
+	CString strProductID;
+	CString strVolume;
+
+	CComBSTR bstrVendorID = NULL;
+	hr = pRecorder->get_VendorId(&bstrVendorID);
+	if (SUCCEEDED(hr))
+	{
+		strVendorID = bstrVendorID;
+		strVendorID.Trim();
+	}
+
+	BSTR bstrProductID = NULL;
+	hr = pRecorder->get_ProductId(&bstrProductID);
+	if (SUCCEEDED(hr))
+	{
+		strProductID = bstrProductID;
+		strProductID.Trim();
+	}
+
+	SAFEARRAY *pVolumePathNames;
+	hr = pRecorder->get_VolumePathNames(&pVolumePathNames);
+	if (SUCCEEDED(hr))
+	{
+		for (ULONG i = 0; i < pVolumePathNames->rgsabound[0].cElements; i++)
+		{
+			strVolume = ((VARIANT*)(pVolumePathNames->pvData))[i].bstrVal;
+			if (!strVolume.IsEmpty())
+			{
+				if (::PathIsRoot(strVolume))
+				{
+					strVolume.TrimRight('\\');
+					strDrive = strVolume;
+					break;
+				}
+			}
+		}
+
+		SafeArrayDestroy(pVolumePathNames);
+	}
+
+	if (!strVendorID.IsEmpty())
+		strName = strVendorID;
+	
+	if (!strProductID.IsEmpty())
+	{
+		if (!strName.IsEmpty())
+			strName += " ";
+		strName += strProductID;
+	}
+
+	if (!strDrive.IsEmpty())
+	{
+		CString str;
+		str.Format("%s (%s)", strName, strDrive);
+		strName = str;
+	}
+
+	return !strName.IsEmpty();
+}
+
+BOOL CMsBurner::GetMediaInfo(LPCTSTR lpszUniqueID, MediaInfo &Info)
+{
+	CComPtr <IDiscRecorder2> pRecorder;
+	HRESULT hr = pRecorder.CoCreateInstance(__uuidof(MsftDiscRecorder2));
+	CHECKRESULT();
+
+	hr = pRecorder->InitializeDiscRecorder(CComBSTR(lpszUniqueID));
+	CHECKRESULT();
+
+	CComPtr <IDiscFormat2Data> pData;
+	hr = pData.CoCreateInstance(__uuidof(MsftDiscFormat2Data));
+	CHECKRESULT();
+
+	hr = pData->put_ClientName(CComBSTR("Sothink"));
+	CHECKRESULT();
+
+	hr = pData->put_Recorder(pRecorder);
+	CHECKRESULT();
+
+	hr = pRecorder->AcquireExclusiveAccess(VARIANT_TRUE, CComBSTR("Sothink"));
+	CHECKRESULT();
+
+	LONGLONG nTick = ::GetTickCountEx();
+
+	IMAPI_FORMAT2_DATA_MEDIA_STATE state;
+	IMAPI_MEDIA_PHYSICAL_TYPE type;
+	VARIANT_BOOL bPhysicallyBlank;
+	VARIANT_BOOL bHeuristicallyBlank;
+
+_check_media_state:
+	hr = pData->get_CurrentMediaStatus(&state);
+	if (FAILED(hr))
+	{
+		if (hr == E_IMAPI_RECORDER_MEDIA_BECOMING_READY && ::GetTickCountEx() - nTick < 30 * 1000)
+		{
+			Sleep(500);
+			goto _check_media_state;
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	hr = pData->get_CurrentPhysicalMediaType(&type);
+	CHECKRESULT();
+
+	hr = pData->get_MediaPhysicallyBlank(&bPhysicallyBlank);
+	CHECKRESULT();
+
+	if (FAILED(pData->get_MediaHeuristicallyBlank(&bHeuristicallyBlank)))
+		bHeuristicallyBlank = VARIANT_FALSE;
+
+	hr = pRecorder->ReleaseExclusiveAccess();
+	CHECKRESULT();
+
+	Info.MediaType=type;
+	Info.isBlank=FALSE;
+	Info.MediaLabel="";
+	Info.MediaSize=0;
+	Info.MediaFreeSize=0;
+	switch(type)
+	{
+	case IMAPI_MEDIA_TYPE_DVDPLUSR:
+	case IMAPI_MEDIA_TYPE_DVDDASHR:
+	case IMAPI_MEDIA_TYPE_DVDPLUSR_DUALLAYER:
+	case IMAPI_MEDIA_TYPE_DVDDASHR_DUALLAYER:
+	case IMAPI_MEDIA_TYPE_BDR:
+		Info.isBlank=bPhysicallyBlank == VARIANT_TRUE;
+		break;
+
+	case IMAPI_MEDIA_TYPE_DVDPLUSRW:
+	case IMAPI_MEDIA_TYPE_DVDDASHRW:
+	case IMAPI_MEDIA_TYPE_DVDPLUSRW_DUALLAYER:
+	case IMAPI_MEDIA_TYPE_BDRE:
+		Info.isBlank=!((bPhysicallyBlank == VARIANT_FALSE && bHeuristicallyBlank == VARIANT_FALSE));
+	}
+
+	return TRUE;
+}
+
+BOOL CMsBurner::CheckDiscStatus(LPCTSTR lpszUniqueID, BOOL &bEraseNeeded)
+{
+	bEraseNeeded = FALSE;
+
+	MediaInfo Info;
+	if (!GetMediaInfo(lpszUniqueID,Info))
+	{
+		AfxMessageBox(IDS_BURNER_NO_DISC);
+		return FALSE;
+	}
+
+	switch (Info.MediaType)
+	{
+	case IMAPI_MEDIA_TYPE_DVDPLUSR:
+	case IMAPI_MEDIA_TYPE_DVDDASHR:
+	case IMAPI_MEDIA_TYPE_DVDPLUSR_DUALLAYER:
+	case IMAPI_MEDIA_TYPE_DVDDASHR_DUALLAYER:
+#ifdef _BD
+	case IMAPI_MEDIA_TYPE_BDR:
+#endif
+		if (!Info.isBlank)
+		{
+			AfxMessageBox(IDS_BURNER_NOT_BLANK_DISC);
+			return FALSE;
+		}
+		break;
+
+	case IMAPI_MEDIA_TYPE_DVDPLUSRW:
+	case IMAPI_MEDIA_TYPE_DVDDASHRW:
+	case IMAPI_MEDIA_TYPE_DVDPLUSRW_DUALLAYER:
+#ifdef _BD
+	case IMAPI_MEDIA_TYPE_BDRE:
+#endif
+		if (!Info.isBlank)
+			bEraseNeeded = TRUE;
+		break;
+
+	default:
+		AfxMessageBox(IDS_BURNER_NOT_WRITABLE_DISC);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+/*
+IWriteEngine2 Interface
+
+Use this interface to write a data stream to a device.
+
+This interface should be used by those developing support for new media types or formats. Writing to media typically includes the following steps:
+
+1. Preparing the hardware by setting mode pages for the media. 
+2. Querying the hardware to verify that the media is large enough. 
+3. Initializing the write, for example, by formatting the media or setting OPC. 
+4. Performing the actual WRITE commands. 
+5. Finishing the write by stopping the formatting or closing the session or track. 
+
+The following only do the 4th step so the disc is not accessible after erasing.
+
+BOOL CBurner::EraseQuickly(IDiscRecorder2 *pRecorder, HWND hWndNotify)
+{
+	HRESULT hr;
+
+	CComPtr <IStream> pStreamZero;
+	hr = pStreamZero.CoCreateInstance(__uuidof(MsftStreamZero));
+	CHECKRESULT();
+
+	ULARGE_INTEGER uiSectors = {2048 * 1024, 0};
+	hr = pStreamZero->SetSize(uiSectors);	// from ImgBurn
+	CHECKRESULT();
+
+	CComPtr <IWriteEngine2> pEngine;
+	hr = pEngine.CoCreateInstance(__uuidof(MsftWriteEngine2));
+	CHECKRESULT();
+
+	CComPtr <IDiscRecorder2Ex> pRecorderEx;
+	hr = pRecorder->QueryInterface(_uuidof(IDiscRecorder2Ex), (void **)&pRecorderEx);
+	CHECKRESULT();
+
+	hr = pEngine->put_Recorder(pRecorderEx);
+	CHECKRESULT();
+
+	hr = pRecorder->AcquireExclusiveAccess(VARIANT_TRUE, CComBSTR("Sothink"));
+	CHECKRESULT();
+
+	hr = pEngine->put_BytesPerSector(2048);
+	CHECKRESULT();
+
+	hr = pEngine->WriteSection(pStreamZero, 0, 1024);
+	CHECKRESULT();
+
+	hr = pRecorder->ReleaseExclusiveAccess();
+	CHECKRESULT();
+
+	return TRUE;
+}
+*/
+
+BOOL CMsBurner::Erase(IDiscRecorder2 *pRecorder, BOOL bFull, HWND hWndNotify)
+{
+	HRESULT hr;
+
+	CComPtr <IDiscFormat2Erase> pErase;
+	hr = pErase.CoCreateInstance(__uuidof(MsftDiscFormat2Erase));
+	CHECKRESULT();
+
+	hr = pErase->put_ClientName(CComBSTR("Sothink"));
+	CHECKRESULT();
+
+	hr = pErase->put_Recorder(pRecorder);
+	CHECKRESULT();
+
+	CAutoPtr <CDiscFormatEraseEvent> pEraseEvent(CDiscFormatEraseEvent::CreateEventSink());
+	ASSERT(pEraseEvent != NULL);
+	if (pEraseEvent != NULL)
+	{
+		VERIFY(pEraseEvent->ConnectDiscFormatErase(pErase));
+		pEraseEvent->m_hWndNotify = hWndNotify;
+	}
+
+	hr = pErase->put_FullErase(bFull ? VARIANT_TRUE : VARIANT_FALSE);
+	CHECKRESULT();
+
+	try
+	{
+		hr = pErase->EraseMedia();
+		CHECKRESULT();
+	}
+	catch (CUserException *e)
+	{
+		e->Delete();
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+BOOL CMsBurner::Erase(LPCTSTR lpszUniqueID, BOOL bFull, HWND hWndNotify)
+{
+	HRESULT hr;
+
+	CComPtr <IDiscRecorder2> pRecorder;
+	hr = pRecorder.CoCreateInstance(__uuidof(MsftDiscRecorder2));
+	CHECKRESULT();
+
+	hr = pRecorder->InitializeDiscRecorder(CComBSTR(lpszUniqueID));
+	CHECKRESULT();
+
+	return Erase(pRecorder,bFull,hWndNotify);
+}
+
+BOOL CMsBurner::Burn(LPCTSTR lpszUniqueID, LPCTSTR lpszDir, LPCTSTR lpszTempDir, LPCTSTR lpszLabel, HWND hWndNotify)
+{
+	m_hWndNotify = hWndNotify;
+
+	m_bCancel = FALSE;
+	m_strError.LoadString(IDS_BURNER_E_BURN_DISC);
+
+	CLog::Instance()->AppendLog("Create IDiscRecorder2...\r\n");
+
+	CComPtr <IDiscRecorder2> pRecorder;
+	HRESULT hr = pRecorder.CoCreateInstance(__uuidof(MsftDiscRecorder2));
+	CHECKRESULT();
+
+	hr = pRecorder->InitializeDiscRecorder(CComBSTR(lpszUniqueID));
+	CHECKRESULT();
+
+	CLog::Instance()->AppendLog("Create IDiscFormat2Data...\r\n");
+
+	CComPtr <IDiscFormat2Data> pData;
+	hr = pData.CoCreateInstance(__uuidof(MsftDiscFormat2Data));
+	CHECKRESULT();
+
+	hr = pData->put_ClientName(CComBSTR("Sothink"));
+	CHECKRESULT();
+
+	hr = pData->put_Recorder(pRecorder);
+	CHECKRESULT();
+
+_check_media_state:
+
+	CLog::Instance()->AppendLog("get_CurrentMediaStatus(): ");
+
+	IMAPI_FORMAT2_DATA_MEDIA_STATE state;
+	hr = pData->get_CurrentMediaStatus(&state);
+	if (FAILED(hr))
+	{
+		if (hr != E_IMAPI_RECORDER_MEDIA_BECOMING_READY)
+		{
+			m_strError.LoadString(IDS_BURNER_NO_DISC);
+			return FALSE;
+		}
+		else
+		{
+			Sleep(500);
+			goto _check_media_state;
+		}
+	}
+
+	CLog::Instance()->AppendLogNoTime("0x%x.\r\n", state);
+
+	CLog::Instance()->AppendLog("IsCurrentMediaSupported(): ");
+
+	VARIANT_BOOL bSupported;
+	hr = pData->IsCurrentMediaSupported(pRecorder, &bSupported);
+	CHECKRESULT();
+
+	CLog::Instance()->AppendLogNoTime("%d\r\n", bSupported);
+
+	if (bSupported == VARIANT_FALSE)
+	{
+		m_strError.LoadString(IDS_BURNER_UNSUPPORTED_DISC);
+		return FALSE;
+	}
+
+	if (state & IMAPI_FORMAT2_DATA_MEDIA_STATE_UNSUPPORTED_MASK)
+	{
+		m_strError.LoadString(IDS_BURNER_NOT_WRITABLE_DISC);
+		return FALSE;
+	}
+
+	CLog::Instance()->AppendLog("get_CurrentPhysicalMediaType(): ");
+
+	IMAPI_MEDIA_PHYSICAL_TYPE type;
+	hr = pData->get_CurrentPhysicalMediaType(&type);
+	if (FAILED(hr))
+	{
+		m_strError.LoadString(IDS_BURNER_NO_DISC);
+		return FALSE;
+	}
+
+	CLog::Instance()->AppendLogNoTime("0x%x.\r\n", type);
+
+	CLog::Instance()->AppendLog("get_MediaPhysicallyBlank(): ");
+
+	VARIANT_BOOL bPhysicallyBlank;
+	hr = pData->get_MediaPhysicallyBlank(&bPhysicallyBlank);
+	CHECKRESULT();
+
+	CLog::Instance()->AppendLogNoTime("%d\r\n", bPhysicallyBlank);
+
+	int nEraseMode = 0;
+
+	switch (type)
+	{
+		case IMAPI_MEDIA_TYPE_DVDPLUSR:
+		case IMAPI_MEDIA_TYPE_DVDDASHR:
+		case IMAPI_MEDIA_TYPE_DVDPLUSR_DUALLAYER:
+		case IMAPI_MEDIA_TYPE_DVDDASHR_DUALLAYER:
+	#ifdef _BD
+		case IMAPI_MEDIA_TYPE_BDR:
+	#endif
+			{
+			if (bPhysicallyBlank != VARIANT_TRUE)
+			{
+				m_strError.LoadString(IDS_BURNER_NOT_BLANK_DISC);
+				return FALSE;
+			}
+			break;
+		}
+
+		case IMAPI_MEDIA_TYPE_DVDPLUSRW:
+		case IMAPI_MEDIA_TYPE_DVDDASHRW:
+		case IMAPI_MEDIA_TYPE_DVDPLUSRW_DUALLAYER:
+	#ifdef _BD
+		case IMAPI_MEDIA_TYPE_BDRE:
+	#endif
+		{
+			if (bPhysicallyBlank == VARIANT_TRUE)
+			{
+				nEraseMode = 1;
+			}
+			else
+			{
+				CLog::Instance()->AppendLog("get_MediaHeuristicallyBlank(): ");
+
+				VARIANT_BOOL bHeuristicallyBlank;
+				if (FAILED(pData->get_MediaHeuristicallyBlank(&bHeuristicallyBlank)))
+					bHeuristicallyBlank = VARIANT_FALSE;
+
+				CLog::Instance()->AppendLogNoTime("%d\r\n", bHeuristicallyBlank);
+
+				if (bHeuristicallyBlank == VARIANT_FALSE)	// Quick format
+				{
+					nEraseMode = 2;
+				}
+			}
+
+			if (m_bCancel)
+				return FALSE;
+
+			break;
+		}
+
+		default:
+		{
+			m_strError.LoadString(IDS_BURNER_NOT_WRITABLE_DISC);
+			return FALSE;
+		}
+	}
+
+#ifdef _DEBUG
+	CLog::Instance()->AppendLog("get_TotalSectorsOnMedia(): ");
+	LONG lSectors = 0;
+	hr = pData->get_TotalSectorsOnMedia(&lSectors);
+	CLog::Instance()->AppendLogNoTime("%d\r\n", lSectors);
+#endif
+
+	hr = pData->put_ForceMediaToBeClosed(VARIANT_TRUE);
+	CHECKRESULT();
+
+	CLog::Instance()->AppendLog("Create IFileSystemImage...\r\n");
+
+	CComPtr <IFileSystemImage> pImage;
+	hr = pImage.CoCreateInstance(__uuidof(MsftFileSystemImage));
+	CHECKRESULT();
+
+	hr = pImage->ChooseImageDefaultsForMediaType(type);
+	CHECKRESULT();
+
+#ifdef _BD
+	hr = pImage->put_FileSystemsToCreate(FsiFileSystemUDF);
+	CHECKRESULT();
+
+	hr = pImage->put_UDFRevision(0x250);
+	CHECKRESULT();
+#elif defined _DVD
+	hr = pImage->put_FileSystemsToCreate((FsiFileSystems)(FsiFileSystemISO9660 | FsiFileSystemUDF));
+	CHECKRESULT();
+
+	hr = pImage->put_UDFRevision(0x102);
+	CHECKRESULT();
+#endif
+
+	CComPtr <IFsiDirectoryItem> pRoot;
+	hr = pImage->get_Root(&pRoot);
+	CHECKRESULT();
+
+#ifdef _DEBUG
+	LONG lSpeed;
+	pData->get_CurrentWriteSpeed(&lSpeed);
+	CLog::Instance()->AppendLog("get_CurrentWriteSpeed() = %d\r\n", lSpeed);
+
+	SAFEARRAY *pSpeeds;
+	hr = pData->get_SupportedWriteSpeeds(&pSpeeds);
+	if (SUCCEEDED(hr))
+	{
+		CLog::Instance()->AppendLog("get_SupportedWriteSpeeds():");
+
+		for (ULONG i = 0; i < pSpeeds->rgsabound[0].cElements; i++)
+		{
+			ULONG ulSpeed = ((VARIANT*)(pSpeeds->pvData))[i].ulVal;
+			CLog::Instance()->AppendLogNoTime(" %d", ulSpeed);
+		}
+
+		CLog::Instance()->AppendLogNoTime("\r\n");
+
+		SafeArrayDestroy(pSpeeds);
+	}
+#endif
+
+	CLog::Instance()->AppendLog("GetFolderSize(%s): ", lpszDir);
+
+	INT64 nFolderSize = GetFolderSize(lpszDir);
+
+	CLog::Instance()->AppendLogNoTime("%I64d\r\n", nFolderSize);
+
+	CLog::Instance()->AppendLog("AddTree(%s):\r\n", lpszDir);
+
+	CAutoPtr <CFileSystemImageEvent> pImageEvent(CFileSystemImageEvent::CreateEventSink());
+	ASSERT(pImageEvent != NULL);
+	if (pImageEvent != NULL)
+	{
+		VERIFY(pImageEvent->ConnectFileSystemImage(pImage));
+		pImageEvent->m_hWndNotify = m_hWndNotify;
+		pImageEvent->m_nTotalSectors = (LONG)(nFolderSize / IMAPI_SECTOR_SIZE + 0.5);
+		pImageEvent->m_nCopiedSectorsPrevFile = 0;
+		pImageEvent->m_nCopiedSectors = 0;
+	}
+
+	// This method is not implemented yet. It will be provided in Windows 7.
+	hr = pImage->put_StageFiles(VARIANT_FALSE);
+
+	hr = pImage->put_WorkingDirectory(CComBSTR(lpszTempDir));
+	CHECKRESULT();
+
+	hr = pImage->put_VolumeName(CComBSTR(lpszLabel));
+
+	try
+	{
+		hr = pRoot->AddTree(CComBSTR(lpszDir), VARIANT_FALSE);
+		CHECKRESULT();
+	}
+	catch (CUserException *e)
+	{
+		e->Delete();
+		return FALSE;
+	}
+
+	CLog::Instance()->AppendLog("Done.\r\n");
+
+	CLog::Instance()->AppendLog("CreateResultImage()...\r\n");
+
+	CComPtr <IFileSystemImageResult> pResult = NULL;
+	hr = pImage->CreateResultImage(&pResult);
+	CHECKRESULT();
+
+	CLog::Instance()->AppendLog("get_ImageStream()...\r\n");
+
+	CComPtr <IStream> pStream;
+	hr = pResult->get_ImageStream(&pStream);
+	CHECKRESULT();
+
+	if (nEraseMode == 1 || nEraseMode == 2)
+	{
+		CLog::Instance()->AppendLog("EraseMedia(): %s\r\n", nEraseMode == 1 ? "Full" : "Quick");
+
+		::SendMessage(hWndNotify, WM_BURN, BURN_ERASE_BEGIN_EVENT, 0);
+
+		BOOL ret = Erase(pRecorder, nEraseMode == 1, m_hWndNotify);
+
+		::SendMessage(hWndNotify, WM_BURN, BURN_ERASE_END_EVENT, 0);
+
+		CLog::Instance()->AppendLog(ret ? "Done.\r\n" : "Failed.\r\n");
+
+		if (!ret)
+		{
+			m_strError.LoadString(IDS_E_ERASE_DISC);
+			return FALSE;
+		}
+	}
+
+	CLog::Instance()->AppendLog("CDiscFormatDataEvent::CreateEventSink()...\r\n");
+
+	CDiscFormatDataEvent *pDataEvent = CDiscFormatDataEvent::CreateEventSink();
+	ASSERT(pDataEvent != NULL);
+	if (pDataEvent != NULL)
+	{
+		VERIFY(pDataEvent->ConnectDiscFormatData(pData));
+		pDataEvent->m_hWndNotify = m_hWndNotify;
+	}
+
+	if (m_bCancel)
+		return FALSE;
+
+	CLog::Instance()->AppendLog("Write()\r\n");
+
+	hr = pData->Write(pStream);
+
+	CLog::Instance()->AppendLog("Done. hr = 0x%08x\r\n", hr);
+
+	delete pDataEvent;
+
+	CHECKRESULT();
+
+	m_strError.Empty();
+
+	pRecorder->EjectMedia();
+
+	return TRUE;
+}
+
+void CMsBurner::Cancel()
+{
+	m_bCancel = TRUE;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+
+#ifdef _DVD
+
+IMPLEMENT_SINGLETON(CSBBurner)
+
+CSBBurner::CSBBurner()
+{
+	m_bOpen=FALSE;
+	CDevice::InitStarBurnDll();
+}
+
+CSBBurner::~CSBBurner()
+{
+	CDevice::ShutDownStarBurnDll();
+}
+
+BOOL CSBBurner::Open()
+{
+	CDevice::FindSPTIDevices();
+	return m_bOpen=TRUE;
+	dvc=NULL;
+}
+
+void CSBBurner::Close()
+{
+	m_bOpen=FALSE;
+}
+
+long CSBBurner::GetTotalDevices()
+{
+	if (!m_bOpen) return 0;
+	return CDevice::Devices.size();
+}
+
+void CSBBurner::GetBurnerList(DEVICE_LIST &devices)
+{
+	long total = GetTotalDevices();
+	for (long i = 0; i < total; i++)
+	{
+		CDevice *dd=&CDevice::Devices[i];
+		TDeviceSupportedMediaFormats DeviceSupportedMediaFormats;
+
+		dd->RefreshDeviceInfo();
+		dd->GetDeviceSupportedMediaFormats(&DeviceSupportedMediaFormats);
+
+		//只要支持任意一种 DVD 碟片刻录，即认为是刻录机
+		BOOL bDVDBurnner = TRUE;
+		while(1)
+		{
+			if(DeviceSupportedMediaFormats.IsDVDRWrite) break;			//DVD-R
+			if(DeviceSupportedMediaFormats.IsDVDRDLWrite) break;		//DVD-R DL
+
+			if(DeviceSupportedMediaFormats.IsDVDPLUSRWrite) break;		//DVD+R
+			if(DeviceSupportedMediaFormats.IsDVDPLUSRDLWrite) break;	//DVD+R DL
+
+			if(DeviceSupportedMediaFormats.IsDVDRWWrite) break;			//DVD-RW
+			if(DeviceSupportedMediaFormats.IsDVDRWDLWrite) break;		//DVD-RW DL
+
+			if(DeviceSupportedMediaFormats.IsDVDPLUSRWWrite) break;		//DVD+RW
+			if(DeviceSupportedMediaFormats.IsDVDPLUSRWDLWrite) break;	//DVD+RW DL
+
+			if(DeviceSupportedMediaFormats.IsDVDRAMWrite) break;		//DVD+RAM
+
+			bDVDBurnner=FALSE;
+			break;
+		}
+
+		if(bDVDBurnner)
+		{
+			DEVICE device;
+			device.strUniqueID=dd->GetCurrentInternalDeviceName();
+			device.strDrive.Format("%c:",*dd->GetDeviceLetter());
+			CString VendorID,ProductID;
+			VendorID.Format("%s",dd->GetVendorID());
+			ProductID.Format("%s",dd->GetProductID());
+			device.strName.Format("%s %s (%s)",VendorID.Trim(),ProductID.Trim(),device.strDrive);
+			device.strName.Trim();
+			devices.push_back(device);
+		}
+	}
+}
+
+CDevice *CSBBurner::GetDevice(LPCTSTR lpszUniqueID)
+{
+	long total = GetTotalDevices();
+	for (long i = 0; i < total; i++)
+	{
+		CDevice *dd=&CDevice::Devices[i];
+		if(strcmp(dd->GetCurrentInternalDeviceName(),lpszUniqueID)==0) return dd;
+	}
+	return NULL;
+}
+
+BOOL CSBBurner::GetMediaInfo(LPCTSTR lpszUniqueID, MediaInfo &Info)
+{
+	CDevice *dd=GetDevice(lpszUniqueID);
+	dd->RefreshDataMediaInfo();
+
+	DISC_TYPE SBType=dd->GetMediaType();
+	if(SBType==DISC_TYPE_NO_MEDIA) return FALSE;
+
+	Info.MediaType=SBMediaType2IMAPIMediaType(SBType);
+	Info.isBlank=dd->IsDiscBlank();
+	Info.MediaLabel.Format("%s",dd->GetMediaLabel());
+	Info.MediaLabel.Trim();
+	Info.MediaSize=dd->GetMediaSize();
+	Info.MediaFreeSize=dd->GetMediaFreeSize();
+	return TRUE;
+}
+
+BOOL CSBBurner::CheckDiscStatus(LPCTSTR lpszUniqueID, BOOL &bEraseNeeded)
+{
+	MediaInfo Info;
+
+	if (!GetMediaInfo(lpszUniqueID,Info))
+	{
+		AfxMessageBox(IDS_BURNER_NO_DISC);
+		return FALSE;
+	}
+
+
+	bEraseNeeded = FALSE;
+
+	switch (Info.MediaType)
+	{
+	case IMAPI_MEDIA_TYPE_DVDPLUSR:
+	case IMAPI_MEDIA_TYPE_DVDDASHR:
+	case IMAPI_MEDIA_TYPE_DVDPLUSR_DUALLAYER:
+	case IMAPI_MEDIA_TYPE_DVDDASHR_DUALLAYER:
+#ifdef _BD
+	case IMAPI_MEDIA_TYPE_BDR:
+#endif
+		if (!Info.isBlank)
+		{
+			AfxMessageBox(IDS_BURNER_NOT_BLANK_DISC);
+			return FALSE;
+		}
+		break;
+
+	case IMAPI_MEDIA_TYPE_DVDPLUSRW:
+	case IMAPI_MEDIA_TYPE_DVDDASHRW:
+	case IMAPI_MEDIA_TYPE_DVDPLUSRW_DUALLAYER:
+#ifdef _BD
+	case IMAPI_MEDIA_TYPE_BDRE:
+#endif
+		if (!Info.isBlank)
+			bEraseNeeded = TRUE;
+		break;
+
+	default:
+		AfxMessageBox(IDS_BURNER_NOT_WRITABLE_DISC);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+IMAPI_MEDIA_PHYSICAL_TYPE CSBBurner::SBMediaType2IMAPIMediaType(DISC_TYPE SBType)
+{
+	switch (SBType)
+	{
+		case DISC_TYPE_UNKNOWN:return IMAPI_MEDIA_TYPE_UNKNOWN;//Unknown disc type
+		case DISC_TYPE_CDROM:return IMAPI_MEDIA_TYPE_CDROM;// CD-ROM
+		case DISC_TYPE_CDR:return IMAPI_MEDIA_TYPE_CDR;// CD-R
+		case DISC_TYPE_CDRW:return IMAPI_MEDIA_TYPE_CDRW;// CD-RW
+		case DISC_TYPE_DVDROM:return IMAPI_MEDIA_TYPE_DVDROM;// DVD-ROM
+		case DISC_TYPE_DVDR:return IMAPI_MEDIA_TYPE_DVDDASHR;// DVD-R
+		case DISC_TYPE_DVDRAM:return IMAPI_MEDIA_TYPE_DVDRAM;// DVD-RAM
+		case DISC_TYPE_DVDRWRO:return IMAPI_MEDIA_TYPE_DVDDASHRW;// DVD-RW RO (Restricted Overwrite)
+		case DISC_TYPE_DVDRWSR:return IMAPI_MEDIA_TYPE_DVDDASHRW;// DVD-RW SR (Sequential Recording)
+		case DISC_TYPE_DVDPLUSRW:return IMAPI_MEDIA_TYPE_DVDPLUSRW;// DVD+RW
+		case DISC_TYPE_DDCDROM:return IMAPI_MEDIA_TYPE_UNKNOWN;// DD (Double Density) CD-ROM
+		case DISC_TYPE_DDCDR:return IMAPI_MEDIA_TYPE_UNKNOWN;// DD (Double Density) CD-R
+		case DISC_TYPE_DDCDRW:return IMAPI_MEDIA_TYPE_UNKNOWN;// DD (Double Density) CD-RW
+		case DISC_TYPE_DVDPLUSR:return IMAPI_MEDIA_TYPE_DVDPLUSR;// DVD+R
+		case DISC_TYPE_NO_MEDIA:return IMAPI_MEDIA_TYPE_UNKNOWN;// No media is inserted to the disc drive
+		case DISC_TYPE_DVDPLUSR_DL:return IMAPI_MEDIA_TYPE_DVDPLUSR_DUALLAYER;// DVD+R DL (Double Layer)
+		case DISC_TYPE_DVDR_DL:return IMAPI_MEDIA_TYPE_DVDDASHR_DUALLAYER;// DVD-R DL (Dual Layer)
+		case DISC_TYPE_BDROM:return IMAPI_MEDIA_TYPE_BDROM;// BD-ROM (Blu-Ray ROM)
+		case DISC_TYPE_BDR:return IMAPI_MEDIA_TYPE_BDR;// BD-R (Blu-Ray Disc Recordable)
+		case DISC_TYPE_BDRE:return IMAPI_MEDIA_TYPE_BDRE;// BD-RE (Blu-Ray Disc Recordable Erasable)
+		case DISC_TYPE_HDDVDROM:return IMAPI_MEDIA_TYPE_HDDVDROM;// HD-DVD ROM
+		case DISC_TYPE_HDDVDR:return IMAPI_MEDIA_TYPE_HDDVDR;// HD-DVD Recordable
+		case DISC_TYPE_HDDVDRW:return IMAPI_MEDIA_TYPE_HDDVDRAM;// HD-DVD ReWritable
+	}
+	return IMAPI_MEDIA_TYPE_UNKNOWN;
+}
+
+struct NotifyParam 
+{
+	int State;//0:Erasing  1:Burning  2:Padding  3:Close Session
+	int SleepTime;
+	BOOL Completed;
+	HWND NotifyHwnd;
+	CDevice *dvc;
+};
+
+DWORD WINAPI NotifyThread(LPVOID pParam)
+{
+	NotifyParam *tp=(NotifyParam *)pParam;
+	int Percent=0;
+
+	while(!tp->Completed)
+	{
+		Sleep(tp->SleepTime);
+		switch (tp->State)
+		{
+		case 0:
+			Percent+=5;
+			if(Percent>100) Percent=100;
+			::SendNotifyMessage(tp->NotifyHwnd, WM_BURN, BURN_ERASE_PROGRESS, Percent);
+			break;
+
+		case 1:
+			::SendNotifyMessage(tp->NotifyHwnd, WM_BURN, BURN_WRITE_PORGRESS, tp->dvc->GetLastWrittenPercent());
+			break;
+
+		case 2:
+			::SendNotifyMessage(tp->NotifyHwnd, WM_BURN, BURN_PAD_PROCESS, tp->dvc->GetLastWrittenPercent());
+			break;
+
+		case 3:
+			::SendNotifyMessage(tp->NotifyHwnd, WM_BURN, BURN_CLOSE_PROCESS, tp->dvc->GetLastWrittenPercent());
+			break;
+		}
+	}
+
+	return TRUE;
+}
+
+BOOL CSBBurner::WaitDeviceReady()
+{
+	for(int i=0;i<30;i++)
+	{
+		if(dvc->GetDeviceStatus()==NoAction) return TRUE;
+		Sleep(1000);
+	}
+
+	m_strError.LoadString(IDS_BURNER_DEVICE_NOT_READY);
+	return FALSE;
+}
+
+BOOL CSBBurner::Erase(LPCTSTR lpszUniqueID, BOOL bFull, HWND hWndNotify)
+{
+	dvc=GetDevice(lpszUniqueID);
+	SetWriteSpeed();
+
+	ULONG ulErasingTime = DVD_TOC_SIZE_IN_MB * 1024;
+	if(bFull)
+	{
+		//注意，这里做了一次非常奇特的忽略高位的操作
+		ulErasingTime+=(ULONG)(dvc->GetMediaSize()+dvc->GetMediaFreeSize())/1024;
+	}
+	ulErasingTime /=spd.SpeedKBps;
+
+
+	NotifyParam tp;
+	tp.Completed=FALSE;
+	tp.dvc=dvc;
+	tp.NotifyHwnd=hWndNotify;
+	tp.SleepTime=1000*ulErasingTime/20;
+	tp.State=0;
+
+	DWORD ThreadId;
+	HANDLE ThreadHD = CreateThread(NULL,0,NotifyThread,&tp,0,&ThreadId);
+
+
+	TEraseOptions UserEraseOptions;
+	UserEraseOptions.EraseType=bFull?ERASE_TYPE_BLANK_DISC_FULL:ERASE_TYPE_BLANK_DISC_FAST;
+	UserEraseOptions.Speed=spd;
+
+	::SendMessage(hWndNotify, WM_BURN, BURN_ERASE_BEGIN_EVENT, 0);
+	BOOL Succ=dvc->Erase(&UserEraseOptions);
+	tp.Completed=TRUE;
+	WaitForSingleObject( ThreadHD, INFINITE);
+	dvc=NULL;
+
+	::SendMessage(hWndNotify, WM_BURN, BURN_ERASE_END_EVENT, 0);
+	return Succ;
+}
+
+void LogFunc(DWORD cData,TMsgType msgtype,const char *msg)
+{
+	TRACE("============================%s\n",msg);
+	if(strstr(msg,"DVD_MEDIA_PADDING_BEGIN"))
+	{
+		NotifyParam *tp=(NotifyParam *)cData;
+		tp->State=2;
+		return;
+	}
+	if(strstr(msg,"StarBurn_CdvdBurnerGrabber_CloseSession"))
+	{
+		NotifyParam *tp=(NotifyParam *)cData;
+		tp->State=3;
+		return;
+	}
+}
+
+BOOL CSBBurner::Burn(LPCTSTR lpszUniqueID, LPCTSTR lpszDir, LPCTSTR lpszTempDir, LPCTSTR lpszLabel, HWND hWndNotify)
+{
+	dvc=GetDevice(lpszUniqueID);
+	CString	videoPath=GetAbsolutePath("VIDEO_TS",lpszDir);
+
+	LARGE_INTEGER rs;
+	rs.QuadPart=0;
+	dvc->GetDirSize(videoPath.GetBuffer(),&rs);
+
+	MediaInfo info;
+	GetMediaInfo(lpszUniqueID,info);
+
+
+	switch (dvc->GetMediaType())
+	{
+	case DISC_TYPE_NO_MEDIA:
+		m_strError.LoadString(IDS_BURNER_NO_DISC);
+		return FALSE;
+
+	case DISC_TYPE_DVDR:
+	case DISC_TYPE_DVDPLUSR:
+	case DISC_TYPE_DVDPLUSR_DL:
+	case DISC_TYPE_DVDR_DL:
+		if(!dvc->IsDiscBlank())
+		{
+			m_strError.LoadString(IDS_BURNER_NOT_WRITABLE_DISC);
+			return FALSE;
+		}
+
+	case DISC_TYPE_DVDRAM:
+	case DISC_TYPE_DVDRWRO:
+	case DISC_TYPE_DVDRWSR:
+	case DISC_TYPE_DVDPLUSRW:
+		break;
+
+	default: 
+		m_strError.LoadString(IDS_BURNER_UNSUPPORTED_DISC);
+		return FALSE;
+	}
+
+	UINT 
+		DiskSize=0,//=(info.MediaFreeSize+info.MediaSize)/1000/1000,
+		MovieSize=rs.QuadPart/1000/1000;//M
+
+	switch (GetDiscCapaticy(info.MediaType))
+	{
+	case DISC_CAP_DVD5:DiskSize=4700;break;
+	case DISC_CAP_DVD9:DiskSize=8500;break;
+#ifdef _BD
+	case DISC_CAP_BD25:DiskSize=25000;break;
+	case DISC_CAP_BD50:DiskSize=50000;break;
+#endif						
+	}
+
+	if(DiskSize<MovieSize)
+	{
+		m_strError.Format(IDS_LOWDISKSPACE,MovieSize/1000.0,DiskSize/1000.0);
+		return FALSE;
+	}
+
+	if(!dvc->IsDiscBlank())
+	{
+		if(!Erase(lpszUniqueID,FALSE,hWndNotify))
+		{
+			m_strError.LoadString(IDS_E_ERASE_DISC);
+			return FALSE;
+		}
+	}
+
+	dvc=GetDevice(lpszUniqueID);
+	SetWriteSpeed();
+	
+	NotifyParam tp;
+	tp.Completed=FALSE;
+	tp.dvc=dvc;
+	tp.NotifyHwnd=hWndNotify;
+	tp.SleepTime=1000;
+	tp.State=1;
+	
+	DWORD ThreadId;
+	HANDLE ThreadHD = CreateThread(NULL,0,NotifyThread,&tp,0,&ThreadId);
+
+	
+	TBurnOptions BurnOptions;
+	BurnOptions.OPC=TRUE;
+	BurnOptions.TestWrite=FALSE;
+	BurnOptions.WriteMethod=WRITE_MODE_TRACK_AT_ONCE;
+	BurnOptions.Speed=spd;
+
+	
+	CLogger::Reg((DWORD)&tp,LogFunc,Debug);
+	BOOL Succ=dvc->BurnDVDVideo(&BurnOptions,videoPath.GetBuffer(),(char *)lpszLabel);
+	CLogger::ClearImpList();
+
+	tp.Completed=TRUE;
+	dvc->Eject();
+	WaitForSingleObject( ThreadHD, INFINITE);
+  
+	dvc=NULL;
+	if(!Succ) m_strError.LoadString(IDS_BURNER_E_BURN_DISC);
+
+	return Succ;
+}
+
+void CSBBurner::SetWriteSpeed()
+{
+	TSpeeds spds;
+	dvc->GetWriteSpeeds(&spds);
+
+	int MaxSpeed=0;
+	int MaxSpeedID;
+
+	for(int n=0;n<spds.size();n++)
+	{
+		if(spds[n].SpeedKBps>MaxSpeed)
+		{
+			MaxSpeedID=n;
+			MaxSpeed=spds[n].SpeedKBps;
+		}
+	}
+	spd=spds[MaxSpeedID];
+}
+
+void CSBBurner::Cancel()
+{
+	if(dvc->GetDeviceStatus()==Burning)
+		dvc->CancelRWOperation();
+}
+
+BOOL CSBBurner::IsCanceled()
+{
+	if(dvc)	return dvc->GetDeviceStatus()==Canceling;
+	return FALSE;
+}
+
+#endif // _DVD
+

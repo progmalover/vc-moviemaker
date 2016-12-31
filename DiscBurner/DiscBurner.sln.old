@@ -1,0 +1,101 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Converter", "Converter.vcproj", "{CF7A0223-C2CC-4CB9-9773-E29797C0198B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999} = {9EACEC26-B3D3-4ED4-91AE-D595B59FC999}
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF} = {FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E} = {15295CEC-A7CC-4EE7-85D5-A36056E3605E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DVDMenu", "..\DVDMenu\DVDMenu.vcproj", "{15295CEC-A7CC-4EE7-85D5-A36056E3605E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Regexx", "..\Regexx\Regexx.vcproj", "{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Activation", "..\Activation\Activation.vcproj", "{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_BlueRay|Win32 = Debug_BlueRay|Win32
+		Debug_DVD|Win32 = Debug_DVD|Win32
+		Debug|Win32 = Debug|Win32
+		Release_BlueRay_AHS|Win32 = Release_BlueRay_AHS|Win32
+		Release_BlueRay|Win32 = Release_BlueRay|Win32
+		Release_DVD_AHS|Win32 = Release_DVD_AHS|Win32
+		Release_DVD|Win32 = Release_DVD|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Debug_BlueRay|Win32.ActiveCfg = Debug_BlueRay|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Debug_BlueRay|Win32.Build.0 = Debug_BlueRay|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Debug_DVD|Win32.ActiveCfg = Debug_DVD|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Debug_DVD|Win32.Build.0 = Debug_DVD|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Debug|Win32.ActiveCfg = Debug_DVD|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Debug|Win32.Build.0 = Debug_DVD|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release_BlueRay_AHS|Win32.ActiveCfg = Release_BlueRay_AHS|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release_BlueRay_AHS|Win32.Build.0 = Release_BlueRay_AHS|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release_BlueRay|Win32.ActiveCfg = Release_BlueRay|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release_BlueRay|Win32.Build.0 = Release_BlueRay|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release_DVD_AHS|Win32.ActiveCfg = Release_DVD_AHS|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release_DVD_AHS|Win32.Build.0 = Release_DVD_AHS|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release_DVD|Win32.ActiveCfg = Release_DVD|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release_DVD|Win32.Build.0 = Release_DVD|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release|Win32.ActiveCfg = Release_DVD_AHS|Win32
+		{CF7A0223-C2CC-4CB9-9773-E29797C0198B}.Release|Win32.Build.0 = Release_DVD_AHS|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Debug_BlueRay|Win32.ActiveCfg = Debug|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Debug_BlueRay|Win32.Build.0 = Debug|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Debug_DVD|Win32.ActiveCfg = Debug|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Debug_DVD|Win32.Build.0 = Debug|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Debug|Win32.Build.0 = Debug|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release_BlueRay_AHS|Win32.ActiveCfg = Release|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release_BlueRay_AHS|Win32.Build.0 = Release|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release_BlueRay|Win32.ActiveCfg = Release|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release_BlueRay|Win32.Build.0 = Release|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release_DVD_AHS|Win32.ActiveCfg = Release|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release_DVD_AHS|Win32.Build.0 = Release|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release_DVD|Win32.ActiveCfg = Release|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release_DVD|Win32.Build.0 = Release|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release|Win32.ActiveCfg = Release|Win32
+		{15295CEC-A7CC-4EE7-85D5-A36056E3605E}.Release|Win32.Build.0 = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Debug_BlueRay|Win32.ActiveCfg = Debug|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Debug_BlueRay|Win32.Build.0 = Debug|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Debug_DVD|Win32.ActiveCfg = Debug|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Debug_DVD|Win32.Build.0 = Debug|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Debug|Win32.Build.0 = Debug|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release_BlueRay_AHS|Win32.ActiveCfg = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release_BlueRay_AHS|Win32.Build.0 = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release_BlueRay|Win32.ActiveCfg = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release_BlueRay|Win32.Build.0 = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release_DVD_AHS|Win32.ActiveCfg = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release_DVD_AHS|Win32.Build.0 = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release_DVD|Win32.ActiveCfg = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release_DVD|Win32.Build.0 = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release|Win32.ActiveCfg = Release|Win32
+		{FDA111E2-4BCB-4CA8-A1CE-C736377B7FDF}.Release|Win32.Build.0 = Release|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Debug_BlueRay|Win32.ActiveCfg = Debug_Trial|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Debug_BlueRay|Win32.Build.0 = Debug_Trial|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Debug_DVD|Win32.ActiveCfg = Debug_Free|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Debug_DVD|Win32.Build.0 = Debug_Free|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Debug|Win32.ActiveCfg = Debug_Unicode_Free|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Debug|Win32.Build.0 = Debug_Unicode_Free|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release_BlueRay_AHS|Win32.ActiveCfg = Release_Unicode_Trial|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release_BlueRay_AHS|Win32.Build.0 = Release_Unicode_Trial|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release_BlueRay|Win32.ActiveCfg = Release_Trial|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release_BlueRay|Win32.Build.0 = Release_Trial|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release_DVD_AHS|Win32.ActiveCfg = Release_Free|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release_DVD_AHS|Win32.Build.0 = Release_Free|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release_DVD|Win32.ActiveCfg = Release_Free|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release_DVD|Win32.Build.0 = Release_Free|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release|Win32.ActiveCfg = Release_Unicode_Trial|Win32
+		{9EACEC26-B3D3-4ED4-91AE-D595B59FC999}.Release|Win32.Build.0 = Release_Unicode_Trial|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

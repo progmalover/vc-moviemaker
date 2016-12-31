@@ -1,0 +1,27 @@
+#pragma once
+
+
+// CDlgShutDown dialog
+
+class CDlgShutDown : public CDialog
+{
+	DECLARE_DYNAMIC(CDlgShutDown)
+
+public:
+	CDlgShutDown(CWnd* pParent = NULL);   // standard constructor
+	virtual ~CDlgShutDown();
+
+// Dialog Data
+	enum { IDD = IDD_SHUT_DOWN };
+
+	CString m_strButtonText;
+	int m_nCounter;
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+	DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL OnInitDialog();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+};

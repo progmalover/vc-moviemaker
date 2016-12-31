@@ -1,0 +1,244 @@
+// ProfilePane.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "Converter.h"
+#include "SidePane.h"
+#include "DeferWindowPos.h"
+#include "MainFrm.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+const UINT ID_PROFILE_TAB				= 1001;
+const UINT ID_SETTINGS_TAB				= 1002;
+const UINT ID_PLAYER_TAB				= 1003;
+const UINT ID_MENU_TAB				    = 1004;
+// CSidePane
+
+IMPLEMENT_DYNAMIC(CSidePane, CDockablePane)
+
+CSidePane::CSidePane()
+{
+
+}
+
+CSidePane::~CSidePane()
+{
+}
+
+
+BEGIN_MESSAGE_MAP(CSidePane, CDockablePane)
+	ON_WM_CREATE()
+	ON_WM_SIZE()
+	ON_WM_DESTROY()
+	ON_REGISTERED_MESSAGE(AFX_WM_CHANGE_ACTIVE_TAB, OnChangeActiveTab)
+END_MESSAGE_MAP()
+
+
+
+// CSidePane message handlers
+
+
+
+int CSidePane::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+
+	CRect rc(0, 0, 0, 0);
+
+	// Settings Tab
+	if (!m_wndSettingsTab.Create(CMFCTabCtrl::STYLE_3D, rc, this, ID_SETTINGS_TAB, CMFCTabCtrl::LOCATION_TOP))
+	{
+		TRACE0("Failed to create property tab control \n");
+		return -1;      // fail to create
+	}
+
+	m_wndSettingsTab.ModifyStyle(0, WS_CLIPCHILDREN);
+	m_wndSettingsTab.EnableTabSwap(FALSE);
+	m_wndSettingsTab.SetDrawFrame(FALSE);
+	m_wndSettingsTab.SetTabBorderSize(1);
+
+	// Important : create the advanced pane first because simple pane creation procedure will notify the advanced pane of
+	// property changes.
+	if (!m_wndPaneAdvanced.Create(AfxRegisterWndClass(0), "Advanced", WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN, rc, &m_wndSettingsTab, 1002, 0))
+	{
+		TRACE0("Failed to create advanced pane\n");
+		return -1;      // fail to create
+	}
+
+	if (!m_wndPaneSimple.Create(AfxRegisterWndClass(0), "Simple", WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN, rc, &m_wndSettingsTab, 1001, 0))
+	{
+		TRACE0("Failed to create simple pane\n");
+		return -1;      // fail to create
+	}
+
+	if (!m_wndPaneMenu.Create(AfxRegisterWndClass(0), "Menu", WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN, rc, &m_wndSettingsTab, 1003, 0))
+	{
+		TRACE0("Failed to create simple pane\n");
+		return -1;      // fail to create
+	}
+
+	m_wndSettingsTab.AddTab(&m_wndPaneSimple, IDS_TAB_SETTINGS);
+	m_wndSettingsTab.AddTab(&m_wndPaneAdvanced, IDS_TAB_ADVANCED);
+#ifdef _DVD
+	m_wndSettingsTab.AddTab(&m_wndPaneMenu, IDS_TAB_DVD_MENU);
+#else
+	m_wndSettingsTab.AddTab(&m_wndPaneMenu, IDS_TAB_BD_MENU);
+#endif
+	
+	// Player Tab
+	if (!m_wndPlayerTab.Create(CMFCTabCtrl::STYLE_3D, rc, this, ID_PLAYER_TAB, CMFCTabCtrl::LOCATION_TOP))
+	{
+		TRACE0("Failed to create player tab control \n");
+		return -1;      // fail to create
+	}
+
+	m_wndPlayerTab.ModifyStyle(0, WS_CLIPCHILDREN);
+	m_wndPlayerTab.EnableTabSwap(FALSE);
+	m_wndPlayerTab.SetDrawFrame(FALSE);
+	m_wndPlayerTab.SetTabBorderSize(0);
+	m_wndPlayerTab.HideSingleTab(TRUE);
+
+	if (!m_wndPlayerPane.Create(AfxRegisterWndClass(0), "Player", WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN, rc, &m_wndPlayerTab, 1004, 0))
+	{
+		TRACE0("Failed to create simple pane\n");
+		return -1;      // fail to create
+	}
+
+	m_wndPlayerTab.AddTab(&m_wndPlayerPane, IDS_TAB_PREVIEW);
+
+	m_wndPlayerTab.SetActiveTab(0);
+#ifdef _MENU_TEMPLATE_VIEW
+	// Menu Tab
+	if (!m_wndMenuTab.Create(CMFCTabCtrl::STYLE_3D, rc, this, ID_MENU_TAB, CMFCTabCtrl::LOCATION_TOP))
+	{
+		TRACE0("Failed to create menu tab control \n");
+		return -1;      // fail to create
+	}
+
+	m_wndMenuTab.ModifyStyle(0, WS_CLIPCHILDREN);
+	m_wndMenuTab.EnableTabSwap(FALSE);
+	m_wndMenuTab.SetDrawFrame(FALSE);
+	m_wndMenuTab.SetTabBorderSize(0);
+	m_wndMenuTab.HideSingleTab(TRUE);
+
+	if(!m_wndMenuView.Create(AfxRegisterWndClass(0), "MenuView", WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN, rc, &m_wndMenuTab, 1005, 0))
+	{
+		TRACE0("Failed to create menu view  pane\n");
+		return -1;      // fail to create
+	}
+	m_wndMenuTab.AddTab(&m_wndMenuView, IDS_TAB_MENU_VIEW);
+	m_wndMenuTab.SetActiveTab(0);
+#endif
+	m_wndSettingsTab.SetActiveTab(max(0, min(2, AfxGetApp()->GetProfileInt("Settings", "Active Tab", 0))));
+	return 0;
+}
+
+void CSidePane::OnDestroy()
+{
+	CDockablePane::OnDestroy();
+
+	// TODO: Add your message handler code here
+
+	AfxGetApp()->WriteProfileInt("Settings", "Active Tab", m_wndSettingsTab.GetActiveTab());
+}
+
+void CSidePane::OnSize(UINT nType, int cx, int cy)
+{
+	CDockablePane::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
+
+	RepositionControls();
+
+}
+
+void CSidePane::RepositionControls()
+{
+	if (::IsWindow(m_hWnd))
+	{
+		CRect rcClient;
+		GetClientRect(&rcClient);
+
+		CDeferWindowPos dwp;
+		dwp.BeginDeferWindowPos();
+
+		CSize size = m_wndPlayerPane.m_wndPlayerToolBar.GetButtonSize();
+		size.cy += 2*TOOLBAR_BORDER_Y;
+		size.cy *= 2;
+		//实际上会有3个像素的误差？？？？
+        size.cy += 3;
+#ifdef _DVD
+		const int PROFILE_TAB_HEIGHT = 180;
+#else
+		const int PROFILE_TAB_HEIGHT = 210;
+#endif
+		int   nPlayer = size.cy + rcClient.Width() * 3 / 4;
+		int   nTab = rcClient.Height()-nPlayer;
+		if(nTab<PROFILE_TAB_HEIGHT)
+		{
+			nTab = PROFILE_TAB_HEIGHT;
+			nPlayer = rcClient.Height()-nTab;
+		}
+#ifdef _MENU_TEMPLATE_VIEW
+		//CSize size ;
+		//m_wndMenuView.GetBorder(size);
+		ASSERT(m_wndMenuTab.GetSafeHwnd()!=NULL);
+		dwp.DeferWindowPos(m_wndMenuTab, NULL, rcClient.left, rcClient.bottom - nPlayer, 
+			rcClient.Width(),nPlayer, SWP_NOACTIVATE | SWP_NOZORDER);
+#endif
+		dwp.DeferWindowPos(m_wndPlayerTab, NULL, rcClient.left, rcClient.bottom - nPlayer, 
+			rcClient.Width(), nPlayer, SWP_NOACTIVATE | SWP_NOZORDER);
+		
+		dwp.DeferWindowPos(m_wndSettingsTab, NULL, rcClient.left, rcClient.top, 
+			rcClient.Width(), rcClient.Height() - nPlayer, SWP_NOACTIVATE | SWP_NOZORDER);
+
+		dwp.EndDeferWindowPos();
+	}
+}
+
+LRESULT CSidePane::OnChangeActiveTab(WPARAM wp, LPARAM lp)
+{
+	if ((CWnd *)lp == &m_wndSettingsTab)
+	{
+#ifdef _MENU_TEMPLATE_VIEW
+		if(m_wndMenuTab.GetSafeHwnd()!=NULL)
+		{
+			if(m_wndSettingsTab.GetActiveTab()==TAB_MENU)
+			{
+				m_wndMenuTab.ShowWindow(SW_SHOW);
+				m_wndPlayerTab.ShowWindow(SW_HIDE);
+			}
+			else
+			{
+				m_wndMenuTab.ShowWindow(SW_HIDE);
+				m_wndPlayerTab.ShowWindow(SW_SHOW);
+			}
+			CSubjectManager::Instance()->GetSubject(SUB_CHANGE_ACTIVE_TAB_SETTINGS)->Notify(NULL);
+		}
+#else
+		CSubjectManager::Instance()->GetSubject(SUB_CHANGE_ACTIVE_TAB_SETTINGS)->Notify(NULL);
+#endif	
+	}
+	return TRUE;
+}
+
+
+#ifdef _MENU_TEMPLATE_VIEW
+BOOL CSidePane::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
+{
+	if (m_wndPaneMenu.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
+		return TRUE;
+
+	if (m_wndMenuView.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
+		return TRUE;
+	return FALSE;
+}
+#endif

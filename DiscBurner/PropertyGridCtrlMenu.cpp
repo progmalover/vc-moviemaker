@@ -1,0 +1,762 @@
+// PropertyGridCtrl.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "Converter.h"
+#include "PropertyGridCtrlMenu.h"
+#include "MainFrm.h"
+#include "MenuTemplateManager.h"
+#include "FileList.h"
+#include "Options.h"
+
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+class CMFCPropertyGridFilePropertyEx : public CMFCPropertyGridFileProperty
+{
+public:
+CMFCPropertyGridFilePropertyEx( const CString& strName, BOOL bOpenFileDialog, const CString& strFileName, LPCTSTR lpszDefExt, DWORD dwFileFlags, LPCTSTR lpszFilter, LPCTSTR lpszDescr, DWORD_PTR dwData);
+public:
+	virtual void OnClickButton(CPoint /*point*/)
+	{
+		ASSERT_VALID(this);
+		ASSERT_VALID(m_pWndList);
+		ASSERT_VALID(m_pWndInPlace);
+		ASSERT(::IsWindow(m_pWndInPlace->GetSafeHwnd()));
+
+		m_bButtonIsDown = TRUE;
+		Redraw();
+
+		USES_CONVERSION;
+		CString strPath = (_bstr_t)m_varValue.bstrVal;
+		BOOL bUpdate = FALSE;
+
+		if (m_bIsFolder)
+		{
+			if (afxShellManager == NULL)
+			{
+				CWinAppEx* pApp = DYNAMIC_DOWNCAST(CWinAppEx, AfxGetApp());
+				if (pApp != NULL)
+				{
+					pApp->InitShellManager();
+				}
+			}
+
+			if (afxShellManager == NULL)
+			{
+				ASSERT(FALSE);
+			}
+			else
+			{
+				bUpdate = afxShellManager->BrowseForFolder(strPath, m_pWndList, strPath);
+			}
+		}
+		else
+		{
+			CFileDialog dlg(m_bOpenFileDialog, m_strDefExt, strPath, m_dwFileOpenFlags, m_strFilter, m_pWndList);
+			if (dlg.DoModal() == IDOK)
+			{
+				
+				strPath = dlg.GetPathName();
+				if(strPath.Find('?')!=-1)
+				{
+					AfxMessageBox(IDS_E_FILE_NAME_UNUASUAL_CHARS2);
+				}
+				else
+					bUpdate = TRUE;
+			}
+		}
+
+		if (bUpdate)
+		{
+			if (m_pWndInPlace != NULL)
+			{
+				m_pWndInPlace->SetWindowText(strPath);
+			}
+
+			m_varValue = (LPCTSTR) strPath;
+		}
+
+		m_bButtonIsDown = FALSE;
+		Redraw();
+
+		if (m_pWndInPlace != NULL)
+		{
+			m_pWndInPlace->SetFocus();
+		}
+		else
+		{
+			m_pWndList->SetFocus();
+		}
+	}
+};
+
+CMFCPropertyGridFilePropertyEx::CMFCPropertyGridFilePropertyEx( const CString& strName, BOOL bOpenFileDialog, const CString& strFileName, LPCTSTR lpszDefExt, DWORD dwFileFlags, LPCTSTR lpszFilter, LPCTSTR lpszDescr, DWORD_PTR dwData)
+:CMFCPropertyGridFileProperty(strName,bOpenFileDialog,strFileName,lpszDefExt,dwFileFlags,lpszFilter,lpszDescr,dwData)
+{
+}
+
+class CMFCPropertyGridFontPropertyEx : public CMFCPropertyGridFontProperty
+{
+	// Construction
+public:
+	CMFCPropertyGridFontPropertyEx(const CString& strName, LOGFONT& lf, DWORD dwFontDialogFlags = CF_EFFECTS | CF_SCREENFONTS, 
+		LPCTSTR lpszDescr = NULL, DWORD_PTR dwData = 0, COLORREF color = (COLORREF)-1);
+
+public:
+	virtual void OnClickButton(CPoint /*point*/)
+	{
+		ASSERT_VALID(this);
+		ASSERT_VALID(m_pWndList);
+		ASSERT_VALID(m_pWndInPlace);
+		ASSERT(::IsWindow(m_pWndInPlace->GetSafeHwnd()));
+
+		LOGFONT lfPrev = m_lf;
+		COLORREF nColorPrev = m_Color;
+
+		m_bButtonIsDown = TRUE;
+		Redraw();
+
+#pragma warning(disable : 4244)
+
+		CFontDialog dlg(&lfPrev, m_dwFontDialogFlags | CF_SELECTSCRIPT, NULL, m_pWndList);
+
+#pragma warning(default : 4244)
+
+		CHARSETINFO cs;
+		memset(&cs, 0, sizeof(cs));
+		VERIFY(TranslateCharsetInfo((DWORD *)GetACP(), &cs, TCI_SRCCODEPAGE));
+		dlg.m_cf.lpLogFont->lfCharSet = cs.ciCharset;
+
+		if (m_Color != (COLORREF)-1)
+		{
+			dlg.m_cf.rgbColors = m_Color;
+		}
+
+		if (dlg.DoModal() == IDOK)
+		{
+			dlg.GetCurrentFont(&lfPrev);
+			m_Color = dlg.GetColor();
+
+			if (memcmp(&lfPrev, &m_lf, sizeof(lfPrev) - sizeof(lfPrev.lfFaceName)) || _tcscmp( lfPrev.lfFaceName, m_lf.lfFaceName) || nColorPrev != m_Color)
+			{
+				m_lf = lfPrev;
+				m_pWndList->OnPropertyChanged(this);
+			}
+
+			if (m_pWndInPlace != NULL)
+			{
+				m_pWndInPlace->SetWindowText(FormatProperty());
+			}
+			else
+			{
+				m_varValue = (LPCTSTR) FormatProperty();
+			}
+		}
+
+		if (m_pWndInPlace != NULL)
+		{
+			m_pWndInPlace->SetFocus();
+		}
+		else
+		{
+			m_pWndList->SetFocus();
+		}
+
+		m_bButtonIsDown = FALSE;
+		Redraw();
+	}
+
+	void SetFont(LPCTSTR lpszFont, int nSize)
+	{
+		_tcsncpy(m_lf.lfFaceName, lpszFont, LF_FACESIZE);
+		m_lf.lfHeight = PointSizeToFontSize(nSize);
+		Redraw();
+	}
+
+	void SetColor(COLORREF color)
+	{
+		m_Color = color;
+		Redraw();
+	}
+};
+
+CMFCPropertyGridFontPropertyEx::CMFCPropertyGridFontPropertyEx(const CString& strName, LOGFONT& lf, DWORD dwFontDialogFlags, LPCTSTR lpszDescr, 
+	DWORD_PTR dwData, COLORREF color) : CMFCPropertyGridFontProperty(strName, lf, dwFontDialogFlags, lpszDescr, dwData, color)
+{
+}
+
+class CMenuParamValidateProp : public CMFCPropertyGridProperty
+{
+public:
+	CMenuParamValidateProp(const CString& strName, const COleVariant& varValue, LPCTSTR lpszDescr = NULL, DWORD_PTR dwData = 0,
+		LPCTSTR lpszEditMask = NULL, LPCTSTR lpszEditTemplate = NULL, LPCTSTR lpszValidChars = NULL);
+	virtual BOOL OnUpdateValue();
+
+protected:
+	static BOOL Validate(CMenuParamValidateProp *pProp);
+};
+
+CMenuParamValidateProp::CMenuParamValidateProp(const CString& strName, const COleVariant& varValue, LPCTSTR lpszDescr, DWORD_PTR dwData,
+	LPCTSTR lpszEditMask, LPCTSTR lpszEditTemplate, LPCTSTR lpszValidChars) : 
+	CMFCPropertyGridProperty(strName, varValue, lpszDescr, dwData, lpszEditMask, lpszEditTemplate, lpszValidChars)
+{
+}
+
+BOOL CMenuParamValidateProp::OnUpdateValue()
+{
+	return Validate(this);
+}
+
+BOOL CMenuParamValidateProp::Validate(CMenuParamValidateProp *pProp)
+{
+	ASSERT_VALID(pProp);
+	ASSERT_VALID(pProp->m_pWndInPlace);
+	ASSERT(::IsWindow(pProp->m_pWndInPlace->GetSafeHwnd()));
+
+	CString strText;
+	pProp->m_pWndInPlace->GetWindowText(strText);
+
+	if (pProp->FormatProperty() == strText)
+		return TRUE;
+
+	if ((MENU_PROP_DATA)pProp->GetData() == MENU_PROP_DURATION)
+	{
+		BOOL bError = FALSE;
+
+		int len = strText.GetLength();
+		if (len == 0 || len > 3)
+		{
+			bError = TRUE;
+		}
+		else
+		{
+			for (int i = 0; i < len; i++)
+			{
+				TCHAR c = strText[i];
+				if (!(c >= '0' && c <= '9'))
+				{
+					bError = TRUE;
+					break;
+				}
+			}
+
+			int nDuration = _ttoi(strText);
+			if (nDuration < MENU_DURATION_MIN || nDuration > MENU_DURATION_MAX)
+				bError = TRUE;
+		}
+
+		if (bError)
+		{
+			static BOOL bRecursedHere = FALSE;
+			if (bRecursedHere)
+				return FALSE;
+			bRecursedHere = TRUE;
+
+			USES_CONVERSION;
+			pProp->m_pWndInPlace->SetWindowText((_bstr_t)pProp->GetValue());
+
+			// Prevent from displaying while app exit
+			if (AfxGetMainWnd()->IsWindowVisible())
+			{
+				AfxMessageBox(IDS_E_DVD_MENU_DURATION);
+				if (pProp->m_pWndList->EditItem(pProp))
+				{
+					((CEdit *)pProp->m_pWndInPlace)->SetSel(0, -1);
+					pProp->m_pWndInPlace->SetFocus();
+				}
+			}
+
+			bRecursedHere = FALSE;
+
+			return FALSE;
+		}
+	}
+
+	return pProp->CMFCPropertyGridProperty::OnUpdateValue();
+}
+
+// CPropertyGridCtrlMenu
+
+IMPLEMENT_DYNAMIC(CPropertyGridCtrlMenu, CMFCPropertyGridCtrl)
+
+CPropertyGridCtrlMenu::CPropertyGridCtrlMenu()
+{
+
+}
+
+CPropertyGridCtrlMenu::~CPropertyGridCtrlMenu()
+{
+}
+
+
+BEGIN_MESSAGE_MAP(CPropertyGridCtrlMenu, CMFCPropertyGridCtrl)
+	ON_WM_CREATE()
+END_MESSAGE_MAP()
+
+
+
+// CPropertyGridCtrlMenu message handlers
+
+int CPropertyGridCtrlMenu::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CMFCPropertyGridCtrl::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Add your specialized creation code here
+
+	EnableHeaderCtrl(FALSE);
+	EnableDescriptionArea();
+	SetVSDotNetLook();
+
+#ifdef _DEBUG
+	MarkModifiedProperties();
+#endif
+
+	LoadMenuTemplates();
+
+	return 0;
+}
+
+void CPropertyGridCtrlMenu::LoadMenuTemplates()
+{
+	if (CMenuTemplateManager::Instance()->m_templates.size() == 0)
+		return;
+	RemoveAll();
+
+	CString strTitle,strDes,strOptions,strDefault;
+	CStringArray strArray;
+	strTitle.LoadString(IDS_MENU_GENERAL);
+	CMFCPropertyGridProperty *pCatGeneral = new CMFCPropertyGridProperty(strTitle, (DWORD_PTR)MENU_CAT_GENERAL);
+	AddProperty(pCatGeneral);
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// templates  
+	strTitle.LoadString(IDS_MENU_TEMPLATES);
+	strDes.LoadString(IDS_MENU_TEMPLATES_DES);
+	CMFCPropertyGridProperty *pPropTemplates = new CMFCPropertyGridProperty(strTitle, "", strDes, MENU_PROP_TEMPLATES);
+	pPropTemplates->AllowEdit(FALSE);
+	pPropTemplates->Enable(TRUE);
+	for (int i = 0; i < CMenuTemplateManager::Instance()->m_templates.size(); i++)
+	{
+		CString &strTemplate = CMenuTemplateManager::Instance()->m_templates[i]->m_strName;
+		pPropTemplates->AddOption(strTemplate, FALSE);
+	}
+
+	pPropTemplates->SetValue(CMenuTemplateManager::Instance()->GetCurrentTemplate()->m_strName);
+	pCatGeneral->AddSubItem(pPropTemplates);
+
+	// background image
+	CString strImageExt;
+	strTitle.LoadString(IDS_MENU_BG_IMAGE);
+	strDes.LoadString(IDS_MENU_BG_IMAGE_DES);
+	strImageExt.LoadString(IDS_MENU_BG_IMAGE_EXT);
+	CMFCPropertyGridProperty *pPropBackgroundImage = new CMFCPropertyGridFilePropertyEx(strTitle, TRUE, "", NULL, 
+		OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_ENABLESIZING | OFN_HIDEREADONLY, 
+		strImageExt, strDes, MENU_PROP_BACKGROUND_IMAGE);
+	pPropBackgroundImage->AllowEdit(FALSE);
+	pPropBackgroundImage->Enable(TRUE);
+	pCatGeneral->AddSubItem(pPropBackgroundImage);
+
+	// background audio
+	CString strAudioExt;
+	strTitle.LoadString(IDS_MENU_BG_AUDIO);
+	strDes.LoadString(IDS_MENU_BG_AUDIO_DES);
+	strAudioExt.LoadString(IDS_MENU_BG_AUDIO_EXT);
+	CMFCPropertyGridProperty *pPropBackgroundAudio = new CMFCPropertyGridFilePropertyEx(strTitle, TRUE, "", NULL, 
+		OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_ENABLESIZING | OFN_HIDEREADONLY, 
+		strAudioExt, strDes, MENU_PROP_BACKGROUND_AUDIO);
+	pPropBackgroundAudio->AllowEdit(FALSE);
+	pPropBackgroundAudio->Enable(TRUE);
+	pCatGeneral->AddSubItem(pPropBackgroundAudio);
+
+	// menu duration
+	strTitle.LoadString(IDS_MENU_DURATION);
+	strDes.LoadString(IDS_MENU_DURATION_DES);
+	CMFCPropertyGridProperty *pPropDuration = new CMenuParamValidateProp(strTitle, "", strDes, MENU_PROP_DURATION);
+	pCatGeneral->AddSubItem(pPropDuration);
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// title
+	strTitle.LoadString(IDS_MENU_TITLE);
+	CMFCPropertyGridProperty *pCatTitle = new CMFCPropertyGridProperty(strTitle, (DWORD_PTR)MENU_CAT_TITLE);
+	AddProperty(pCatTitle);
+
+	// title font
+	LOGFONT lf;
+	ZeroMemory(&lf, sizeof(lf));
+	HFONT hFont = GetStockFont(DEFAULT_GUI_FONT);
+	::GetObject(hFont, sizeof(lf), &lf);
+	strTitle.LoadString(IDS_MENU_TITLE_FONT);
+	strDes.LoadString(IDS_MENU_TITLE_FONT_DES);
+	CMFCPropertyGridFontPropertyEx *pPropTitleFont = new CMFCPropertyGridFontPropertyEx(strTitle, lf, CF_EFFECTS | CF_SCREENFONTS | CF_NOVERTFONTS, 
+		strDes, MENU_PROP_TITLE_FONT);
+	pCatTitle->AddSubItem(pPropTitleFont);
+
+	// title text
+	strTitle.LoadString(IDS_MENU_TITLE_TEXT);
+	strDes.LoadString(IDS_MENU_TITLE_TEXT_DES);
+	CMFCPropertyGridProperty *pPropTitleText = new CMFCPropertyGridProperty(strTitle, "", strDes, MENU_PROP_TITLE_TEXT);
+	pCatTitle->AddSubItem(pPropTitleText);
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// button
+	strTitle.LoadString(IDS_MENU_BUTTON);
+	CMFCPropertyGridProperty *pCatButton = new CMFCPropertyGridProperty(strTitle, (DWORD_PTR)MENU_CAT_BUTTON);
+	AddProperty(pCatButton);
+
+	// button text font
+	strTitle.LoadString(IDS_MENU_BUTTON_FONT);
+	strDes.LoadString(IDS_MENU_BUTTON_FONT_DES);
+	CMFCPropertyGridFontPropertyEx *pPropButtonTextFont = new CMFCPropertyGridFontPropertyEx(strTitle, lf, CF_EFFECTS | CF_SCREENFONTS | CF_NOVERTFONTS, 
+		strDes, MENU_PROP_BUTTON_FONT);
+	pCatButton->AddSubItem(pPropButtonTextFont);
+
+	// button text
+	strTitle.LoadString(IDS_MENU_BUTTON_TEXT);
+	strDes.LoadString(IDS_MENU_BUTTON_TEXT_DES);
+	CMFCPropertyGridProperty *pPropButtonText = new CMFCPropertyGridProperty(strTitle, "", strDes, MENU_PROP_BUTTON_TEXT);
+	pPropButtonText->Enable(FALSE);
+	pCatButton->AddSubItem(pPropButtonText);
+
+	CString strTempExtension;
+	int  nAction;
+	strTitle.LoadString(IDS_MENU_NAVIGATION);
+	CMFCPropertyGridProperty *pCatNavigation = new CMFCPropertyGridProperty(strTitle, (DWORD_PTR)MENU_CAT_NAVIGATION);
+	AddProperty(pCatNavigation);
+#ifdef _DVD
+	//IDS_AFTER_CURRENT_VIDEO -- IDS_AFTER_CURRENT_VIDEO_OPTIONS
+	strTitle.LoadString(IDS_AFTER_CURRENT_VIDEO);
+	strDes.LoadString(IDS_AFTER_CURRENT_VIDEO_DES);
+	CMFCPropertyGridProperty *pPropAfterCurVideo = new CMFCPropertyGridProperty(strTitle, "", strDes, MENU_PROP_NAVIGATION_CUR);
+	pPropAfterCurVideo->AllowEdit(FALSE);
+	pPropAfterCurVideo->Enable(TRUE);
+	ReadString(IDS_AFTER_CURRENT_VIDEO_OPTIONS,&strArray);
+	for(int n = 0;n<strArray.GetCount();n++)
+		pPropAfterCurVideo->AddOption(strArray[n], FALSE);
+	nAction = COptions::Instance()->m_nAfterCurVideoOptions;
+	strDefault = nAction>=strArray.GetCount()?strArray[PLAY_NEXT_VIDEO]:strArray[nAction];
+	pPropAfterCurVideo->SetValue(strDefault);
+	pCatNavigation->AddSubItem(pPropAfterCurVideo);
+#endif
+
+	//IDS_AFTER_LAST_VIDEO -- IDS_AFTER_LAST_VIDEO_OPTIONS
+	strTitle.LoadString(IDS_AFTER_LAST_VIDEO);
+	strDes.LoadString(IDS_AFTER_LAST_VIDEO_DES);
+	CMFCPropertyGridProperty *pPropAfterLastVideo = new CMFCPropertyGridProperty(strTitle, "", strDes, MENU_PROP_NAVIGATION_LAST);
+	pPropAfterLastVideo->AllowEdit(FALSE);
+	pPropAfterLastVideo->Enable(TRUE);
+	strArray.RemoveAll();
+
+	ReadString(IDS_AFTER_LAST_PLAYBACK_OPTIONS,&strArray);
+	for(int n = 0;n<strArray.GetCount();n++)
+		pPropAfterLastVideo->AddOption(strArray[n], FALSE);
+	nAction = COptions::Instance()->m_nAfterLastVideoOptions;
+	if(nAction>=strArray.GetCount())
+	{
+#ifdef _DVD
+		nAction = PLAY_NEXT_VIDEO;
+#else
+		nAction = BACK_FIRST_MENU;
+#endif
+	}
+	pPropAfterLastVideo->SetValue(strArray[nAction]);
+	pCatNavigation->AddSubItem(pPropAfterLastVideo);
+
+	LoadState();
+
+	SetRedraw(TRUE);
+	Invalidate(FALSE);
+
+	OnTemplateChanged();
+}
+
+void CPropertyGridCtrlMenu::OnPropertyChanged(CMFCPropertyGridProperty* pProp) const
+{
+	USES_CONVERSION;
+
+	CMenuTemplate *pTemplate = CMenuTemplateManager::Instance()->GetCurrentTemplate();
+    MENU_PROP_DATA mTemplateID = (MENU_PROP_DATA)pProp->GetData();
+	switch (mTemplateID)
+	{
+		case MENU_PROP_TEMPLATES:
+			{
+				CString strMenu = OLE2A(pProp->GetValue().bstrVal);
+				CMenuTemplateManager::Instance()->SetCurrentTemplate(strMenu);
+				((CPropertyGridCtrlMenu *)this)->OnTemplateChanged();
+			}
+			break;
+			
+		case MENU_PROP_BACKGROUND_IMAGE:
+			pTemplate->m_strBackgroundImageNew = OLE2A(pProp->GetValue().bstrVal);
+			CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_PARAM_CHANGED)->Notify((void *)&mTemplateID);
+			break;
+
+		case MENU_PROP_BACKGROUND_AUDIO:
+			pTemplate->m_strBackgroundAudioNew = OLE2A(pProp->GetValue().bstrVal);
+			CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_PARAM_CHANGED)->Notify((void *)&mTemplateID);
+			break;
+
+		case MENU_PROP_DURATION:
+			pTemplate->m_strDurationNew = OLE2A(pProp->GetValue().bstrVal);
+#ifdef _BD
+			pTemplate->m_strDurationNew.Trim();
+			if(!pTemplate->m_strDurationNew.IsEmpty())
+				COptions::Instance()->m_strMenuDuration = pTemplate->m_strDurationNew;
+#endif
+			CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_PARAM_CHANGED)->Notify((void *)&mTemplateID);
+			break;
+
+		case MENU_PROP_TITLE_TEXT:
+			pTemplate->m_strTitleTextNew = OLE2A(pProp->GetValue().bstrVal);
+			CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_PARAM_CHANGED)->Notify((void *)&mTemplateID);
+			break;
+
+		case MENU_PROP_TITLE_FONT:
+		{
+			CMFCPropertyGridFontPropertyEx *pPropFont = (CMFCPropertyGridFontPropertyEx *)pProp;
+			
+			LOGFONT *lf = pPropFont->GetLogFont();
+			pTemplate->m_strTitleFontNew = lf->lfFaceName;
+			pTemplate->m_strTitleFontSizeNew.Format("%d", FontSizeToPointSize(lf->lfHeight));
+			pTemplate->m_strTitleTextColorNew = RGBToAVS(pPropFont->GetColor());
+			CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_PARAM_CHANGED)->Notify((void *)&mTemplateID);
+			break;
+		}
+
+		case MENU_PROP_BUTTON_TEXT:
+		{
+			CTask *pTask = CFileList::Instance()->GetCurTask();
+			if (pTask == NULL)
+				return;
+			pTask->m_strButtonText = OLE2A(pProp->GetValue().bstrVal);
+			CSubjectManager::Instance()->GetSubject(SUB_BUTTON_TEXT_CHANDED)->Notify((void *)pTask);
+			break;
+		}
+
+		case MENU_PROP_BUTTON_FONT:
+		{
+			CMFCPropertyGridFontPropertyEx *pPropFont = (CMFCPropertyGridFontPropertyEx *)pProp;
+
+			CTask *pTask = CFileList::Instance()->GetCurTask();
+			if (pTask == NULL)
+				return;
+
+			LOGFONT *lf = pPropFont->GetLogFont();
+			pTemplate->m_strButtonFontNew = lf->lfFaceName;
+			pTemplate->m_strButtonFontSizeNew.Format("%d", FontSizeToPointSize(lf->lfHeight));
+			pTemplate->m_strButtonTextColorNew = RGBToAVS(pPropFont->GetColor());
+			CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_PARAM_CHANGED)->Notify((void *)&mTemplateID);
+			break;
+		}
+#ifdef _DVD
+		case MENU_PROP_NAVIGATION_CUR:
+			{
+				CString strValue = OLE2A(pProp->GetValue().bstrVal);
+				CStringArray strArray;
+				ReadString(IDS_AFTER_CURRENT_VIDEO_OPTIONS,&strArray);
+				for(int i =0;i<strArray.GetCount();i++ )
+				{
+					if(strArray[i]==strValue)
+					{
+						COptions::Instance()->m_nAfterCurVideoOptions = (NAVIGATION_ACTION)i;
+						break;
+					}
+				}
+				CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_PARAM_CHANGED)->Notify((void *)&mTemplateID);
+			}
+			break;
+#endif
+		case MENU_PROP_NAVIGATION_LAST:
+			{
+				CString strValue = OLE2A(pProp->GetValue().bstrVal);
+				CStringArray strArray;
+				ReadString(IDS_AFTER_LAST_PLAYBACK_OPTIONS,&strArray);
+				for(int i =0;i<strArray.GetCount();i++ )
+				{
+					if(strArray[i]==strValue)
+					{
+						COptions::Instance()->m_nAfterLastVideoOptions = (NAVIGATION_ACTION)i;
+						break;
+					}
+				}
+				CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_PARAM_CHANGED)->Notify((void *)&mTemplateID);
+			}
+			break;
+		default:
+			break;
+	}
+}
+
+void CPropertyGridCtrlMenu::OnTemplateChanged()
+{
+	CMenuTemplate *pTemplate = CMenuTemplateManager::Instance()->GetCurrentTemplate();
+
+	// image
+	CMFCPropertyGridProperty *pPropBackgroundImage = FindItemByData(MENU_PROP_BACKGROUND_IMAGE);
+	if (pTemplate->m_bTemplate)
+		pPropBackgroundImage->SetValue(pTemplate->m_strFolder + "\\" + pTemplate->m_strBackgroundImage);
+	pPropBackgroundImage->Enable(pTemplate->m_bTemplate);
+	OnPropertyChanged(pPropBackgroundImage);
+
+	// audio
+	CMFCPropertyGridProperty *pPropBackgroundAudio = FindItemByData(MENU_PROP_BACKGROUND_AUDIO);
+	if (pTemplate->m_bTemplate)
+		pPropBackgroundAudio->SetValue(pTemplate->m_strFolder + "\\" + pTemplate->m_strBackgroundAudio);
+	pPropBackgroundAudio->Enable(pTemplate->m_bTemplate);
+	OnPropertyChanged(pPropBackgroundAudio);
+
+	// duration
+	CMFCPropertyGridProperty *pPropDuration = FindItemByData(MENU_PROP_DURATION);
+	if (pTemplate->m_bTemplate)
+#ifdef _DVD
+		pPropDuration->SetValue(pTemplate->m_strDuration);
+#else
+		pPropDuration->SetValue(COptions::Instance()->m_strMenuDuration);
+#endif
+	pPropDuration->Enable(pTemplate->m_bTemplate);
+	OnPropertyChanged(pPropDuration);
+
+	// title text
+	CMFCPropertyGridProperty *pPropTitleText = FindItemByData(MENU_PROP_TITLE_TEXT);
+	if (pTemplate->m_bTemplate)
+		pPropTitleText->SetValue(pTemplate->m_strTitleText);
+	pPropTitleText->Enable(pTemplate->m_bTemplate);
+	OnPropertyChanged(pPropTitleText);
+
+	// title font
+	CMFCPropertyGridFontPropertyEx *pPropTitleFont = (CMFCPropertyGridFontPropertyEx *)FindItemByData(MENU_PROP_TITLE_FONT);
+	if (pTemplate->m_bTemplate)
+	{
+		pPropTitleFont->SetFont(pTemplate->m_strTitleFont, _ttoi(pTemplate->m_strTitleFontSize));
+		pPropTitleFont->SetColor(AVSToRGB(pTemplate->m_strTitleTextColor));
+	}
+	pPropTitleFont->Enable(pTemplate->m_bTemplate);
+	OnPropertyChanged(pPropTitleFont);
+
+	// button font
+	CMFCPropertyGridFontPropertyEx *pPropButtonFont = (CMFCPropertyGridFontPropertyEx *)FindItemByData(MENU_PROP_BUTTON_FONT);
+	if (pTemplate->m_bTemplate)
+	{
+		pPropButtonFont->SetFont(pTemplate->m_strButtonFont, _ttoi(pTemplate->m_strButtonFontSize));
+		pPropButtonFont->SetColor(AVSToRGB(pTemplate->m_strButtonTextColor));
+	}
+	pPropButtonFont->Enable(pTemplate->m_bTemplate);
+	OnPropertyChanged(pPropButtonFont);
+    
+	// navigation
+#ifdef _DVD
+	CMFCPropertyGridProperty *pPropNavigationCur = FindItemByData(MENU_PROP_NAVIGATION_CUR);
+	pPropNavigationCur->Enable(pTemplate->m_bTemplate);
+#endif
+	CMFCPropertyGridProperty *pPropNavigationLast = FindItemByData(MENU_PROP_NAVIGATION_LAST);
+	pPropNavigationLast->Enable(pTemplate->m_bTemplate);
+
+	CMFCPropertyGridProperty *pButtonText = FindItemByData(MENU_PROP_BUTTON_TEXT);
+	CTask *pTask = CFileList::Instance()->GetCurTask();
+	pButtonText->Enable(pTemplate->m_bTemplate && pTask!=NULL);
+
+	//zxy
+	CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_CHANGED)->Notify(NULL);
+	//MENU_PROP_DATA	mTemplateID = MENU_PROP_TEMPLATES
+	//CSubjectManager::Instance()->GetSubject(SUB_MENU_TEMPLATE_PARAM_CHANGED)->Notify((void *)mTemplateID);
+}
+
+CMFCPropertyGridProperty *CPropertyGridCtrlMenu::FindProperty(MENU_PROP_CAT cat, LPCTSTR lpszName)
+{
+	CMFCPropertyGridProperty *pCat = FindItemByData(cat);
+	ASSERT(pCat != NULL);
+	if (pCat != NULL)
+	{
+		for (int i = 0; i < pCat->GetSubItemsCount(); i++)
+		{
+			CMFCPropertyGridColorProperty *pProp = (CMFCPropertyGridColorProperty *)pCat->GetSubItem(i);
+			CProfileParam *pParam = (CProfileParam *)pProp->GetData();
+			if (pParam != NULL && pParam->m_strName.CompareNoCase(lpszName) == 0)
+				return pProp;
+		}
+	}
+
+	return NULL;
+}
+
+IMPLEMENT_OBSERVER(CPropertyGridCtrlMenu, SUB_FILE_SEL_CHANGED)
+{
+	CMFCPropertyGridProperty *pProp = FindItemByData(MENU_PROP_BUTTON_TEXT);
+
+	CTask *pTask = CFileList::Instance()->GetCurTask();
+	if (pTask != NULL)
+	{
+		CMenuTemplate *pTemplate = CMenuTemplateManager::Instance()->GetCurrentTemplate();
+		pProp->Enable(pTemplate->m_bTemplate);
+		pProp->SetValue(pTask->m_strButtonText);
+	}
+	else
+	{
+		pProp->Enable(FALSE);
+		pProp->SetValue("");
+	}
+}
+
+
+void CPropertyGridCtrlMenu::LoadState()
+{
+	// Important: must call this function first, or else redrawing problem will 
+	// be caused (the expanding state of the last node will be incorrect).
+	ExpandAll();
+
+	for (UINT i = 0; i < GetPropertyCount(); i++)
+	{
+		CMFCPropertyGridProperty *pProp = GetProperty(i);
+		switch (pProp->GetData())
+		{
+		case MENU_CAT_GENERAL:
+			pProp->Expand(AfxGetApp()->GetProfileInt(_T("Profiles\\Menu\\Expanded"), _T("General"), TRUE));
+			break;
+
+		case MENU_CAT_TITLE:
+			pProp->Expand(AfxGetApp()->GetProfileInt(_T("Profiles\\Menu\\Expanded"), _T("Title"), TRUE));
+			break;
+
+		case MENU_CAT_BUTTON:
+			pProp->Expand(AfxGetApp()->GetProfileInt(_T("Profiles\\Menu\\Expanded"), _T("Button"), TRUE));
+			break;
+
+		case MENU_CAT_NAVIGATION:
+			pProp->Expand(AfxGetApp()->GetProfileInt(_T("Profiles\\Menu\\Expanded"), _T("Navigation"), TRUE));
+			break;
+		}
+	}
+}
+
+void CPropertyGridCtrlMenu::SaveState()
+{
+	for (UINT i = 0; i < GetPropertyCount(); i++)
+	{
+		CMFCPropertyGridProperty *pProp = GetProperty(i);
+		switch (pProp->GetData())
+		{
+		case MENU_CAT_GENERAL:
+			AfxGetApp()->WriteProfileInt(_T("Profiles\\Menu\\Expanded"), _T("General"), pProp->IsExpanded());
+			break;
+
+		case MENU_CAT_TITLE:
+			AfxGetApp()->WriteProfileInt(_T("Profiles\\Menu\\Expanded"), _T("Title"), pProp->IsExpanded());
+			break;
+
+		case MENU_CAT_BUTTON:
+			AfxGetApp()->WriteProfileInt(_T("Profiles\\Menu\\Expanded"), _T("Button"), pProp->IsExpanded());
+			break;
+
+		case MENU_CAT_NAVIGATION:
+			AfxGetApp()->WriteProfileInt(_T("Profiles\\Menu\\Expanded"), _T("Navigation"), pProp->IsExpanded());
+			break;
+		}
+	}
+}

@@ -1,0 +1,731 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_BlueRay|Win32">
+      <Configuration>Debug_BlueRay</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_DVD|Win32">
+      <Configuration>Debug_DVD</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_BlueRay_AHS|Win32">
+      <Configuration>Release_BlueRay_AHS</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_BlueRay|Win32">
+      <Configuration>Release_BlueRay</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DVD_AHS|Win32">
+      <Configuration>Release_DVD_AHS</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_DVD|Win32">
+      <Configuration>Release_DVD</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CF7A0223-C2CC-4CB9-9773-E29797C0198B}</ProjectGuid>
+    <RootNamespace>Converter</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\poco-1.3.6p2\Foundation\include\;..\poco-1.3.6p2\XML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_BD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;_BD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>PowrProf.lib;strmiids.lib;Rpcrt4.lib;vfw32.lib;Version.lib;PocoXMLmtd.lib;..\Regexx\Debug\Regexx.lib;..\Activation\Debug_Trial\Activation.lib;..\Activation\Debug_Trial\Activation.res;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\poco-1.3.6p2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\poco-1.3.6p2\Foundation\include\;..\poco-1.3.6p2\XML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_BD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_BD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>PowrProf.lib;strmiids.lib;Rpcrt4.lib;vfw32.lib;Version.lib;PocoXMLmt.lib;..\Regexx\Release\Regexx.lib;..\Activation\Release_Trial\Activation.lib;..\Activation\Release_Trial\Activation.res;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\poco-1.3.6p2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\poco-1.3.6p2\Foundation\include\;..\poco-1.3.6p2\XML\include;..\DShowBaseClasses\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_DVD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;_DVD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>PowrProf.lib;strmiids.lib;Rpcrt4.lib;vfw32.lib;Version.lib;PocoXMLmtd.lib;..\Regexx\Debug\Regexx.lib;..\Activation\Debug_Free\Activation.lib;..\Activation\Debug_Free\Activation.res;StarBurn.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\poco-1.3.6p2\lib;..\\DShowBaseClasses\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\poco-1.3.6p2\Foundation\include\;..\poco-1.3.6p2\XML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_DVD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_DVD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>PowrProf.lib;strmiids.lib;Rpcrt4.lib;vfw32.lib;Version.lib;PocoXMLmt.lib;..\Regexx\Release\Regexx.lib;..\Activation\Release_Free\Activation.lib;..\Activation\Release_Free\Activation.res;StarBurn.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\poco-1.3.6p2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\poco-1.3.3p1\Foundation\include\;..\poco-1.3.3p1\XML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_BD;AHS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_BD;AHS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>PowrProf.lib;strmiids.lib;Rpcrt4.lib;vfw32.lib;Version.lib;PocoXMLmt.lib;..\Regexx\Release\Regexx.lib;..\Activation\Release\Activation.lib;..\Activation\Release\Activation.res;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\poco-1.3.3p1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\poco-1.3.6p2\Foundation\include\;..\poco-1.3.6p2\XML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_DVD;AHS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_DVD;AHS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>PowrProf.lib;strmiids.lib;Rpcrt4.lib;vfw32.lib;Version.lib;PocoXMLmt.lib;StarBurn.lib;..\Regexx\Release\Regexx.lib;..\Activation\Release_Trial\Activation.lib;..\Activation\Release_Trial\Activation.res;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\poco-1.3.6p2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>Copy "$(TargetPath)" "$(SolutionDir)\Release_DVD\DVDMaker_AHS.exe"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AutoCompletionComboBox.cpp" />
+    <ClCompile Include="AutoCompletionComboBoxEdit.cpp" />
+    <ClCompile Include="AVIReader.cpp" />
+    <ClCompile Include="BDMenuUtils.cpp" />
+    <ClCompile Include="Burner.cpp" />
+    <ClCompile Include="CDVDDevice.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="CheckMessageBox.cpp" />
+    <ClCompile Include="ChildView.cpp" />
+    <ClCompile Include="Converter.cpp" />
+    <ClCompile Include="CustomSliderCtrl.cpp" />
+    <ClCompile Include="DeferWindowPos.cpp" />
+    <ClCompile Include="Dib.cpp" />
+    <ClCompile Include="DiscFormatDataEvent.cpp" />
+    <ClCompile Include="DiscFormatEraseEvent.cpp" />
+    <ClCompile Include="DlgAbout.cpp" />
+    <ClCompile Include="DlgAddFolder.cpp" />
+    <ClCompile Include="DlgBurn.cpp" />
+    <ClCompile Include="DlgDeleteProfiles.cpp" />
+    <ClCompile Include="DlgDiskCost.cpp" />
+    <ClCompile Include="DlgNoDiskSpace.cpp" />
+    <ClCompile Include="DlgProgress.cpp" />
+    <ClCompile Include="DlgSaveProfile.cpp" />
+    <ClCompile Include="DlgSelectTempFolder.cpp" />
+    <ClCompile Include="DlgShutDown.cpp" />
+    <ClCompile Include="DlgTrim.cpp" />
+    <ClCompile Include="Encoder.cpp" />
+    <ClCompile Include="EncoderAC3.cpp" />
+    <ClCompile Include="EncoderBDMenu.cpp" />
+    <ClCompile Include="EncoderBlueRay.cpp" />
+    <ClCompile Include="EncoderDVD.cpp" />
+    <ClCompile Include="EncoderDVDMenu.cpp" />
+    <ClCompile Include="EncoderFFmpeg.cpp" />
+    <ClCompile Include="EncoderMEncoder.cpp" />
+    <ClCompile Include="FileDialogEx.cpp" />
+    <ClCompile Include="FileList.cpp" />
+    <ClCompile Include="FileList2.cpp" />
+    <ClCompile Include="Filelist3.cpp" />
+    <ClCompile Include="FileName.cpp" />
+    <ClCompile Include="filepath.cpp" />
+    <ClCompile Include="FileSystemImageEvent.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="HeaderCtrlEx.cpp" />
+    <ClCompile Include="HistoryComboBox.cpp" />
+    <ClCompile Include="ListCtrlEx.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MainToolBar.cpp" />
+    <ClCompile Include="MediaInfo.cpp" />
+    <ClCompile Include="MenuList.cpp" />
+    <ClCompile Include="MenuPage.cpp" />
+    <ClCompile Include="MenuTemplateEx.cpp" />
+    <ClCompile Include="MenuTemplateManager.cpp" />
+    <ClCompile Include="MenuViewPane.cpp" />
+    <ClCompile Include="MenuViewToolBar.cpp" />
+    <ClCompile Include="MenuWnd.cpp" />
+    <ClCompile Include="MFCCaptionBarEx.cpp" />
+    <ClCompile Include="MFCToolBarButtonEx.cpp" />
+    <ClCompile Include="MFCToolBarButtonEx2.cpp" />
+    <ClCompile Include="MFCToolBarCheckBox.cpp" />
+    <ClCompile Include="MFCToolBarEx.cpp" />
+    <ClCompile Include="MFCToolBarHistoryComboBoxButton.cpp" />
+    <ClCompile Include="MFCToolBarLabel.cpp" />
+    <ClCompile Include="MFCToolBarMenuButtonWithBorder.cpp" />
+    <ClCompile Include="MFCToolBarSlider.cpp" />
+    <ClCompile Include="MKVMerge.cpp" />
+    <ClCompile Include="MSMDialog.cpp" />
+    <ClCompile Include="MSMLinksBar.cpp" />
+    <ClCompile Include="MSMLinksBarButton.cpp" />
+    <ClCompile Include="MSMMenuBar.cpp" />
+    <ClCompile Include="MSMStatusBar.cpp" />
+    <ClCompile Include="MSMTabCtrl.cpp" />
+    <ClCompile Include="MSMTasksPane.cpp" />
+    <ClCompile Include="MSMVisualManager.cpp" />
+    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Options.cpp" />
+    <ClCompile Include="OptionsPageBurner.cpp" />
+    <ClCompile Include="OptionsPageEncoding.cpp" />
+    <ClCompile Include="OptionsPageGeneral.cpp" />
+    <ClCompile Include="OptionsPageInterface.cpp" />
+    <ClCompile Include="OptionsSheet.cpp" />
+    <ClCompile Include="OwnerDrawComboBox.cpp" />
+    <ClCompile Include="PaneAdvanced.cpp" />
+    <ClCompile Include="PaneMenu.cpp" />
+    <ClCompile Include="PaneSimple.cpp" />
+    <ClCompile Include="PaneSimpleToolBar.cpp" />
+    <ClCompile Include="PGCAction.cpp" />
+    <ClCompile Include="PlayerPane.cpp" />
+    <ClCompile Include="PlayerToolBar.cpp" />
+    <ClCompile Include="Profile.cpp" />
+    <ClCompile Include="ProfileGroupListWnd.cpp" />
+    <ClCompile Include="ProfileItemListWnd.cpp" />
+    <ClCompile Include="ProfileManager.cpp" />
+    <ClCompile Include="ProfilePane.cpp" />
+    <ClCompile Include="ProfileToolBar.cpp" />
+    <ClCompile Include="PropertyGridCtrlAdvanced.cpp" />
+    <ClCompile Include="PropertyGridCtrlMenu.cpp" />
+    <ClCompile Include="ResizableDialog.cpp" />
+    <ClCompile Include="ResizableDynamicDialog .cpp" />
+    <ClCompile Include="ResizableGrip.cpp" />
+    <ClCompile Include="ResizableLayout.cpp" />
+    <ClCompile Include="ResizableMinMax.cpp" />
+    <ClCompile Include="ResizableState.cpp" />
+    <ClCompile Include="ScrollList.cpp" />
+    <ClCompile Include="ShellPidl.cpp" />
+    <ClCompile Include="ShellTree.cpp" />
+    <ClCompile Include="SidePane.cpp" />
+    <ClCompile Include="StaticLink.cpp" />
+    <ClCompile Include="StaticText.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_DVD|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_DVD_AHS|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_DVD|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Task.cpp" />
+    <ClCompile Include="Task2.cpp" />
+    <ClCompile Include="taskbar.cpp" />
+    <ClCompile Include="ToolTipCtrlEx.cpp" />
+    <ClCompile Include="UltraListCtrl.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="VideoList.cpp" />
+    <ClCompile Include="VideoPlayerWnd.cpp" />
+    <ClCompile Include="VideoSliderCtrl.cpp" />
+    <ClCompile Include="VisualStylesXP.cpp" />
+    <ClCompile Include="xmlutils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AutoCompletionComboBox.h" />
+    <ClInclude Include="AutoCompletionComboBoxEdit.h" />
+    <ClInclude Include="AVIReader.h" />
+    <ClInclude Include="BDMenuUtils.h" />
+    <ClInclude Include="Burner.h" />
+    <CustomBuildStep Include="CDVDDevice.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_BlueRay|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay_AHS|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_BlueRay|Win32'">true</ExcludedFromBuild>
+    </CustomBuildStep>
+    <ClInclude Include="CheckMessageBox.h" />
+    <ClInclude Include="ChildView.h" />
+    <ClInclude Include="Converter.h" />
+    <ClInclude Include="CustomSliderCtrl.h" />
+    <ClInclude Include="DeferWindowPos.h" />
+    <ClInclude Include="Dib.h" />
+    <ClInclude Include="DiscFormatDataEvent.h" />
+    <ClInclude Include="DiscFormatEraseEvent.h" />
+    <ClInclude Include="DlgAbout.h" />
+    <ClInclude Include="DlgAddFolder.h" />
+    <ClInclude Include="DlgBurn.h" />
+    <ClInclude Include="DlgDeleteProfiles.h" />
+    <ClInclude Include="DlgDiskCost.h" />
+    <ClInclude Include="DlgNoDiskSpace.h" />
+    <ClInclude Include="DlgProgress.h" />
+    <ClInclude Include="DlgSaveProfile.h" />
+    <ClInclude Include="DlgSelectTempFolder.h" />
+    <ClInclude Include="DlgShutDown.h" />
+    <ClInclude Include="DlgTrim.h" />
+    <ClInclude Include="Encoder.h" />
+    <ClInclude Include="EncoderAC3.h" />
+    <ClInclude Include="EncoderBDMenu.h" />
+    <ClInclude Include="EncoderBlueRay.h" />
+    <ClInclude Include="EncoderDVD.h" />
+    <ClInclude Include="EncoderDVDMenu.h" />
+    <ClInclude Include="EncoderFFmpeg.h" />
+    <ClInclude Include="EncoderMEncoder.h" />
+    <ClInclude Include="FileDialogEx.h" />
+    <ClInclude Include="FileList.h" />
+    <ClInclude Include="FileName.h" />
+    <ClInclude Include="filepath.h" />
+    <ClInclude Include="FileSystemImageEvent.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="HeaderCtrlEx.h" />
+    <ClInclude Include="HistoryComboBox.h" />
+    <ClInclude Include="ListCtrlEx.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="Logger.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MainToolBar.h" />
+    <ClInclude Include="MediaInfo.h" />
+    <ClInclude Include="MenuList.h" />
+    <ClInclude Include="MenuPage.h" />
+    <ClInclude Include="MenuTemplateEx.h" />
+    <ClInclude Include="MenuTemplateManager.h" />
+    <ClInclude Include="MenuViewPane.h" />
+    <ClInclude Include="MenuViewToolBar.h" />
+    <ClInclude Include="MenuWnd.h" />
+    <ClInclude Include="MFCCaptionBarEx.h" />
+    <ClInclude Include="MFCToolBarButtonEx.h" />
+    <ClInclude Include="MFCToolBarButtonEx2.h" />
+    <ClInclude Include="MFCToolBarCheckBox.h" />
+    <ClInclude Include="MFCToolBarEx.h" />
+    <ClInclude Include="MFCToolBarHistoryComboBoxButton.h" />
+    <ClInclude Include="MFCToolBarLabel.h" />
+    <ClInclude Include="MFCToolBarMenuButtonWithBorder.h" />
+    <ClInclude Include="MFCToolBarSlider.h" />
+    <ClInclude Include="MKVMerge.h" />
+    <ClInclude Include="MSMDialog.h" />
+    <ClInclude Include="MSMLinksBar.h" />
+    <ClInclude Include="MSMLinksBarButton.h" />
+    <ClInclude Include="MSMMenuBar.h" />
+    <ClInclude Include="MSMStatusBar.h" />
+    <ClInclude Include="MSMTabCtrl.h" />
+    <ClInclude Include="MSMTasksPane.h" />
+    <ClInclude Include="MSMVisualManager.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Options.h" />
+    <ClInclude Include="OptionsPageBurner.h" />
+    <ClInclude Include="OptionsPageEncoding.h" />
+    <ClInclude Include="OptionsPageGeneral.h" />
+    <ClInclude Include="OptionsPageInterface.h" />
+    <ClInclude Include="OptionsSheet.h" />
+    <ClInclude Include="OwnerDrawComboBox.h" />
+    <ClInclude Include="PaneAdvanced.h" />
+    <ClInclude Include="PaneMenu.h" />
+    <ClInclude Include="PaneSimple.h" />
+    <ClInclude Include="PaneSimpleToolBar.h" />
+    <ClInclude Include="PGCAction.h" />
+    <ClInclude Include="PlayerPane.h" />
+    <ClInclude Include="PlayerToolBar.h" />
+    <ClInclude Include="Profile.h" />
+    <ClInclude Include="ProfileGroupListWnd.h" />
+    <ClInclude Include="ProfileItemListWnd.h" />
+    <ClInclude Include="ProfileManager.h" />
+    <ClInclude Include="ProfilePane.h" />
+    <ClInclude Include="ProfileToolBar.h" />
+    <ClInclude Include="PropertyGridCtrlAdvanced.h" />
+    <ClInclude Include="PropertyGridCtrlMenu.h" />
+    <ClInclude Include="ResizableDialog.h" />
+    <ClInclude Include="ResizableDynamicDialog.h" />
+    <ClInclude Include="ResizableGrip.h" />
+    <ClInclude Include="ResizableLayout.h" />
+    <ClInclude Include="ResizableMinMax.h" />
+    <ClInclude Include="ResizableMsgSupport.h" />
+    <ClInclude Include="ResizableState.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ScrollList.h" />
+    <ClInclude Include="ShellPidl.h" />
+    <ClInclude Include="ShellTree.h" />
+    <ClInclude Include="SidePane.h" />
+    <ClInclude Include="StarBurnKey.h" />
+    <ClInclude Include="StaticLink.h" />
+    <ClInclude Include="StaticText.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Subjects.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Task.h" />
+    <ClInclude Include="taskbar.h" />
+    <ClInclude Include="ToolTipCtrlEx.h" />
+    <ClInclude Include="UltraListCtrl.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="VideoList.h" />
+    <ClInclude Include="VideoPlayerWnd.h" />
+    <ClInclude Include="VideoSliderCtrl.h" />
+    <ClInclude Include="VisualStylesXP.h" />
+    <ClInclude Include="xmlutils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ResizableMsgSupport.inl" />
+    <None Include="res\003_Next.bmp" />
+    <None Include="res\BD.ico" />
+    <None Include="res\bitmap1.bmp" />
+    <None Include="res\bitmap2.bmp" />
+    <None Include="res\bmp00001.bmp" />
+    <None Include="res\bmp00002.bmp" />
+    <None Include="res\bmp00003.bmp" />
+    <None Include="res\bmp00004.bmp" />
+    <None Include="res\clock.ico" />
+    <None Include="res\coldtoolb.png" />
+    <None Include="res\Converter.rc2" />
+    <None Include="res\disc.ico" />
+    <None Include="res\disc_warning.ico" />
+    <None Include="res\disk.bmp" />
+    <None Include="res\distoolb.png" />
+    <None Include="res\empty.ico" />
+    <None Include="res\file_list.bmp" />
+    <None Include="res\film.ico" />
+    <None Include="Debug_BlueRay\Sound\Finished.wav" />
+    <None Include="Debug_DVD\Sound\Finished.wav" />
+    <None Include="res\folder.ico" />
+    <None Include="res\hottoolb.png" />
+    <None Include="res\info.bmp" />
+    <None Include="res\iphoneconverter.ico" />
+    <None Include="res\ipodconverter.ico" />
+    <None Include="res\menu-toolbar-cold.png" />
+    <None Include="res\menu-toolbar-dis.png" />
+    <None Include="res\menu-toolbar-hot.png" />
+    <None Include="res\menu-toolbar.bmp" />
+    <None Include="res\menu_img.bmp" />
+    <None Include="res\MovieDVDMaker.ico" />
+    <None Include="res\music.bmp" />
+    <None Include="res\my_hand.cur" />
+    <None Include="res\output.bmp" />
+    <None Include="res\output1.bmp" />
+    <None Include="res\pane_menu.bmp" />
+    <None Include="res\pane_sim.bmp" />
+    <None Include="res\player_cold.png" />
+    <None Include="res\player_dis.png" />
+    <None Include="res\player_hot.png" />
+    <None Include="res\profile.png" />
+    <None Include="res\profile_.bmp" />
+    <None Include="res\profile_simple.bmp" />
+    <None Include="res\profile_simple_bd.bmp" />
+    <None Include="res\prop.bmp" />
+    <None Include="res\prop_sim.bmp" />
+    <None Include="res\prop_toolbar.bmp" />
+    <None Include="res\prop_toolbar_bd.bmp" />
+    <None Include="res\simple.bmp" />
+    <None Include="res\status_converting.bmp" />
+    <None Include="res\status_idle.bmp" />
+    <None Include="res\status_paused.bmp" />
+    <None Include="res\status_stopped.bmp" />
+    <None Include="res\toolbar.bmp" />
+    <None Include="res\toolbar1.bmp" />
+    <None Include="res\toolbar_player.bmp" />
+    <None Include="res\VE_SIZEB.CUR" />
+    <None Include="res\VE_SPLIT.CUR" />
+    <None Include="res\video_preview.bmp" />
+    <None Include="res\VideoConverter.ico" />
+    <None Include="Debug_BlueRay\Scripts\avchd.meta" />
+    <None Include="Debug_BlueRay\Profiles\bdmv.xml" />
+    <None Include="Debug_BlueRay\Scripts\blu-ray.meta" />
+    <None Include="Debug_DVD\Encoder\cygfreetype-6.dll" />
+    <None Include="Debug_DVD\Encoder\cygfribidi-0.dll" />
+    <None Include="Debug_DVD\Encoder\cygiconv-2.dll" />
+    <None Include="Debug_DVD\Encoder\cygpng12.dll" />
+    <None Include="Debug_DVD\Encoder\cygwin1.dll" />
+    <None Include="Debug_DVD\Encoder\cygxml2-2.dll" />
+    <None Include="Debug_DVD\Encoder\cygz.dll" />
+    <None Include="Debug_DVD\Scripts\DirectShowSource.dll" />
+    <None Include="Debug_DVD\Profiles\dvd.xml" />
+    <None Include="Debug_DVD\Encoder\dvdauthor.exe" />
+    <None Include="Debug_DVD\Scripts\DVDAuthor.xml" />
+    <None Include="Debug_DVD\Scripts\DVDMenu.avs" />
+    <None Include="Debug_BlueRay\Scripts\Encoding.avs" />
+    <None Include="Debug_DVD\Scripts\Encoding.avs" />
+    <None Include="Debug_BlueRay\Encoder\ffmpeg.exe" />
+    <None Include="Debug_DVD\Encoder\ffmpeg.exe" />
+    <None Include="Debug_BlueRay\Scripts\Functions.avs" />
+    <None Include="Debug_DVD\Scripts\Functions.avs" />
+    <None Include="Debug_DVD\Encoder\LICENSE.txt" />
+    <None Include="Debug_BlueRay\Encoder\LICENSE.txt" />
+    <None Include="res\music.psd" />
+    <None Include="res\player.psd" />
+    <None Include="Debug_DVD\Scripts\Preview.avs" />
+    <None Include="Debug_BlueRay\Scripts\Preview.avs" />
+    <None Include="res\profile.psd" />
+    <None Include="Debug_DVD\Profiles\Profiles.xml" />
+    <None Include="Debug_BlueRay\Profiles\Profiles.xml" />
+    <None Include="Debug_DVD\Encoder\spumux.exe" />
+    <None Include="Debug_DVD\Scripts\spumux.xml" />
+    <None Include="Debug_DVD\Scripts\Thumbnail.avs" />
+    <None Include="Debug_BlueRay\Scripts\Thumbnail.avs" />
+    <None Include="ToDo.txt" />
+    <None Include="res\toolbar.psd" />
+    <None Include="Debug_BlueRay\Scripts\Trim.avs" />
+    <None Include="Debug_DVD\Scripts\Trim.avs" />
+    <None Include="Debug_BlueRay\Encoder\tsMuxeR.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Converter.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="res\Converter.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Activation\Activation.vcxproj">
+      <Project>{9eacec26-b3d3-4ed4-91ae-d595b59fc999}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\DVDMenu\DVDMenu.vcxproj">
+      <Project>{15295cec-a7cc-4ee7-85d5-a36056e3605e}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\Regexx\Regexx.vcxproj">
+      <Project>{fda111e2-4bcb-4ca8-a1ce-c736377b7fdf}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Converter.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

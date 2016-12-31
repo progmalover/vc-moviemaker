@@ -1,0 +1,419 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses
+END
+transfrm.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/transfrm.h
+END
+schedule.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/schedule.h
+END
+amextra.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/amextra.cpp
+END
+dllsetup.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/dllsetup.h
+END
+mtype.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/mtype.h
+END
+baseclasses.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/baseclasses.vcproj
+END
+wxdebug.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/wxdebug.h
+END
+vtrans.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/vtrans.cpp
+END
+videoctl.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/videoctl.h
+END
+streams.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/streams.h
+END
+ddmm.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/ddmm.h
+END
+outputq.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/outputq.h
+END
+refclock.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/refclock.cpp
+END
+pullpin.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/pullpin.h
+END
+dsschedule.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/dsschedule.h
+END
+wxlist.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/wxlist.cpp
+END
+source.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/source.cpp
+END
+wxutil.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/wxutil.h
+END
+wxdebug.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/wxdebug.cpp
+END
+amfilter.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/amfilter.h
+END
+videoctl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/videoctl.cpp
+END
+activex.rcv
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/activex.rcv
+END
+combase.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/combase.h
+END
+ctlutil.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/ctlutil.cpp
+END
+ddmm.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/ddmm.cpp
+END
+outputq.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/outputq.cpp
+END
+winctrl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/winctrl.cpp
+END
+strmiids.lib
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/strmiids.lib
+END
+pullpin.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/pullpin.cpp
+END
+renbase.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/renbase.h
+END
+amvideo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/amvideo.cpp
+END
+sysclock.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/sysclock.cpp
+END
+refclock.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/refclock.h
+END
+wxlist.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/wxlist.h
+END
+reftime.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/reftime.h
+END
+winutil.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/winutil.h
+END
+amfilter.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/amfilter.cpp
+END
+source.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/source.h
+END
+measure.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/measure.h
+END
+combase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/combase.cpp
+END
+baseclasses.vcproj.vspscc
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/baseclasses.vcproj.vspscc
+END
+makefile.x64
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/makefile.x64
+END
+renbase.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/renbase.cpp
+END
+transip.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/transip.cpp
+END
+pstream.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/pstream.h
+END
+ctlutil.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/ctlutil.h
+END
+fourcc.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/fourcc.h
+END
+winctrl.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/winctrl.h
+END
+strmctl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/strmctl.cpp
+END
+cprop.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/cprop.h
+END
+winutil.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/winutil.cpp
+END
+transfrm.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/transfrm.cpp
+END
+schedule.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/schedule.cpp
+END
+dllsetup.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/dllsetup.cpp
+END
+dllentry.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/dllentry.cpp
+END
+mtype.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/mtype.cpp
+END
+sysclock.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/sysclock.h
+END
+seekpt.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/seekpt.h
+END
+amextra.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/amextra.h
+END
+cache.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/cache.h
+END
+pstream.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/pstream.cpp
+END
+msgthrd.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/msgthrd.h
+END
+activex.ver
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/activex.ver
+END
+vtrans.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/vtrans.h
+END
+cprop.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/cprop.cpp
+END
+transip.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/transip.h
+END
+seekpt.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/seekpt.cpp
+END
+wxutil.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/wxutil.cpp
+END
+strmctl.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/1952/02_Lib/DShowBaseClasses/strmctl.h
+END

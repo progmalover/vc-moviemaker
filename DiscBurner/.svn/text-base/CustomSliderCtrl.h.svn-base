@@ -1,0 +1,75 @@
+#pragma once
+
+#define SC_BEGINTRACKING			101
+#define SC_ENDTRACKING				102
+#define SC_POSCHANGED				103
+
+#define SC_SELBEGINTRACKING			104
+#define SC_SELENDTRACKING			105
+#define SC_SELCHANGED				106
+
+// CCustomSliderCtrl
+
+class CCustomSliderCtrl : public CStatic
+{
+	DECLARE_DYNAMIC(CCustomSliderCtrl)
+
+public:
+	CCustomSliderCtrl();
+	virtual ~CCustomSliderCtrl();
+
+protected:
+	DECLARE_MESSAGE_MAP()
+
+protected:
+	virtual void PreSubclassWindow();
+
+protected:
+	BOOL m_bEnableSelection;
+	int m_nMin;
+	int m_nMax;
+	int m_nPos;
+
+	int m_nSelStart;
+	int m_nSelEnd;
+	int m_nMinSelRange;
+
+	int m_nFocusedHandle;
+	int m_nLineSize;
+	int m_nPageSize;
+
+	void Track(CPoint point, int nHandle);
+	void MoveHandle(int nHandle, int nSize);
+
+public:
+	virtual void GetChannelRect(LPRECT pRect) const = 0;
+	virtual void GetThumbRect(LPRECT pRect) const = 0;
+	virtual void GetSelectionMarkerRect(LPRECT pRect1, LPRECT pRect2) const = 0;
+	virtual void DrawChannel(CDC *pDC) const = 0;
+	virtual void DrawThumb(CDC *pDC) const = 0;
+	virtual void DrawSelectionMarker(CDC *pDC) const = 0;
+	virtual int PointToPos(POINT point) const = 0;
+	virtual CPoint PosToPoint(int nPos) const = 0;
+
+	void GetRange(int &nMin, int &nMax) const;
+	BOOL SetRange(int nMin, int nMax);
+	int GetPos() const;
+	void SetPos(int nPos, BOOL bNofify = FALSE);
+
+	void EnableSelection(BOOL bEnable);
+	void GetSelection(int &nStart, int &nEnd) const;
+	BOOL SetSelection(int nStart, int nEnd, BOOL bNofify = FALSE);
+	void SetMinSelRange(int nRange);
+	void SetFocusedHandle(int nFocusedHandle);
+	void SetLineSize(int nLine);
+	void SetPageSize(int nPage);
+
+public:
+	afx_msg void OnPaint();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	afx_msg void OnSetFocus(CWnd *pOldWnd);
+	afx_msg void OnKillFocus(CWnd* pNewWnd);
+	afx_msg UINT OnGetDlgCode();
+	afx_msg void OnEnable(BOOL bEnable);
+};

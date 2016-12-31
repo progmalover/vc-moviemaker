@@ -1,0 +1,1517 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/Video_DB/!svn/ver/26689/01_Products/DiscBurner
+END
+Filelist3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/26087/01_Products/DiscBurner/Filelist3.cpp
+END
+DlgNoDiskSpace.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/22953/01_Products/DiscBurner/DlgNoDiskSpace.h
+END
+MFCToolBarCheckBox.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Video_DB/!svn/ver/23136/01_Products/DiscBurner/MFCToolBarCheckBox.cpp
+END
+OptionsPageEncoding.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Video_DB/!svn/ver/25086/01_Products/DiscBurner/OptionsPageEncoding.cpp
+END
+DlgProgress.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/23129/01_Products/DiscBurner/DlgProgress.h
+END
+Graphics.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/24960/01_Products/DiscBurner/Graphics.cpp
+END
+DlgAbout.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/23107/01_Products/DiscBurner/DlgAbout.cpp
+END
+FileDialogEx.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/22631/01_Products/DiscBurner/FileDialogEx.h
+END
+MenuPage.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuPage.cpp
+END
+OwnerDrawComboBox.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/22666/01_Products/DiscBurner/OwnerDrawComboBox.cpp
+END
+EncoderDVDMenu.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/26217/01_Products/DiscBurner/EncoderDVDMenu.cpp
+END
+ToDo.txt
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/23194/01_Products/DiscBurner/ToDo.txt
+END
+AVIReader.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/22634/01_Products/DiscBurner/AVIReader.h
+END
+EncoderBlueRay.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/26412/01_Products/DiscBurner/EncoderBlueRay.h
+END
+targetver.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/22639/01_Products/DiscBurner/targetver.h
+END
+OptionsPageInterface.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Video_DB/!svn/ver/22977/01_Products/DiscBurner/OptionsPageInterface.cpp
+END
+EncoderFFmpeg.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/26218/01_Products/DiscBurner/EncoderFFmpeg.h
+END
+HeaderCtrlEx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/22954/01_Products/DiscBurner/HeaderCtrlEx.cpp
+END
+MFCCaptionBarEx.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/23108/01_Products/DiscBurner/MFCCaptionBarEx.h
+END
+MSMMenuBar.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/22966/01_Products/DiscBurner/MSMMenuBar.h
+END
+ToolTipCtrlEx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/22858/01_Products/DiscBurner/ToolTipCtrlEx.cpp
+END
+EncoderDVD.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/23054/01_Products/DiscBurner/EncoderDVD.cpp
+END
+DlgAddFolder.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/26041/01_Products/DiscBurner/DlgAddFolder.h
+END
+FileName.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/FileName.cpp
+END
+ResizableState.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableState.cpp
+END
+DiscFormatEraseEvent.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Video_DB/!svn/ver/22889/01_Products/DiscBurner/DiscFormatEraseEvent.h
+END
+PlayerToolBar.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/22874/01_Products/DiscBurner/PlayerToolBar.h
+END
+ShellPidl.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ShellPidl.h
+END
+OptionsPageGeneral.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Video_DB/!svn/ver/25061/01_Products/DiscBurner/OptionsPageGeneral.cpp
+END
+ProfileGroupListWnd.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/22835/01_Products/DiscBurner/ProfileGroupListWnd.h
+END
+Subjects.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/23887/01_Products/DiscBurner/Subjects.h
+END
+ProfileItemListWnd.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/Video_DB/!svn/ver/23154/01_Products/DiscBurner/ProfileItemListWnd.h
+END
+DlgProgress.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/23141/01_Products/DiscBurner/DlgProgress.cpp
+END
+StaticText.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/22960/01_Products/DiscBurner/StaticText.cpp
+END
+taskbar.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/23158/01_Products/DiscBurner/taskbar.h
+END
+PaneSimple.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/24006/01_Products/DiscBurner/PaneSimple.cpp
+END
+Dib.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/Video_DB/!svn/ver/22690/01_Products/DiscBurner/Dib.cpp
+END
+ScrollList.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26043/01_Products/DiscBurner/ScrollList.h
+END
+MFCToolBarSlider.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/22872/01_Products/DiscBurner/MFCToolBarSlider.h
+END
+ListCtrlEx.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/22635/01_Products/DiscBurner/ListCtrlEx.h
+END
+VideoList.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/26237/01_Products/DiscBurner/VideoList.cpp
+END
+EncoderBlueRay.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/26412/01_Products/DiscBurner/EncoderBlueRay.cpp
+END
+Profile.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/26412/01_Products/DiscBurner/Profile.h
+END
+PropertyGridCtrlAdvanced.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/Video_DB/!svn/ver/26043/01_Products/DiscBurner/PropertyGridCtrlAdvanced.cpp
+END
+ResizableDialog.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableDialog.h
+END
+MSMTasksPane.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/22630/01_Products/DiscBurner/MSMTasksPane.cpp
+END
+EncoderDVDMenu.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/23060/01_Products/DiscBurner/EncoderDVDMenu.h
+END
+MFCToolBarMenuButtonWithBorder.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/Video_DB/!svn/ver/22837/01_Products/DiscBurner/MFCToolBarMenuButtonWithBorder.h
+END
+ProfilePane.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/23166/01_Products/DiscBurner/ProfilePane.h
+END
+EncoderBDMenu.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/26679/01_Products/DiscBurner/EncoderBDMenu.cpp
+END
+ResizableDynamicDialog.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableDynamicDialog.h
+END
+DlgAddFolder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/26041/01_Products/DiscBurner/DlgAddFolder.cpp
+END
+MainToolBar.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/22835/01_Products/DiscBurner/MainToolBar.h
+END
+MSMTabCtrl.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/22829/01_Products/DiscBurner/MSMTabCtrl.h
+END
+PaneAdvanced.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/26245/01_Products/DiscBurner/PaneAdvanced.h
+END
+ResizableLayout.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableLayout.cpp
+END
+HeaderCtrlEx.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/22954/01_Products/DiscBurner/HeaderCtrlEx.h
+END
+PlayerToolBar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/24709/01_Products/DiscBurner/PlayerToolBar.cpp
+END
+MFCToolBarButtonEx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Video_DB/!svn/ver/23915/01_Products/DiscBurner/MFCToolBarButtonEx.cpp
+END
+Task2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/26422/01_Products/DiscBurner/Task2.cpp
+END
+PaneSimpleToolBar.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/25126/01_Products/DiscBurner/PaneSimpleToolBar.h
+END
+MSMStatusBar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/25787/01_Products/DiscBurner/MSMStatusBar.cpp
+END
+taskbar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/23158/01_Products/DiscBurner/taskbar.cpp
+END
+Converter.vcproj.vspscc
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Video_DB/!svn/ver/22629/01_Products/DiscBurner/Converter.vcproj.vspscc
+END
+MFCToolBarEx.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/22872/01_Products/DiscBurner/MFCToolBarEx.h
+END
+MFCToolBarSlider.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/Video_DB/!svn/ver/26043/01_Products/DiscBurner/MFCToolBarSlider.cpp
+END
+OptionsPageGeneral.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/Video_DB/!svn/ver/24181/01_Products/DiscBurner/OptionsPageGeneral.h
+END
+Resource.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/26598/01_Products/DiscBurner/Resource.h
+END
+DiscFormatDataEvent.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/22888/01_Products/DiscBurner/DiscFormatDataEvent.h
+END
+DlgSelectTempFolder.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/23233/01_Products/DiscBurner/DlgSelectTempFolder.h
+END
+FileSystemImageEvent.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Video_DB/!svn/ver/22894/01_Products/DiscBurner/FileSystemImageEvent.h
+END
+iTunesCOMInterface_i.c
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Video_DB/!svn/ver/23130/01_Products/DiscBurner/iTunesCOMInterface_i.c
+END
+BDMenuUtils.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/26209/01_Products/DiscBurner/BDMenuUtils.h
+END
+EncoderMEncoder.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/22788/01_Products/DiscBurner/EncoderMEncoder.h
+END
+CustomSliderCtrl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/Video_DB/!svn/ver/23003/01_Products/DiscBurner/CustomSliderCtrl.cpp
+END
+Dib.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/Video_DB/!svn/ver/22690/01_Products/DiscBurner/Dib.h
+END
+MFCToolBarMenuButtonWithBorder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/Video_DB/!svn/ver/22888/01_Products/DiscBurner/MFCToolBarMenuButtonWithBorder.cpp
+END
+PropertyGridCtrlMenu.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Video_DB/!svn/ver/26596/01_Products/DiscBurner/PropertyGridCtrlMenu.cpp
+END
+MFCToolBarHistoryComboBoxButton.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/Video_DB/!svn/ver/22838/01_Products/DiscBurner/MFCToolBarHistoryComboBoxButton.h
+END
+StaticLink.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/22960/01_Products/DiscBurner/StaticLink.cpp
+END
+MenuList.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuList.h
+END
+PlayerPane.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26507/01_Products/DiscBurner/PlayerPane.h
+END
+EncoderAC3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/26412/01_Products/DiscBurner/EncoderAC3.cpp
+END
+VideoList.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/26237/01_Products/DiscBurner/VideoList.h
+END
+MainToolBar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/22935/01_Products/DiscBurner/MainToolBar.cpp
+END
+MSMTasksPane.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/22630/01_Products/DiscBurner/MSMTasksPane.h
+END
+Converter.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/24709/01_Products/DiscBurner/Converter.h
+END
+EncoderBDMenu.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/26041/01_Products/DiscBurner/EncoderBDMenu.h
+END
+MenuViewToolBar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuViewToolBar.cpp
+END
+ResizableLayout.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableLayout.h
+END
+Encoder.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/23896/01_Products/DiscBurner/Encoder.h
+END
+xmlutils.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/23057/01_Products/DiscBurner/xmlutils.h
+END
+DiscFormatDataEvent.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Video_DB/!svn/ver/22892/01_Products/DiscBurner/DiscFormatDataEvent.cpp
+END
+SidePane.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/SidePane.cpp
+END
+stdafx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/22629/01_Products/DiscBurner/stdafx.cpp
+END
+ResizableMsgSupport.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableMsgSupport.h
+END
+BDMenuUtils.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/26087/01_Products/DiscBurner/BDMenuUtils.cpp
+END
+FileDialogEx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/22631/01_Products/DiscBurner/FileDialogEx.cpp
+END
+DlgBurn.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/24052/01_Products/DiscBurner/DlgBurn.cpp
+END
+MFCToolBarLabel.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/24467/01_Products/DiscBurner/MFCToolBarLabel.h
+END
+MenuTemplateEx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/26689/01_Products/DiscBurner/MenuTemplateEx.cpp
+END
+FileList2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/26341/01_Products/DiscBurner/FileList2.cpp
+END
+MainFrm.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/26596/01_Products/DiscBurner/MainFrm.h
+END
+VideoSliderCtrl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/23003/01_Products/DiscBurner/VideoSliderCtrl.cpp
+END
+MFCToolBarHistoryComboBoxButton.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/Video_DB/!svn/ver/22838/01_Products/DiscBurner/MFCToolBarHistoryComboBoxButton.cpp
+END
+MenuTemplateManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/26689/01_Products/DiscBurner/MenuTemplateManager.h
+END
+Options.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/26596/01_Products/DiscBurner/Options.h
+END
+DlgDeleteProfiles.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/23166/01_Products/DiscBurner/DlgDeleteProfiles.h
+END
+EncoderFFmpeg.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/26424/01_Products/DiscBurner/EncoderFFmpeg.cpp
+END
+Utils.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/Video_DB/!svn/ver/26043/01_Products/DiscBurner/Utils.h
+END
+OwnerDrawComboBox.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/22666/01_Products/DiscBurner/OwnerDrawComboBox.h
+END
+MenuPage.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuPage.h
+END
+OptionsPageBurner.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/23233/01_Products/DiscBurner/OptionsPageBurner.cpp
+END
+DlgAbout.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/22960/01_Products/DiscBurner/DlgAbout.h
+END
+CustomSliderCtrl.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/23003/01_Products/DiscBurner/CustomSliderCtrl.h
+END
+Converter.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/26412/01_Products/DiscBurner/Converter.cpp
+END
+DiscBurner.sln
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/26227/01_Products/DiscBurner/DiscBurner.sln
+END
+EncoderAC3.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26412/01_Products/DiscBurner/EncoderAC3.h
+END
+MenuWnd.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuWnd.cpp
+END
+MKVMerge.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26352/01_Products/DiscBurner/MKVMerge.cpp
+END
+OptionsPageInterface.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Video_DB/!svn/ver/22977/01_Products/DiscBurner/OptionsPageInterface.h
+END
+StarBurnKey.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/23901/01_Products/DiscBurner/StarBurnKey.h
+END
+Encoder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/25080/01_Products/DiscBurner/Encoder.cpp
+END
+ShellPidl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ShellPidl.cpp
+END
+Log.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/Video_DB/!svn/ver/24709/01_Products/DiscBurner/Log.cpp
+END
+MSMDialog.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/22630/01_Products/DiscBurner/MSMDialog.h
+END
+EncoderDVD.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/23054/01_Products/DiscBurner/EncoderDVD.h
+END
+ProfileItemListWnd.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Video_DB/!svn/ver/23157/01_Products/DiscBurner/ProfileItemListWnd.cpp
+END
+ResizableState.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableState.h
+END
+MenuViewToolBar.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuViewToolBar.h
+END
+ProfileToolBar.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/23233/01_Products/DiscBurner/ProfileToolBar.h
+END
+OptionsSheet.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/23233/01_Products/DiscBurner/OptionsSheet.h
+END
+ResizableMinMax.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableMinMax.cpp
+END
+Options.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/26596/01_Products/DiscBurner/Options.cpp
+END
+MenuTemplateManager.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Video_DB/!svn/ver/26689/01_Products/DiscBurner/MenuTemplateManager.cpp
+END
+Observer.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/22954/01_Products/DiscBurner/Observer.h
+END
+Burner.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/25080/01_Products/DiscBurner/Burner.cpp
+END
+ResizableDialog.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableDialog.cpp
+END
+Profile.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/23887/01_Products/DiscBurner/Profile.cpp
+END
+AutoCompletionComboBoxEdit.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/Video_DB/!svn/ver/22835/01_Products/DiscBurner/AutoCompletionComboBoxEdit.cpp
+END
+ResizableGrip.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableGrip.cpp
+END
+PaneSimple.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/23913/01_Products/DiscBurner/PaneSimple.h
+END
+VideoSliderCtrl.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/23003/01_Products/DiscBurner/VideoSliderCtrl.h
+END
+DeferWindowPos.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/22671/01_Products/DiscBurner/DeferWindowPos.h
+END
+ProfilePane.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/23233/01_Products/DiscBurner/ProfilePane.cpp
+END
+CDVDDevice.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/23882/01_Products/DiscBurner/CDVDDevice.h
+END
+DlgSaveProfile.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/23211/01_Products/DiscBurner/DlgSaveProfile.cpp
+END
+MSMTabCtrl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/22649/01_Products/DiscBurner/MSMTabCtrl.cpp
+END
+MFCToolBarButtonEx2.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/23915/01_Products/DiscBurner/MFCToolBarButtonEx2.h
+END
+MenuViewPane.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuViewPane.h
+END
+PropertyGridCtrlAdvanced.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/Video_DB/!svn/ver/26043/01_Products/DiscBurner/PropertyGridCtrlAdvanced.h
+END
+DlgDiskCost.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/23224/01_Products/DiscBurner/DlgDiskCost.cpp
+END
+OptionsPageBurner.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/23233/01_Products/DiscBurner/OptionsPageBurner.h
+END
+PaneMenu.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/26245/01_Products/DiscBurner/PaneMenu.h
+END
+UltraListCtrl.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/24854/01_Products/DiscBurner/UltraListCtrl.h
+END
+MSMVisualManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/23119/01_Products/DiscBurner/MSMVisualManager.h
+END
+FileList.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/26217/01_Products/DiscBurner/FileList.h
+END
+PaneSimpleToolBar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/PaneSimpleToolBar.cpp
+END
+ProfileToolBar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/23233/01_Products/DiscBurner/ProfileToolBar.cpp
+END
+VisualStylesXP.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/22694/01_Products/DiscBurner/VisualStylesXP.h
+END
+MFCToolBarButtonEx.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/Video_DB/!svn/ver/23915/01_Products/DiscBurner/MFCToolBarButtonEx.h
+END
+Observer.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/22954/01_Products/DiscBurner/Observer.cpp
+END
+DlgSelectTempFolder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Video_DB/!svn/ver/23233/01_Products/DiscBurner/DlgSelectTempFolder.cpp
+END
+MSMStatusBar.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/25787/01_Products/DiscBurner/MSMStatusBar.h
+END
+HistoryComboBox.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/22835/01_Products/DiscBurner/HistoryComboBox.cpp
+END
+EncoderMEncoder.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/22853/01_Products/DiscBurner/EncoderMEncoder.cpp
+END
+iTunesCOMInterface.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/Video_DB/!svn/ver/23130/01_Products/DiscBurner/iTunesCOMInterface.h
+END
+ResizableMinMax.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableMinMax.h
+END
+DeferWindowPos.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/22671/01_Products/DiscBurner/DeferWindowPos.cpp
+END
+MenuList.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuList.cpp
+END
+ProfileManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/26412/01_Products/DiscBurner/ProfileManager.h
+END
+CheckMessageBox.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/CheckMessageBox.h
+END
+PlayerPane.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/26507/01_Products/DiscBurner/PlayerPane.cpp
+END
+VideoPlayerWnd.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/26551/01_Products/DiscBurner/VideoPlayerWnd.h
+END
+filepath.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/23201/01_Products/DiscBurner/filepath.h
+END
+DlgShutDown.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/23130/01_Products/DiscBurner/DlgShutDown.cpp
+END
+Task.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/26448/01_Products/DiscBurner/Task.cpp
+END
+MFCToolBarButtonEx2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Video_DB/!svn/ver/23915/01_Products/DiscBurner/MFCToolBarButtonEx2.cpp
+END
+MenuViewPane.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuViewPane.cpp
+END
+MFCCaptionBarEx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/24181/01_Products/DiscBurner/MFCCaptionBarEx.cpp
+END
+Graphics.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/24960/01_Products/DiscBurner/Graphics.h
+END
+ResizableDynamicDialog .cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableDynamicDialog%20.cpp
+END
+ResizableGrip.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableGrip.h
+END
+StaticLink.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/22960/01_Products/DiscBurner/StaticLink.h
+END
+MSMVisualManager.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/Video_DB/!svn/ver/26043/01_Products/DiscBurner/MSMVisualManager.cpp
+END
+FileList.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26626/01_Products/DiscBurner/FileList.cpp
+END
+DlgSaveProfile.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/23190/01_Products/DiscBurner/DlgSaveProfile.h
+END
+PGCAction.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/23914/01_Products/DiscBurner/PGCAction.h
+END
+DiscFormatEraseEvent.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Video_DB/!svn/ver/24709/01_Products/DiscBurner/DiscFormatEraseEvent.cpp
+END
+MSMLinksBarButton.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/22630/01_Products/DiscBurner/MSMLinksBarButton.cpp
+END
+VisualStylesXP.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/22694/01_Products/DiscBurner/VisualStylesXP.cpp
+END
+DlgDiskCost.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/22953/01_Products/DiscBurner/DlgDiskCost.h
+END
+ToolTipCtrlEx.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/22858/01_Products/DiscBurner/ToolTipCtrlEx.h
+END
+Logger.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/24006/01_Products/DiscBurner/Logger.h
+END
+FileName.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/FileName.h
+END
+MFCToolBarLabel.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/24467/01_Products/DiscBurner/MFCToolBarLabel.cpp
+END
+Converter.rc
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26679/01_Products/DiscBurner/Converter.rc
+END
+ProfileManager.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/26436/01_Products/DiscBurner/ProfileManager.cpp
+END
+CheckMessageBox.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/CheckMessageBox.cpp
+END
+ShellTree.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ShellTree.h
+END
+ListCtrlEx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/22640/01_Products/DiscBurner/ListCtrlEx.cpp
+END
+stdafx.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/stdafx.h
+END
+HistoryComboBox.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/22835/01_Products/DiscBurner/HistoryComboBox.h
+END
+Utils.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/26043/01_Products/DiscBurner/Utils.cpp
+END
+StaticText.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/22960/01_Products/DiscBurner/StaticText.h
+END
+DlgBurn.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/23233/01_Products/DiscBurner/DlgBurn.h
+END
+DlgTrim.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/26045/01_Products/DiscBurner/DlgTrim.cpp
+END
+MenuTemplateEx.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/26689/01_Products/DiscBurner/MenuTemplateEx.h
+END
+DlgShutDown.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/23130/01_Products/DiscBurner/DlgShutDown.h
+END
+PGCAction.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/23913/01_Products/DiscBurner/PGCAction.cpp
+END
+Task.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/Video_DB/!svn/ver/26412/01_Products/DiscBurner/Task.h
+END
+PaneAdvanced.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/26245/01_Products/DiscBurner/PaneAdvanced.cpp
+END
+MSMDialog.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/22630/01_Products/DiscBurner/MSMDialog.cpp
+END
+ChildView.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/23224/01_Products/DiscBurner/ChildView.cpp
+END
+Logger.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/24006/01_Products/DiscBurner/Logger.cpp
+END
+MSMLinksBar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/Video_DB/!svn/ver/22766/01_Products/DiscBurner/MSMLinksBar.cpp
+END
+MKVMerge.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/26042/01_Products/DiscBurner/MKVMerge.h
+END
+MenuWnd.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/MenuWnd.h
+END
+MSMLinksBarButton.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/Video_DB/!svn/ver/22630/01_Products/DiscBurner/MSMLinksBarButton.h
+END
+OptionsSheet.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/25086/01_Products/DiscBurner/OptionsSheet.cpp
+END
+MFCToolBarEx.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/22872/01_Products/DiscBurner/MFCToolBarEx.cpp
+END
+Log.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/Video_DB/!svn/ver/26409/01_Products/DiscBurner/Log.h
+END
+ShellTree.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ShellTree.cpp
+END
+Converter.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/Video_DB/!svn/ver/26596/01_Products/DiscBurner/Converter.vcproj
+END
+FileSystemImageEvent.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Video_DB/!svn/ver/24709/01_Products/DiscBurner/FileSystemImageEvent.cpp
+END
+DlgNoDiskSpace.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/23224/01_Products/DiscBurner/DlgNoDiskSpace.cpp
+END
+AutoCompletionComboBox.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/Video_DB/!svn/ver/22835/01_Products/DiscBurner/AutoCompletionComboBox.h
+END
+CDVDDevice.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/25167/01_Products/DiscBurner/CDVDDevice.cpp
+END
+MediaInfo.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/24467/01_Products/DiscBurner/MediaInfo.h
+END
+AVIReader.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/22657/01_Products/DiscBurner/AVIReader.cpp
+END
+Burner.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/Video_DB/!svn/ver/24027/01_Products/DiscBurner/Burner.h
+END
+MFCToolBarCheckBox.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/Video_DB/!svn/ver/23127/01_Products/DiscBurner/MFCToolBarCheckBox.h
+END
+OptionsPageEncoding.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/25086/01_Products/DiscBurner/OptionsPageEncoding.h
+END
+MSMMenuBar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/22966/01_Products/DiscBurner/MSMMenuBar.cpp
+END
+AutoCompletionComboBoxEdit.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/Video_DB/!svn/ver/22835/01_Products/DiscBurner/AutoCompletionComboBoxEdit.h
+END
+DlgTrim.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/Video_DB/!svn/ver/23003/01_Products/DiscBurner/DlgTrim.h
+END
+PaneMenu.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/26245/01_Products/DiscBurner/PaneMenu.cpp
+END
+UltraListCtrl.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/Video_DB/!svn/ver/26043/01_Products/DiscBurner/UltraListCtrl.cpp
+END
+PropertyGridCtrlMenu.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/Video_DB/!svn/ver/26045/01_Products/DiscBurner/PropertyGridCtrlMenu.h
+END
+xmlutils.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/23057/01_Products/DiscBurner/xmlutils.cpp
+END
+ProfileGroupListWnd.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Video_DB/!svn/ver/23159/01_Products/DiscBurner/ProfileGroupListWnd.cpp
+END
+ChildView.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/22632/01_Products/DiscBurner/ChildView.h
+END
+ResizableMsgSupport.inl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/Video_DB/!svn/ver/22842/01_Products/DiscBurner/ResizableMsgSupport.inl
+END
+MSMLinksBar.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/22767/01_Products/DiscBurner/MSMLinksBar.h
+END
+MainFrm.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/Video_DB/!svn/ver/26596/01_Products/DiscBurner/MainFrm.cpp
+END
+ScrollList.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/Video_DB/!svn/ver/26043/01_Products/DiscBurner/ScrollList.cpp
+END
+AutoCompletionComboBox.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/Video_DB/!svn/ver/22835/01_Products/DiscBurner/AutoCompletionComboBox.cpp
+END
+MediaInfo.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/Video_DB/!svn/ver/24709/01_Products/DiscBurner/MediaInfo.cpp
+END
+VideoPlayerWnd.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/Video_DB/!svn/ver/26551/01_Products/DiscBurner/VideoPlayerWnd.cpp
+END
+filepath.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/Video_DB/!svn/ver/25087/01_Products/DiscBurner/filepath.cpp
+END
+DlgDeleteProfiles.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/Video_DB/!svn/ver/23209/01_Products/DiscBurner/DlgDeleteProfiles.cpp
+END
+SidePane.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/Video_DB/!svn/ver/26505/01_Products/DiscBurner/SidePane.h
+END

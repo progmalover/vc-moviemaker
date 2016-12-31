@@ -1,0 +1,60 @@
+#pragma once
+
+#include <imapi2.h>
+#include <imapi2error.h>
+#include <imapi2fs.h>
+#include <imapi2fserror.h>
+
+struct IMAGE_PROGRESS
+{
+	LPCTSTR lpszFile;
+	LONG lCopiedSectors;
+	LONG lTotalSectors;
+};
+
+// CFileSystemImageEvent command target
+
+class CFileSystemImageEvent : public CCmdTarget
+{
+	DECLARE_DYNAMIC(CFileSystemImageEvent)
+private:
+	LPTYPEINFO  m_ptinfo;           // ITest type information
+	DWORD		m_dwCookie;
+	LPUNKNOWN	m_pUnkSink;
+	LPUNKNOWN	m_pUnkSrc;
+
+public:
+	CFileSystemImageEvent();
+	virtual ~CFileSystemImageEvent();
+
+	static CFileSystemImageEvent* CreateEventSink();
+
+	HWND m_hWndNotify;
+	LONG m_nCopiedSectorsPrevFile;
+	LONG m_nCopiedSectors;
+	LONG m_nTotalSectors;
+
+	BOOL ConnectFileSystemImage(IFileSystemImage *pImage);
+
+    DECLARE_INTERFACE_MAP()
+
+    BEGIN_INTERFACE_PART(FileSystemImageEvents, DFileSystemImageEvents)
+		//
+		// IDispatch Methods
+		//
+        STDMETHOD(GetTypeInfoCount)(UINT FAR* pctinfo);
+        STDMETHOD(GetTypeInfo)(UINT itinfo, LCID lcid, ITypeInfo FAR* FAR* pptinfo);
+        STDMETHOD(GetIDsOfNames)(REFIID riid, OLECHAR FAR* FAR* rgszNames,
+			UINT cNames, LCID lcid, DISPID FAR* rgdispid);
+        STDMETHOD(Invoke)(DISPID dispidMember, REFIID riid, LCID lcid,
+			WORD wFlags, DISPPARAMS FAR* pdispparams, VARIANT FAR* pvarResult,
+			EXCEPINFO FAR* pexcepinfo, UINT FAR* puArgErr);
+		//
+		// DFileSystemImageEvents Methods
+		//
+		STDMETHOD_(HRESULT, Update)(IDispatch* fileSystemImage, BSTR currentFile, LONG copiedSectors, LONG totalSectors);
+    END_INTERFACE_PART(FileSystemImageEvents)
+
+protected:
+	DECLARE_MESSAGE_MAP()
+};
